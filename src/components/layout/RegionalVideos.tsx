@@ -1,0 +1,158 @@
+"use client";
+
+import { useState } from "react";
+import { PlayIcon, MapPinIcon } from "lucide-react";
+import { Container } from "@/components/ui/Container";
+import { Card, CardHeader, CardContent } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { Modal } from "@/components/ui/Modal";
+import { Link } from "@/i18n/navigation";
+
+interface RegionalVideo {
+  id: string;
+  title: string;
+  region: string;
+  description: string;
+  videoUrl: string;
+  thumbnailColor: string; // vector placeholder background color
+}
+
+const REGIONAL_VIDEOS: RegionalVideo[] = [
+  {
+    id: "story-tashkent",
+    title: "Akmalning birinchi muvaffaqiyati",
+    region: "Toshkent shahri",
+    description: "Toshkentlik 8 yoshli Akmal Smart Inclusive darslari orqali harflarni mustaqil oʼrganishga muvaffaq boʼldi.",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    thumbnailColor: "from-brand/20 to-brand/40",
+  },
+  {
+    id: "story-samarkand",
+    title: "Samarqandlik Madina bilan darslar",
+    region: "Samarqand viloyati",
+    description: "Inklyuziv taʼlim platformasi qanday qilib Madinaning uyda taʼlim olish jarayonini osonlashtirdi?",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+    thumbnailColor: "from-accent/20 to-accent/40",
+  },
+  {
+    id: "story-fergana",
+    title: "Koʼngillilar bilan yangi marralar",
+    region: "Fargʼona viloyati",
+    description: "Fargʼonalik koʼngillilar bolalarga darslarni oʼzlashtirishda qanday yordam berayotganliklari haqida video lavha.",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    thumbnailColor: "from-status-info/20 to-status-info/40",
+  },
+];
+
+export function RegionalVideos() {
+  const [activeVideo, setActiveVideo] = useState<RegionalVideo | null>(null);
+
+  return (
+    <section className="py-16 bg-surface" aria-labelledby="videos-heading">
+      <Container>
+        {/* Section Header */}
+        <div className="flex flex-wrap items-end justify-between gap-4 mb-10 border-b border-border/50 pb-6">
+          <div>
+            <h2 id="videos-heading" className="text-3xl font-extrabold text-fg font-display tracking-tight max-phone:text-2xl">
+              Hududlardan videolar
+            </h2>
+            <p className="mt-2 text-base text-fg-muted max-w-xl">
+              Smart Inclusive platformasidan foydalanib yutuqlarga erishayotgan bolalar va koʼngillilarning real hayotiy hikoyalari.
+            </p>
+          </div>
+          <Link href="/volunteers" className={cn(buttonStyles({ variant: "secondary", size: "md" }), "max-phone:w-full")}>
+            Barcha tarixlarni koʼrish
+          </Link>
+        </div>
+
+        {/* Video Cards Grid */}
+        <div className="grid grid-cols-1 tablet:grid-cols-3 gap-6">
+          {REGIONAL_VIDEOS.map((video) => (
+            <Card key={video.id} className="h-full flex flex-col">
+              {/* Thumbnail Container */}
+              <div
+                className={cn(
+                  "relative aspect-video w-full rounded-t-xl bg-gradient-to-br flex items-center justify-center cursor-pointer overflow-hidden group select-none",
+                  video.thumbnailColor
+                )}
+                onClick={() => setActiveVideo(video)}
+              >
+                {/* SVG Backdrop styling */}
+                <div className="absolute inset-0 bg-surface-inverse/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                
+                {/* Map Badge */}
+                <div className="absolute top-3 left-3 bg-surface/90 backdrop-blur-xs px-2.5 py-1 rounded-lg text-xs font-semibold text-fg flex items-center gap-1 shadow-sm">
+                  <MapPinIcon className="h-3.5 w-3.5 text-brand" />
+                  {video.region}
+                </div>
+
+                {/* Big Accessible Play Button overlay */}
+                <button
+                  type="button"
+                  aria-label={`${video.title} videosini tomosha qilish`}
+                  className={cn(
+                    "tap-target w-14 h-14 rounded-full bg-surface/90 text-brand flex items-center justify-center shadow-md",
+                    "transition-all duration-[var(--duration-base)] group-hover:scale-110 group-hover:bg-brand group-hover:text-fg-on-brand",
+                    "focus-visible:outline-3 focus-visible:outline-[var(--focus-ring)]"
+                  )}
+                >
+                  <PlayIcon className="h-6 w-6 fill-current" aria-hidden="true" />
+                </button>
+              </div>
+
+              {/* Card Meta Content */}
+              <CardHeader className="border-none pb-0 pt-5">
+                <h3 className="text-lg font-bold text-fg font-display">
+                  {video.title}
+                </h3>
+              </CardHeader>
+              <CardContent className="pt-2 text-sm text-fg-muted leading-relaxed">
+                {video.description}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </Container>
+
+      {/* Dynamic Accessible Portal Video Modal */}
+      <Modal
+        isOpen={activeVideo !== null}
+        onClose={() => setActiveVideo(null)}
+        title={activeVideo?.title}
+        className="max-w-2xl"
+      >
+        {activeVideo && (
+          <div className="space-y-4">
+            {/* HTML5 video element with standard controls */}
+            <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-border">
+              <video
+                src={activeVideo.videoUrl}
+                controls
+                autoPlay
+                className="w-full h-full"
+                aria-label={activeVideo.title}
+              >
+                Bizning pleyer brauzeringizda qoʼllab-quvvatlanmadi.
+              </video>
+            </div>
+            
+            <p className="text-sm text-fg-muted font-medium bg-surface-subtle p-3 rounded-lg border border-border/50">
+              <span className="font-bold text-brand block mb-1">{activeVideo.region}</span>
+              {activeVideo.description}
+            </p>
+
+            <div className="flex justify-end pt-2">
+              <Button variant="secondary" size="sm" onClick={() => setActiveVideo(null)}>
+                Yopish
+              </Button>
+            </div>
+          </div>
+        )}
+      </Modal>
+    </section>
+  );
+}
+
+// Quick fallback helper
+import { cn } from "@/lib/utils/cn";
+import { buttonStyles } from "@/components/ui/Button";

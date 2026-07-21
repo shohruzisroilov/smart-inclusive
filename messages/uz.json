@@ -1,0 +1,71 @@
+{
+  "site": {
+    "name": "Smart Inclusive",
+    "tagline": "Har bir bola uchun inklyuziv ta'lim platformasi"
+  },
+  "nav": {
+    "home": "Bosh sahifa",
+    "kids": "Bolalar uchun",
+    "parents": "Ota-onalar uchun",
+    "aboutProject": "Loyiha haqida",
+    "volunteers": "Ko'ngillilar",
+    "aboutUs": "Biz haqimizda",
+    "contact": "Murojaat",
+    "becomeVolunteer": "Ko'ngilli bo'lish",
+    "kidsItems": {
+      "etiquette": "Etiket",
+      "iCan": "Men hammasini qila olaman!",
+      "lessons": "Darslar",
+      "books": "Kitoblar",
+      "dictionary": "Lug'at",
+      "tests": "Testlar"
+    },
+    "parentsItems": {
+      "tests": "Testlar",
+      "videoLessons": "Videodarslar",
+      "legalArticles": "Huquqiy maqolalar",
+      "articles": "Platforma maqolalari",
+      "onboarding": "Onboarding",
+      "presentation": "Platforma taqdimoti",
+      "homeEducation": "Uyda ta'lim"
+    }
+  },
+  "header": {
+    "openMenu": "Menyuni ochish",
+    "closeMenu": "Menyuni yopish",
+    "mainNavigation": "Asosiy navigatsiya",
+    "settings": "Sozlamalar",
+    "sections": "Bo'limlar"
+  },
+  "trustBar": {
+    "title": "Platforma raqamlarda",
+    "children": "Bola foydalanmoqda",
+    "lessons": "Tayyor dars",
+    "volunteers": "Faol ko'ngilli",
+    "regions": "Qamrab olingan hudud"
+  },
+  "footer": {
+    "sections": "Bo'limlar",
+    "about": "Platforma haqida",
+    "contactUs": "Bog'lanish",
+    "description": "Smart Inclusive — bolalar, ota-onalar va ko'ngillilar uchun ochiq inklyuziv ta'lim platformasi. Ro'yxatdan o'tish talab qilinmaydi.",
+    "rights": "Barcha huquqlar himoyalangan.",
+    "accessibilityStatement": "Qulaylik bayonoti"
+  },
+  "a11y": {
+    "skipToContent": "Asosiy kontentga o'tish",
+    "language": "Interfeys tili",
+    "languageChanged": "Interfeys tili o'zgartirildi: {language}",
+    "currentLanguage": "Joriy til: {language}",
+    "theme": "Mavzu",
+    "switchToDark": "Qorong'i rejimga o'tish",
+    "switchToLight": "Yorug' rejimga o'tish",
+    "themeDark": "Qorong'i rejim",
+    "themeLight": "Yorug' rejim"
+  },
+  "common": {
+    "loading": "Yuklanmoqda",
+    "close": "Yopish",
+    "back": "Orqaga"
+  }
+}

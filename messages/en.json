@@ -1,0 +1,71 @@
+{
+  "site": {
+    "name": "Smart Inclusive",
+    "tagline": "An inclusive education platform for every child"
+  },
+  "nav": {
+    "home": "Home",
+    "kids": "For children",
+    "parents": "For parents",
+    "aboutProject": "About the project",
+    "volunteers": "Volunteers",
+    "aboutUs": "About us",
+    "contact": "Contact",
+    "becomeVolunteer": "Become a volunteer",
+    "kidsItems": {
+      "etiquette": "Etiquette",
+      "iCan": "I can do anything!",
+      "lessons": "Lessons",
+      "books": "Books",
+      "dictionary": "Dictionary",
+      "tests": "Tests"
+    },
+    "parentsItems": {
+      "tests": "Tests",
+      "videoLessons": "Video lessons",
+      "legalArticles": "Legal articles",
+      "articles": "Platform articles",
+      "onboarding": "Onboarding",
+      "presentation": "Platform presentation",
+      "homeEducation": "Learning at home"
+    }
+  },
+  "header": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "mainNavigation": "Main navigation",
+    "settings": "Settings",
+    "sections": "Sections"
+  },
+  "trustBar": {
+    "title": "The platform in numbers",
+    "children": "Children using it",
+    "lessons": "Ready lessons",
+    "volunteers": "Active volunteers",
+    "regions": "Regions covered"
+  },
+  "footer": {
+    "sections": "Sections",
+    "about": "About the platform",
+    "contactUs": "Get in touch",
+    "description": "Smart Inclusive is an open inclusive education platform for children, parents and volunteers. No sign-up required.",
+    "rights": "All rights reserved.",
+    "accessibilityStatement": "Accessibility statement"
+  },
+  "a11y": {
+    "skipToContent": "Skip to main content",
+    "language": "Interface language",
+    "languageChanged": "Interface language changed to {language}",
+    "currentLanguage": "Current language: {language}",
+    "theme": "Theme",
+    "switchToDark": "Switch to dark mode",
+    "switchToLight": "Switch to light mode",
+    "themeDark": "Dark mode",
+    "themeLight": "Light mode"
+  },
+  "common": {
+    "loading": "Loading",
+    "close": "Close",
+    "back": "Back"
+  }
+}

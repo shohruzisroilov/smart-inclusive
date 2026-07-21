@@ -1,0 +1,71 @@
+{
+  "site": {
+    "name": "Smart Inclusive",
+    "tagline": "Платформа инклюзивного образования для каждого ребёнка"
+  },
+  "nav": {
+    "home": "Главная",
+    "kids": "Детям",
+    "parents": "Родителям",
+    "aboutProject": "О проекте",
+    "volunteers": "Волонтёры",
+    "aboutUs": "О нас",
+    "contact": "Обращение",
+    "becomeVolunteer": "Стать волонтёром",
+    "kidsItems": {
+      "etiquette": "Этикет",
+      "iCan": "Я всё могу!",
+      "lessons": "Уроки",
+      "books": "Книги",
+      "dictionary": "Словарь",
+      "tests": "Тесты"
+    },
+    "parentsItems": {
+      "tests": "Тесты",
+      "videoLessons": "Видеоуроки",
+      "legalArticles": "Правовые статьи",
+      "articles": "Статьи платформы",
+      "onboarding": "Онбординг",
+      "presentation": "Презентация платформы",
+      "homeEducation": "Обучение дома"
+    }
+  },
+  "header": {
+    "openMenu": "Открыть меню",
+    "closeMenu": "Закрыть меню",
+    "mainNavigation": "Основная навигация",
+    "settings": "Настройки",
+    "sections": "Разделы"
+  },
+  "trustBar": {
+    "title": "Платформа в цифрах",
+    "children": "Детей пользуется",
+    "lessons": "Готовых уроков",
+    "volunteers": "Активных волонтёров",
+    "regions": "Охваченных регионов"
+  },
+  "footer": {
+    "sections": "Разделы",
+    "about": "О платформе",
+    "contactUs": "Связаться",
+    "description": "Smart Inclusive — открытая платформа инклюзивного образования для детей, родителей и волонтёров. Регистрация не требуется.",
+    "rights": "Все права защищены.",
+    "accessibilityStatement": "Заявление о доступности"
+  },
+  "a11y": {
+    "skipToContent": "Перейти к основному содержанию",
+    "language": "Язык интерфейса",
+    "languageChanged": "Язык интерфейса изменён: {language}",
+    "currentLanguage": "Текущий язык: {language}",
+    "theme": "Тема",
+    "switchToDark": "Переключить на тёмную тему",
+    "switchToLight": "Переключить на светлую тему",
+    "themeDark": "Тёмная тема",
+    "themeLight": "Светлая тема"
+  },
+  "common": {
+    "loading": "Загрузка",
+    "close": "Закрыть",
+    "back": "Назад"
+  }
+}

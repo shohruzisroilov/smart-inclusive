@@ -1,26 +1,242 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
+@import "tw-animate-css";
 
+/* shadcn/ui `dark:` variantini loyihaning [data-theme="dark"] ga bog'laymiz
+ * (shadcn standart `.dark` klassidan foydalanadi, biz esa atributdan). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ========================================================================
+   TAILWIND MAPPING
+   Semantic tokenlarni Tailwind utility'lariga bog'laymiz.
+   Natija: bg-surface, text-fg-muted, border-default, ring-focus va h.k.
+   ======================================================================== */
+
+@theme inline {
+  /* Sirt */
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-inverse: var(--surface-inverse);
+
+  /* Matn */
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-fg-inverse: var(--fg-inverse);
+  --color-fg-on-brand: var(--fg-on-brand);
+
+  /* Chegara — utility'lari: border-border, border-border-strong */
+  --color-border: var(--border-default);
+  --color-border-strong: var(--border-strong);
+
+  /* Brend / aksent */
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-active: var(--brand-active);
+  --color-brand-subtle: var(--brand-subtle);
+  --color-brand-border: var(--brand-border);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-subtle: var(--accent-subtle);
+
+  /* Status */
+  --color-success: var(--status-success);
+  --color-success-subtle: var(--status-success-subtle);
+  --color-danger: var(--status-danger);
+  --color-danger-subtle: var(--status-danger-subtle);
+  --color-warning: var(--status-warning);
+  --color-warning-subtle: var(--status-warning-subtle);
+  --color-info: var(--status-info);
+  --color-info-subtle: var(--status-info-subtle);
+
+  /* Fokus / overlay */
+  --color-focus: var(--focus-ring);
+  --color-overlay: var(--overlay);
+
+  /* Radius */
+  --radius-sm: var(--si-radius-sm);
+  --radius-md: var(--si-radius-md);
+  --radius-lg: var(--si-radius-lg);
+  --radius-xl: var(--si-radius-xl);
+
+  /* Soya */
+  --shadow-sm: var(--si-shadow-sm);
+  --shadow-md: var(--si-shadow-md);
+  --shadow-lg: var(--si-shadow-lg);
+
+  /*
+   * BREAKPOINT'LAR — PLANSHET-FIRST
+   *
+   * Asosiy qurilma: planshet (768–1024px).
+   * Base (prefikssiz) stillar PLANSHET uchun yoziladi.
+   * Telefonga `max-tablet:` bilan PASTGA tushamiz.
+   * Kattaroq ekranga `laptop:` / `desktop:` bilan chiqamiz.
+   */
+  --breakpoint-phone: 30rem; /* 480px */
+  --breakpoint-tablet: 48rem; /* 768px — asosiy nuqta */
+  --breakpoint-laptop: 64rem; /* 1024px */
+  --breakpoint-desktop: 80rem; /* 1280px */
+
+  /* Shrift — Outfit display va Inter sans */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-outfit), var(--font-sans);
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+
+/* ========================================================================
+   SHADCN/UI KO'PRIGI
+   shadcn komponentlari o'z token nomlarini ishlatadi (background, primary,
+   popover, ring...). Ularni mavjud dizayn tokenlariga bog'laymiz — shunda
+   shadcn komponentlari saytning ko'rinishi va [data-theme] dark mode'iga
+   avtomatik moslashadi, alohida palitra kerak bo'lmaydi.
+
+   ESLATMA: `accent` nomi loyihada allaqachon brend aksenti uchun band —
+   shuning uchun shadcn'ning neytral "accent" (hover fon) o'rniga komponentlarda
+   `surface-muted` ishlatiladi.
+   ======================================================================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: var(--surface);
+  --foreground: var(--fg);
+  --card: var(--surface);
+  --card-foreground: var(--fg);
+  --popover: var(--surface);
+  --popover-foreground: var(--fg);
+  --primary: var(--brand);
+  --primary-foreground: var(--fg-on-brand);
+  --secondary: var(--surface-muted);
+  --secondary-foreground: var(--fg);
+  --muted: var(--surface-muted);
+  --muted-foreground: var(--fg-muted);
+  --destructive: var(--status-danger);
+  --destructive-foreground: var(--fg-on-brand);
+  --input: var(--border-default);
+  --ring: var(--focus-ring);
+  --radius: var(--si-radius-lg);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent-foreground: var(--fg-on-brand);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ========================================================================
+   BASE
+   ======================================================================== */
+
+html {
+  /* Foydalanuvchi shrift o'lchami sozlamasi. rem asosidagi hamma narsa kattalashadi. */
+  font-size: calc(100% * var(--font-scale, 1));
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--surface);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  min-height: 100dvh;
+  /* Skrollbar paydo bo'lganda layout sakramasin */
+  scrollbar-gutter: stable;
+}
+
+/* --- Fokus: hech qachon yashirilmaydi --- */
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--si-radius-sm);
+}
+
+/* Sichqoncha bilan bosilganda outline chiqmasin, klaviaturada chiqsin */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+::selection {
+  background-color: var(--brand);
+  color: var(--fg-on-brand);
+}
+
+/* --- Sarlavhalar --- */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* --- Media --- */
+img,
+video,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* --- Kursor: barcha interaktiv elementlar "pointer" ko'rsatadi ---
+ *
+ * Native `<button>` brauzerda `pointer` EMAS, oddiy o'q kursorini beradi.
+ * Havolalar (`<a href>`) esa allaqachon pointer oladi.
+ *
+ * `@layer base` ichida — shunday qilib kerak bo'lganda `cursor-*` utilitasi
+ * (masalan disabled holatida `cursor-not-allowed`) buni bemalol qoplaydi.
+ * Disabled elementlar bu qoidaga tushmaydi. */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  label[for],
+  summary,
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled),
+  input[type="range"]:not(:disabled),
+  input[type="submit"]:not(:disabled),
+  input[type="button"]:not(:disabled),
+  input[type="reset"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+/* ========================================================================
+   UTILITY
+   ======================================================================== */
+
+/* Minimal tegish maydoni — kichik ikonka tugmalar uchun */
+@utility tap-target {
+  min-width: var(--tap-target-min);
+  min-height: var(--tap-target-min);
+}
+
+@utility tap-target-kids {
+  min-width: var(--tap-target-kids);
+  min-height: var(--tap-target-kids);
 }
