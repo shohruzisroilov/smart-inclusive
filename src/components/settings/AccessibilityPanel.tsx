@@ -94,7 +94,7 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
           className
         )}
       >
-        <PersonStanding className="h-5 w-5 shrink-0" aria-hidden="true" />
+        <PersonStanding className="h-6 w-6 shrink-0" aria-hidden="true" />
         {isList && <span>{t("accessibilitySettings")}</span>}
       </button>
 
