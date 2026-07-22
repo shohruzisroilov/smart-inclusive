@@ -182,7 +182,7 @@ export function HeroCarousel() {
             </div>
           </div>
 
-          {/* --- O'q tugmalari (kompyuterda hoverda ko'rinadi) --- */}
+          {/* --- O'q tugmalari (har doim ko'rinadi) --- */}
           <button
             type="button"
             onClick={handlePrev}
@@ -191,9 +191,8 @@ export function HeroCarousel() {
               "absolute left-4 top-1/2 -translate-y-1/2 z-30 max-phone:hidden",
               "flex h-11 w-11 items-center justify-center rounded-full",
               "bg-white/15 text-white backdrop-blur-md border border-white/20",
-              "opacity-0 group-hover:opacity-100 transition-all duration-[var(--duration-base)]",
-              "hover:bg-white/30 hover:scale-105 focus-visible:opacity-100",
-              "focus-visible:outline-3 focus-visible:outline-white/70",
+              "transition-all duration-[var(--duration-base)]",
+              "hover:bg-white/30 hover:scale-105 focus-visible:outline-3 focus-visible:outline-white/70",
             )}
           >
             <ChevronLeftIcon className="h-6 w-6" aria-hidden="true" />
@@ -206,9 +205,8 @@ export function HeroCarousel() {
               "absolute right-4 top-1/2 -translate-y-1/2 z-30 max-phone:hidden",
               "flex h-11 w-11 items-center justify-center rounded-full",
               "bg-white/15 text-white backdrop-blur-md border border-white/20",
-              "opacity-0 group-hover:opacity-100 transition-all duration-[var(--duration-base)]",
-              "hover:bg-white/30 hover:scale-105 focus-visible:opacity-100",
-              "focus-visible:outline-3 focus-visible:outline-white/70",
+              "transition-all duration-[var(--duration-base)]",
+              "hover:bg-white/30 hover:scale-105 focus-visible:outline-3 focus-visible:outline-white/70",
             )}
           >
             <ChevronRightIcon className="h-6 w-6" aria-hidden="true" />
