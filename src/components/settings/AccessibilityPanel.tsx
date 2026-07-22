@@ -333,20 +333,7 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
                 </div>
               </div>
 
-              {/* --- 5. SCREEN READER INFO --- */}
-              <div className="bg-surface-muted rounded-2xl p-3.5 flex gap-3 border border-border/50">
-                <HelpCircleIcon className="h-5 w-5 text-brand shrink-0 mt-0.5" aria-hidden="true" />
-                <div className="space-y-1">
-                  <h4 className="text-xs font-bold text-fg uppercase tracking-wider">
-                    Screen Reader mosligi
-                  </h4>
-                  <p className="text-[11px] text-fg-muted leading-normal">
-                    {t("screenReaderInfo")}
-                  </p>
-                </div>
-              </div>
-
-              {/* --- 6. BEKOR QILISH (RESET) TUGMASI --- */}
+              {/* --- 5. BEKOR QILISH (RESET) TUGMASI --- */}
               <div className="pt-2 border-t border-border/50">
                 <button
                   type="button"
