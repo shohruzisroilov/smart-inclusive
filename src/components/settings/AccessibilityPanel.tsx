@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { 
-  AccessibilityIcon, 
+  Sliders, 
   SunIcon, 
   MoonIcon, 
   EyeIcon, 
@@ -62,7 +62,7 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
           className
         )}
       >
-        <AccessibilityIcon className="h-5 w-5 shrink-0" aria-hidden="true" />
+        <Sliders className="h-5 w-5 shrink-0" aria-hidden="true" />
         {isList && <span>{t("accessibilitySettings")}</span>}
       </button>
 
