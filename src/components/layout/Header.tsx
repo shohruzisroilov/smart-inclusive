@@ -11,7 +11,7 @@ import { Logo } from "@/components/layout/Logo";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { SectionsMenu } from "@/components/layout/SectionsMenu";
 import { LanguageSwitcher } from "@/components/settings/LanguageSwitcher";
-import { ThemeToggle } from "@/components/settings/ThemeToggle";
+import { AccessibilityPanel } from "@/components/settings/AccessibilityPanel";
 import { cn } from "@/lib/utils/cn";
 
 /**
@@ -76,12 +76,15 @@ export function Header() {
         {/* --- O'ng tomon --- */}
         <div className="flex items-center gap-2">
           <div className="hidden laptop:flex laptop:items-center laptop:gap-3">
-            <ThemeToggle />
+            <AccessibilityPanel />
             <LanguageSwitcher />
             <Link href={CTA_NAV.href} className={buttonStyles({ size: "sm" })}>
               {t(CTA_NAV.labelKey)}
             </Link>
           </div>
+
+          {/* --- Mobil maxsus imkoniyatlar sozlamalari --- */}
+          <AccessibilityPanel className="laptop:hidden" />
 
           {/* --- Gamburger: laptopgacha --- */}
           <button

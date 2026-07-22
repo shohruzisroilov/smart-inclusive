@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/Badge";
 import { useProgressStore } from "@/stores/progress-store";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils/cn";
+import { ReadAloud } from "@/components/ui/ReadAloud";
 
 export interface ReaderPage {
   title?: string;
@@ -391,8 +392,7 @@ export function PagedReader({
 
           {/* Text Page contents */}
           <CardContent className="laptop:col-span-7 p-8 max-phone:p-6 flex flex-col justify-between text-left">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-4">
                 <Badge variant="brand" size="sm">
                   {currentPage + 1} / {pages.length} sahifa
                 </Badge>
@@ -402,18 +402,20 @@ export function PagedReader({
                     Belgilangan sahifa
                   </span>
                 )}
+                {!hasAudio && <ReadAloud targetId="paged-reader-content" className="py-1 px-3 text-xs" />}
               </div>
 
-              {activePage.title && (
-                <h2 className="text-2xl font-bold text-fg font-display leading-tight">
-                  {activePage.title}
-                </h2>
-              )}
+              <div id="paged-reader-content" className="space-y-4">
+                {activePage.title && (
+                  <h2 className="text-2xl font-bold text-fg font-display leading-tight">
+                    {activePage.title}
+                  </h2>
+                )}
 
-              <p className="text-base text-fg-muted leading-relaxed whitespace-pre-line pt-2">
-                {activePage.content}
-              </p>
-            </div>
+                <p className="text-base text-fg-muted leading-relaxed whitespace-pre-line pt-2">
+                  {activePage.content}
+                </p>
+              </div>
 
             {/* Test Unlock logic */}
             {isFinalPage && testId && (

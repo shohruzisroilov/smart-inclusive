@@ -6,11 +6,11 @@
  * Ikkinchi nusxani store'da saqlash desinxronizatsiyaga olib keladi.
  */
 
-export const THEME_MODES = ["system", "light", "dark"] as const;
+export const THEME_MODES = ["system", "light", "dark", "high-contrast", "monochrome"] as const;
 export type ThemeMode = (typeof THEME_MODES)[number];
 
 /** Shrift kattalashtirish koeffitsienti (WCAG 1.4.4 — 200% gacha). */
-export const FONT_SCALES = [1, 1.125, 1.25, 1.5] as const;
+export const FONT_SCALES = [1, 1.15, 1.3, 1.5, 1.75, 2.0] as const;
 export type FontScale = (typeof FONT_SCALES)[number];
 
 export interface AppSettings {
@@ -18,6 +18,7 @@ export interface AppSettings {
   fontScale: FontScale;
   /** `null` = tizim sozlamasiga ergashadi. */
   reducedMotion: boolean | null;
+  dyslexicFont: boolean;
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
@@ -25,6 +26,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   theme: "light",
   fontScale: 1,
   reducedMotion: null,
+  dyslexicFont: false,
 };
 
 export function isThemeMode(value: unknown): value is ThemeMode {

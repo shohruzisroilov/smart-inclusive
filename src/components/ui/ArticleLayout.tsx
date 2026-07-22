@@ -5,6 +5,7 @@ import { ArrowLeftIcon, CalendarIcon, ClockIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { ReadAloud } from "@/components/ui/ReadAloud";
 
 interface ArticleLayoutProps {
   title: string;
@@ -37,28 +38,36 @@ export function ArticleLayout({
       <Card className="border border-border/80 shadow-md overflow-hidden">
         <CardContent className="p-8 max-phone:p-6 space-y-6">
           {/* Metadata headers */}
-          <div className="flex flex-wrap items-center gap-4 text-xs text-fg-muted select-none border-b border-border/50 pb-4">
-            <Badge variant="brand">{category}</Badge>
-            
-            <div className="flex items-center gap-1">
-              <CalendarIcon className="h-3.5 w-3.5" />
-              <span>{date}</span>
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/50 pb-4 select-none">
+            <div className="flex flex-wrap items-center gap-4 text-xs text-fg-muted">
+              <Badge variant="brand">{category}</Badge>
+              
+              <div className="flex items-center gap-1">
+                <CalendarIcon className="h-3.5 w-3.5" />
+                <span>{date}</span>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <ClockIcon className="h-3.5 w-3.5" />
+                <span>{readingTime}</span>
+              </div>
             </div>
 
-            <div className="flex items-center gap-1">
-              <ClockIcon className="h-3.5 w-3.5" />
-              <span>{readingTime}</span>
-            </div>
+            {/* Read Aloud Text-to-Speech Button */}
+            <ReadAloud targetId="article-read-target" />
           </div>
 
-          {/* Heading */}
-          <h1 className="text-3xl font-black text-fg font-display leading-tight max-phone:text-2xl">
-            {title}
-          </h1>
+          {/* Heading and content wrapper for speech reading */}
+          <div id="article-read-target" className="space-y-6">
+            {/* Heading */}
+            <h1 className="text-3xl font-black text-fg font-display leading-tight max-phone:text-2xl">
+              {title}
+            </h1>
 
-          {/* Body content */}
-          <div className="text-base text-fg leading-relaxed whitespace-pre-line space-y-4 max-phone:text-sm">
-            {content}
+            {/* Body content */}
+            <div className="text-base text-fg leading-relaxed whitespace-pre-line space-y-4 max-phone:text-sm">
+              {content}
+            </div>
           </div>
         </CardContent>
       </Card>

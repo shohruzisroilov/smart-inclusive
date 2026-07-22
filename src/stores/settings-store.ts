@@ -19,6 +19,7 @@ interface SettingsActions {
   setTheme: (theme: ThemeMode) => void;
   setFontScale: (scale: FontScale) => void;
   setReducedMotion: (value: boolean | null) => void;
+  setDyslexicFont: (value: boolean) => void;
   reset: () => void;
 }
 
@@ -32,6 +33,7 @@ export const useSettingsStore = create<SettingsStore>()(
       setTheme: (theme) => set({ theme }),
       setFontScale: (fontScale) => set({ fontScale }),
       setReducedMotion: (reducedMotion) => set({ reducedMotion }),
+      setDyslexicFont: (dyslexicFont) => set({ dyslexicFont }),
       reset: () => set({ ...DEFAULT_SETTINGS }),
     }),
     {
@@ -44,6 +46,7 @@ export const useSettingsStore = create<SettingsStore>()(
         theme: state.theme,
         fontScale: state.fontScale,
         reducedMotion: state.reducedMotion,
+        dyslexicFont: state.dyslexicFont,
       }),
 
       /**
@@ -72,6 +75,10 @@ export const useSettingsStore = create<SettingsStore>()(
             typeof incoming.reducedMotion === "boolean" || incoming.reducedMotion === null
               ? incoming.reducedMotion
               : DEFAULT_SETTINGS.reducedMotion,
+          dyslexicFont:
+            typeof incoming.dyslexicFont === "boolean"
+              ? incoming.dyslexicFont
+              : DEFAULT_SETTINGS.dyslexicFont,
         };
       },
     },
@@ -82,3 +89,4 @@ export const useSettingsStore = create<SettingsStore>()(
 export const selectTheme = (s: SettingsStore) => s.theme;
 export const selectFontScale = (s: SettingsStore) => s.fontScale;
 export const selectReducedMotion = (s: SettingsStore) => s.reducedMotion;
+export const selectDyslexicFont = (s: SettingsStore) => s.dyslexicFont;

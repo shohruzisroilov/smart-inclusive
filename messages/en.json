@@ -61,7 +61,17 @@
     "switchToDark": "Switch to dark mode",
     "switchToLight": "Switch to light mode",
     "themeDark": "Dark mode",
-    "themeLight": "Light mode"
+    "themeLight": "Light mode",
+    "accessibilitySettings": "Accessibility Settings",
+    "themeHighContrast": "High Contrast Mode",
+    "themeMonochrome": "Monochrome (Black & White)",
+    "dyslexiaMode": "Dyslexia Mode (Special Font)",
+    "fontScale": "Text Size",
+    "reducedMotion": "Reduce Motion",
+    "readAloud": "Read Aloud (Listen)",
+    "readAloudStop": "Stop Reading",
+    "readAloudPlay": "Listen to text",
+    "screenReaderInfo": "Screen Reader compatibility is enabled. You can fully navigate the website using the keyboard (Tab, Enter)."
   },
   "common": {
     "loading": "Loading",

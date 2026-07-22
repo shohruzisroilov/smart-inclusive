@@ -61,7 +61,17 @@
     "switchToDark": "Qorong'i rejimga o'tish",
     "switchToLight": "Yorug' rejimga o'tish",
     "themeDark": "Qorong'i rejim",
-    "themeLight": "Yorug' rejim"
+    "themeLight": "Yorug' rejim",
+    "accessibilitySettings": "Maxsus imkoniyatlar sozlamalari",
+    "themeHighContrast": "Yuqori kontrastli rejim",
+    "themeMonochrome": "Monoxrom (oq-qora)",
+    "dyslexiaMode": "Disleksiya rejimi (maxsus shrift)",
+    "fontScale": "Matn o'lchami",
+    "reducedMotion": "Harakatlarni kamaytirish",
+    "readAloud": "Ovozli o'qish (Eshitish)",
+    "readAloudStop": "Ovozni to'xtatish",
+    "readAloudPlay": "Matnni eshitish",
+    "screenReaderInfo": "Ekran o'quvchi (Screen Reader) mosligi yoqilgan. Saytni klaviatura (Tab, Enter) yordamida to'liq boshqarishingiz mumkin."
   },
   "common": {
     "loading": "Yuklanmoqda",

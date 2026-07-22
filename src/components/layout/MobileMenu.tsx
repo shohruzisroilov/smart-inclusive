@@ -8,7 +8,7 @@ import { CTA_NAV, MAIN_NAV, type NavItem } from "@/lib/constants/navigation";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
 import { useBodyScrollLock } from "@/hooks/use-body-scroll-lock";
 import { LanguageSwitcher } from "@/components/settings/LanguageSwitcher";
-import { ThemeToggle } from "@/components/settings/ThemeToggle";
+import { AccessibilityPanel } from "@/components/settings/AccessibilityPanel";
 import { buttonStyles } from "@/components/ui/Button";
 import { cn } from "@/lib/utils/cn";
 
@@ -229,7 +229,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
 
         {/* --- Sozlamalar --- */}
         <div className="space-y-4 border-t border-border px-4 py-4">
-          <ThemeToggle variant="list" />
+          <AccessibilityPanel variant="list" />
           <LanguageSwitcher variant="list" onNavigate={onClose} />
         </div>
       </div>

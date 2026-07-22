@@ -61,7 +61,17 @@
     "switchToDark": "Переключить на тёмную тему",
     "switchToLight": "Переключить на светлую тему",
     "themeDark": "Тёмная тема",
-    "themeLight": "Светлая тема"
+    "themeLight": "Светлая тема",
+    "accessibilitySettings": "Настройки специальных возможностей",
+    "themeHighContrast": "Высококонтрастный режим",
+    "themeMonochrome": "Монохромный (чёрно-белый)",
+    "dyslexiaMode": "Режим дислексии (специальный шрифт)",
+    "fontScale": "Размер текста",
+    "reducedMotion": "Сокращение движения",
+    "readAloud": "Озвучивание текста (Слушать)",
+    "readAloudStop": "Остановить чтение",
+    "readAloudPlay": "Прослушать текст",
+    "screenReaderInfo": "Совместимость с программами экранного доступа (Screen Reader) включена. Вы можете полностью управлять сайтом с помощью клавиатуры (Tab, Enter)."
   },
   "common": {
     "loading": "Загрузка",

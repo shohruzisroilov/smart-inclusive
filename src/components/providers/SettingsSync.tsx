@@ -16,8 +16,9 @@ export function SettingsSync() {
   const theme = useSettingsStore((s) => s.theme);
   const fontScale = useSettingsStore((s) => s.fontScale);
   const reducedMotion = useSettingsStore((s) => s.reducedMotion);
+  const dyslexicFont = useSettingsStore((s) => s.dyslexicFont);
 
-  // --- Mavzu (tizim sozlamasini ham kuzatadi) ---
+  // --- Mavzu (tizim sozlamasini ham kuzatavi) ---
   useEffect(() => {
     const root = document.documentElement;
     const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -50,6 +51,16 @@ export function SettingsSync() {
       root.removeAttribute("data-reduced-motion");
     }
   }, [reducedMotion]);
+
+  // --- Disleksiya rejimi ---
+  useEffect(() => {
+    const root = document.documentElement;
+    if (dyslexicFont) {
+      root.setAttribute("data-dyslexic", "true");
+    } else {
+      root.removeAttribute("data-dyslexic");
+    }
+  }, [dyslexicFont]);
 
   return null;
 }

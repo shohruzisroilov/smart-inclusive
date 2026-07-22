@@ -240,3 +240,19 @@ svg {
   min-width: var(--tap-target-kids);
   min-height: var(--tap-target-kids);
 }
+
+/* ========================================================================
+   DYSLEXIA FRIENDLY REJIMI
+   Disleksiyasi bor bolalar uchun harf/so'z intervallarini va qatorlar
+   balandligini kattalashtiradi.
+   ======================================================================== */
+[data-dyslexic="true"] {
+  --font-sans: system-ui, -apple-system, Arial, sans-serif !important;
+  --font-display: system-ui, -apple-system, Arial, sans-serif !important;
+}
+
+[data-dyslexic="true"] * {
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.22em !important;
+  line-height: 1.85 !important;
+}

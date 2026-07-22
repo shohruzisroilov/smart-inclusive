@@ -34,6 +34,10 @@ export function ThemeScript() {
     if (s.reducedMotion === true) {
       root.setAttribute("data-reduced-motion", "true");
     }
+
+    if (s.dyslexicFont === true) {
+      root.setAttribute("data-dyslexic", "true");
+    }
   } catch (e) {}
 })();
 `.trim();
