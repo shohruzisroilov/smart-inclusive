@@ -63,6 +63,7 @@
     "themeDark": "Dark mode",
     "themeLight": "Light mode",
     "accessibilitySettings": "Accessibility Settings",
+    "resetSettings": "Reset settings (Cancel)",
     "themeHighContrast": "High Contrast Mode",
     "themeMonochrome": "Monochrome (Black & White)",
     "dyslexiaMode": "Dyslexia Mode (Special Font)",

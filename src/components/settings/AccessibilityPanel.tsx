@@ -43,6 +43,7 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
   const setFontScale = useSettingsStore((s) => s.setFontScale);
   const setReducedMotion = useSettingsStore((s) => s.setReducedMotion);
   const setDyslexicFont = useSettingsStore((s) => s.setDyslexicFont);
+  const reset = useSettingsStore((s) => s.reset);
 
   const currentIndex = FONT_SCALES.indexOf(fontScale);
   const canDecrease = currentIndex > 0;
@@ -343,6 +344,17 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
                     {t("screenReaderInfo")}
                   </p>
                 </div>
+              </div>
+
+              {/* --- 6. BEKOR QILISH (RESET) TUGMASI --- */}
+              <div className="pt-2 border-t border-border/50">
+                <button
+                  type="button"
+                  onClick={reset}
+                  className="w-full flex items-center justify-center min-h-[var(--tap-target-min)] bg-surface-muted text-fg hover:bg-surface-muted/80 font-bold text-sm rounded-xl transition-all duration-[var(--duration-fast)] focus-visible:ring-2 focus-visible:ring-focus"
+                >
+                  {t("resetSettings")}
+                </button>
               </div>
             </div>
       </div>
