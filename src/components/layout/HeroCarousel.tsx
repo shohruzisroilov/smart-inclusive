@@ -80,7 +80,7 @@ function WelcomeIllustration() {
   );
 }
 
-function WheelchairPainterIllustration() {
+function CreativePainterIllustration() {
   return (
     <svg viewBox="0 0 400 300" className="w-full h-full max-h-[300px] text-brand" aria-hidden="true">
       <circle cx="200" cy="150" r="120" fill="var(--accent)" opacity="0.06" />
@@ -98,36 +98,31 @@ function WheelchairPainterIllustration() {
         <path d="M25 80 Q40 56 55 80" fill="none" stroke="var(--status-info)" strokeWidth="6" />
       </g>
 
-      {/* Wheelchair & Child drawing */}
+      {/* Happy child drawing (sitting on a stool, no wheelchair) */}
       <g transform="translate(80, 80)">
-        {/* Wheelchair big wheel */}
-        <circle cx="45" cy="110" r="28" fill="none" stroke="var(--brand)" strokeWidth="4.5" />
-        <circle cx="45" cy="110" r="22" fill="none" stroke="var(--brand)" strokeWidth="1" opacity="0.5" />
-        <line x1="45" y1="82" x2="45" y2="138" stroke="var(--brand)" strokeWidth="1.5" opacity="0.5" />
-        <line x1="17" y1="110" x2="73" y2="110" stroke="var(--brand)" strokeWidth="1.5" opacity="0.5" />
-        
-        {/* Small front wheel */}
-        <circle cx="100" cy="128" r="10" fill="none" stroke="var(--brand)" strokeWidth="3.5" />
-        
-        {/* Wheelchair frame */}
-        <path d="M35 75 L65 75 L95 125 L100 128" fill="none" stroke="var(--surface-inverse)" strokeWidth="4" strokeLinecap="round" />
-        <path d="M50 110 L95 110" stroke="var(--surface-inverse)" strokeWidth="4" />
-        <path d="M35 55 L35 85" stroke="var(--surface-inverse)" strokeWidth="4" strokeLinecap="round" />
+        {/* Stool */}
+        <line x1="40" y1="105" x2="30" y2="140" stroke="var(--surface-inverse)" strokeWidth="4.5" strokeLinecap="round" />
+        <line x1="70" y1="105" x2="80" y2="140" stroke="var(--surface-inverse)" strokeWidth="4.5" strokeLinecap="round" />
+        <line x1="30" y1="105" x2="80" y2="105" stroke="var(--surface-inverse)" strokeWidth="6" strokeLinecap="round" />
 
         {/* Happy Child Body */}
-        <circle cx="65" cy="40" r="14" fill="#fbd5c0" stroke="var(--surface-inverse)" strokeWidth="2" /> {/* Head */}
+        <circle cx="55" cy="40" r="14" fill="#fbd5c0" stroke="var(--surface-inverse)" strokeWidth="2" /> {/* Head */}
         {/* Smiling face */}
-        <circle cx="69" cy="38" r="1.5" fill="var(--surface-inverse)" />
-        <path d="M72 43 Q74 46 76 43" fill="none" stroke="var(--surface-inverse)" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="59" cy="38" r="1.5" fill="var(--surface-inverse)" />
+        <path d="M62 43 Q64 46 66 43" fill="none" stroke="var(--surface-inverse)" strokeWidth="1.5" strokeLinecap="round" />
         
-        {/* Shirt */}
-        <path d="M50 55 C50 55 60 55 68 55 C74 55 80 62 80 70 L60 85 Z" fill="var(--status-success)" />
+        {/* Shirt / Dress */}
+        <path d="M40 55 C40 55 50 55 58 55 C64 55 70 62 70 70 L50 90 Z" fill="var(--status-success)" />
         
+        {/* Legs sitting */}
+        <path d="M48 90 L48 118" stroke="var(--surface-inverse)" strokeWidth="4.5" strokeLinecap="round" />
+        <path d="M60 90 L68 118" stroke="var(--surface-inverse)" strokeWidth="4.5" strokeLinecap="round" />
+
         {/* Arm reaching out to paint */}
-        <path d="M75 62 L120 62" fill="none" stroke="#fbd5c0" strokeWidth="6" strokeLinecap="round" />
+        <path d="M65 62 L110 62" fill="none" stroke="#fbd5c0" strokeWidth="6" strokeLinecap="round" />
         {/* Paintbrush */}
-        <line x1="120" y1="62" x2="135" y2="52" stroke="brown" strokeWidth="2.5" strokeLinecap="round" />
-        <path d="M135 52 L138 50" stroke="var(--status-info)" strokeWidth="4" strokeLinecap="round" />
+        <line x1="110" y1="62" x2="125" y2="52" stroke="brown" strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M125 52 L128 50" stroke="var(--status-info)" strokeWidth="4" strokeLinecap="round" />
       </g>
     </svg>
   );
@@ -193,10 +188,10 @@ const SLIDES: CarouselSlide[] = [
   {
     id: "ican",
     title: "Men hammasini qila olaman!",
-    description: "Imkoniyati cheklangan bolalarning oʼziga boʼlgan ishonchini oshirish, rasm chizish, sanʼat va ijod orqali dunyoni kashf etish portaliga kiring.",
-    ctaText: "Koʼngilli boʼlish",
+    description: "Bolalarning oʼziga boʼlgan ishonchini oshirish, rasm chizish, sanʼat va ijod orqali dunyoni kashf etish portaliga kiring.",
+    ctaText: "Ijodni boshlash",
     ctaHref: "/become-volunteer",
-    illustration: WheelchairPainterIllustration,
+    illustration: CreativePainterIllustration,
     bgColorClass: "bg-accent/5 dark:bg-accent/10",
   },
   {
