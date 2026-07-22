@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useId } from "react";
+import { useTranslations } from "next-intl";
 import { CheckCircle2Icon, XCircleIcon, XIcon, RotateCcwIcon, ArrowRightIcon, LogOutIcon } from "lucide-react";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -93,6 +94,7 @@ interface TestWizardProps {
 }
 
 export function TestWizard({ test, onClose, onComplete }: TestWizardProps) {
+  const t = useTranslations("test");
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -166,16 +168,16 @@ export function TestWizard({ test, onClose, onComplete }: TestWizardProps) {
           <div className="p-3 w-12 h-12 bg-status-warning-subtle text-status-warning rounded-full mx-auto flex items-center justify-center">
             <LogOutIcon className="h-6 w-6" />
           </div>
-          <h3 className="text-xl font-bold text-fg font-display">Testni toʼxtatmoqchimisiz?</h3>
+          <h3 className="text-xl font-bold text-fg font-display">{t("exitTitle")}</h3>
           <p className="text-sm text-fg-muted leading-relaxed">
-            Haqiqatan ham testni toʼxtatib chiqmoqchimisiz? Hozirgacha toʼplagan natijalaringiz saqlab qolinmaydi.
+            {t("exitDesc")}
           </p>
           <div className="flex gap-4 pt-2">
             <Button variant="secondary" fullWidth onClick={() => setShowExitConfirm(false)}>
-              Davom etish
+              {t("continue")}
             </Button>
             <Button variant="primary" fullWidth onClick={onClose}>
-              Ha, chiqish
+              {t("exitConfirm")}
             </Button>
           </div>
         </CardContent>
@@ -191,15 +193,15 @@ export function TestWizard({ test, onClose, onComplete }: TestWizardProps) {
           /* Cheering star mascot if score >= 60% */
           <div className="rounded-2xl border border-border bg-surface shadow-sm overflow-hidden text-center">
             <EmptyState
-              title="Tabriklaymiz! Testdan muvaffaqiyatli o'tdingiz!"
-              description={`Siz ${totalQuestions} ta savoldan ${correctCount} tasiga to'g'ri javob berdingiz. Umumiy ko'rsatkich: ${scorePercentage}%`}
+              title={t("passedTitle")}
+              description={t("passedDesc", { total: totalQuestions, correct: correctCount, score: scorePercentage })}
               action={
                 <div className="flex flex-wrap gap-4 justify-center">
                   <Button variant="secondary" onClick={handleRetake} className="flex items-center gap-2">
                     <RotateCcwIcon className="h-4 w-4" />
-                    Yana topshirish
+                    {t("retake")}
                   </Button>
-                  <Button onClick={onClose}>Qaytish</Button>
+                  <Button onClick={onClose}>{t("backToMaterial")}</Button>
                 </div>
               }
             />
@@ -208,15 +210,15 @@ export function TestWizard({ test, onClose, onComplete }: TestWizardProps) {
           /* Concerned star mascot with band-aid if score < 60% */
           <div className="rounded-2xl border border-border bg-surface shadow-sm overflow-hidden text-center">
             <ErrorState
-              title="Natija kutilgandek bo'lmadi"
-              description={`Afsuski, siz testdan o'ta olmadingiz. O'tish bali: 60%. Sizning ko'rsatkichingiz: ${scorePercentage}% (${correctCount}/${totalQuestions} to'g'ri). Xavotir olmang, yana bir bor urinib ko'ring!`}
+              title={t("failedTitle")}
+              description={t("failedDesc", { score: scorePercentage, correct: correctCount, total: totalQuestions })}
               action={
                 <div className="flex flex-wrap gap-4 justify-center pt-2">
                   <Button variant="primary" onClick={handleRetake} className="flex items-center gap-2">
                     <RotateCcwIcon className="h-4 w-4" />
-                    Yana urinish
+                    {t("retry")}
                   </Button>
-                  <Button variant="secondary" onClick={onClose}>Qaytish</Button>
+                  <Button variant="secondary" onClick={onClose}>{t("backToMaterial")}</Button>
                 </div>
               }
             />
@@ -246,9 +248,9 @@ export function TestWizard({ test, onClose, onComplete }: TestWizardProps) {
       {/* Header bar controls */}
       <CardHeader className="border-none pb-0 pt-6 flex flex-row items-center justify-between gap-4">
         <Badge variant="neutral">
-          {currentIdx + 1} / {totalQuestions} savol
+          {t("questionCounter", { current: currentIdx + 1, total: totalQuestions })}
         </Badge>
-        
+
         <button
           type="button"
           onClick={() => setShowExitConfirm(true)}
@@ -256,7 +258,7 @@ export function TestWizard({ test, onClose, onComplete }: TestWizardProps) {
             "tap-target p-2 rounded-lg text-fg-muted hover:text-fg hover:bg-surface-subtle transition-all",
             "focus-visible:outline-3 focus-visible:outline-[var(--focus-ring)]"
           )}
-          aria-label="Testni toʼxtatish"
+          aria-label={t("stop")}
         >
           <XIcon className="h-5 w-5" />
         </button>
@@ -269,7 +271,7 @@ export function TestWizard({ test, onClose, onComplete }: TestWizardProps) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={currentQuestion.imageUrl}
-              alt="Savol tasviri"
+              alt={t("questionImageAlt")}
               className="w-full h-full object-cover select-none"
             />
           </div>
@@ -283,7 +285,7 @@ export function TestWizard({ test, onClose, onComplete }: TestWizardProps) {
         {/* Options list layout */}
         <div
           role="radiogroup"
-          aria-label="Javob variantlari"
+          aria-label={t("answersLabel")}
           className="grid grid-cols-1 gap-3.5 pt-2"
         >
           {currentQuestion.options.map((option, index) => {
@@ -347,7 +349,7 @@ export function TestWizard({ test, onClose, onComplete }: TestWizardProps) {
           disabled={!isAnswered}
           className="flex items-center gap-1.5 min-w-32 justify-center"
         >
-          {currentIdx === totalQuestions - 1 ? "Natijani koʼrish" : "Keyingi"}
+          {currentIdx === totalQuestions - 1 ? t("viewResult") : t("next")}
           <ArrowRightIcon className="h-4 w-4" />
         </Button>
       </CardFooter>

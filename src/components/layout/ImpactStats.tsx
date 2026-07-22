@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { UsersIcon, HeartHandshakeIcon, BookOpenIcon, HomeIcon, AlertCircleIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -88,38 +89,36 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
 // MAIN LAYOUT
 // ----------------------------------------------------------------------------
 export function ImpactStats({ data, loading = false, error = null, onRetry }: ImpactStatsProps) {
+  const t = useTranslations("home");
+  const tc = useTranslations("common");
   const iconClasses = "h-8 w-8 text-brand mb-3 max-phone:h-6 max-phone:w-6";
 
   const cardsConfig = [
     {
       id: "children",
-      key: "children",
       icon: UsersIcon,
-      label: "Qamrab olingan bolalar",
+      label: t("statChildren"),
       suffix: "+",
       targetValue: data?.children || 1200,
     },
     {
       id: "volunteers",
-      key: "volunteers",
       icon: HeartHandshakeIcon,
-      label: "Faol koʼngillilar",
+      label: t("statVolunteers"),
       suffix: "+",
       targetValue: data?.volunteers || 64,
     },
     {
       id: "lessons",
-      key: "lessons",
       icon: BookOpenIcon,
-      label: "Bajarilgan darslar",
+      label: t("statLessons"),
       suffix: "",
       targetValue: data?.lessons || 180,
     },
     {
       id: "families",
-      key: "families",
       icon: HomeIcon,
-      label: "Yordam olgan oilalar",
+      label: t("statFamilies"),
       suffix: "+",
       targetValue: data?.families || 450,
     },
@@ -129,7 +128,7 @@ export function ImpactStats({ data, loading = false, error = null, onRetry }: Im
     <section className="py-16 border-y border-border bg-surface-subtle/50" aria-labelledby="stats-heading">
       <Container>
         <h2 id="stats-heading" className="sr-only">
-          Platforma koʼrsatkichlari (Impact statistics)
+          {t("statsHeading")}
         </h2>
 
         {/* LOADING STATE */}
@@ -151,9 +150,9 @@ export function ImpactStats({ data, loading = false, error = null, onRetry }: Im
         {!loading && error && (
           <div className="flex flex-col items-center justify-center p-6 border border-status-danger/30 rounded-2xl bg-surface text-center">
             <AlertCircleIcon className="h-10 w-10 text-status-danger mb-3" />
-            <h3 className="text-lg font-bold text-fg mb-1 font-display">Maʼlumotlarni yuklab boʼlmadi</h3>
+            <h3 className="text-lg font-bold text-fg mb-1 font-display">{t("statsError")}</h3>
             <p className="text-sm text-fg-muted mb-4 max-w-sm">{error}</p>
-            {onRetry && <Button size="sm" onClick={onRetry}>Qayta urinish</Button>}
+            {onRetry && <Button size="sm" onClick={onRetry}>{tc("retry")}</Button>}
           </div>
         )}
 

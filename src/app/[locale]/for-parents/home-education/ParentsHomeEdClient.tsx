@@ -24,7 +24,6 @@ export function ParentsHomeEdClient() {
         error={error}
         onRetry={() => {}}
         onActionClick={handleAction}
-        actionText="Maqolani o'qish"
       />
     </div>
   );

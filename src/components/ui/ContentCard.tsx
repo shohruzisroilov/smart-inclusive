@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { CheckCircle2Icon, BookOpenIcon, PlayIcon, FileTextIcon as FileCircleIcon, HelpCircleIcon } from "lucide-react";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -35,8 +36,12 @@ export function ContentCard({
   actionText,
   className,
 }: ContentCardProps) {
+  const t = useTranslations("content.card");
+  const locale = useLocale();
+  const dateLocale = locale === "ru" ? "ru-RU" : locale === "en" ? "en-US" : "uz-UZ";
+
   // Format publication date to local string
-  const formattedDate = new Date(item.date).toLocaleDateString("uz-UZ", {
+  const formattedDate = new Date(item.date).toLocaleDateString(dateLocale, {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -44,6 +49,21 @@ export function ContentCard({
 
   // Pick type-specific icon class from static map
   const iconComponent = ICON_MAP[item.type] || FileCircleIcon;
+
+  // Tur bo'yicha standart harakat matni (ovoz almashtirilsa — actionText propi ustun).
+  const isVideoType = item.type === "videos" || item.type === "lessons" || item.type === "i-can";
+  const isTestType = item.type === "tests" || item.type === "parents-tests";
+  const defaultAction = isTestType
+    ? completed
+      ? t("retake")
+      : t("start")
+    : isVideoType
+      ? completed
+        ? t("rewatch")
+        : t("watch")
+      : completed
+        ? t("reread")
+        : t("read");
 
   // Compute cover visual style: uses coverUrl or falls back to gradients
   const coverClasses = cn(
@@ -66,7 +86,7 @@ export function ContentCard({
           {completed && (
             <Badge variant="success" size="sm" className="flex items-center gap-1 shadow-sm select-none">
               <CheckCircle2Icon className="h-3.5 w-3.5" />
-              Bajarildi
+              {t("done")}
             </Badge>
           )}
         </div>
@@ -85,7 +105,7 @@ export function ContentCard({
           </span>
           {item.hasTest && (
             <Badge variant="accent" size="sm">
-              Test bor
+              {t("hasTest")}
             </Badge>
           )}
         </div>
@@ -101,10 +121,10 @@ export function ContentCard({
         {/* Render type-specific meta details */}
         {(item.pageCount !== undefined || item.duration !== undefined || item.difficulty !== undefined) && (
           <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-fg-subtle border-t border-border/40 pt-3">
-            {item.pageCount !== undefined && <span>{item.pageCount} sahifa</span>}
-            {item.duration !== undefined && <span>Davomiyligi: {item.duration}</span>}
+            {item.pageCount !== undefined && <span>{t("pages", { count: item.pageCount })}</span>}
+            {item.duration !== undefined && <span>{t("duration", { value: item.duration })}</span>}
             {item.difficulty !== undefined && (
-              <span className="capitalize">Qiyinchilik: {item.difficulty}</span>
+              <span className="capitalize">{t("difficulty", { value: item.difficulty })}</span>
             )}
           </div>
         )}
@@ -125,7 +145,7 @@ export function ContentCard({
             )}
           >
             {React.createElement(iconComponent, { className: "h-4 w-4" })}
-            {actionText || (completed ? "Qayta koʼrish" : "Oʼqish / Boshlash")}
+            {actionText || defaultAction}
           </Link>
         ) : (
           <Button
@@ -136,7 +156,7 @@ export function ContentCard({
             className="flex items-center justify-center gap-2"
           >
             {React.createElement(iconComponent, { className: "h-4 w-4" })}
-            {actionText || (completed ? "Qayta urinish" : "Topshirish / Boshlash")}
+            {actionText || defaultAction}
           </Button>
         )}
       </CardFooter>

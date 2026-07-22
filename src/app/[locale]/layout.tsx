@@ -7,8 +7,10 @@ import { LOCALE_HTML_LANG, routing, type Locale } from "@/i18n/routing";
 import { ThemeScript } from "@/components/providers/ThemeScript";
 import { SettingsSync } from "@/components/providers/SettingsSync";
 import { SkipLink, MAIN_CONTENT_ID } from "@/components/layout/SkipLink";
+import { TrustBar } from "@/components/layout/TrustBar";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { MiniMascot } from "@/components/layout/MiniMascot";
 import "../globals.css";
 
 const outfit = Outfit({
@@ -82,6 +84,7 @@ export default async function LocaleLayout({
           <SettingsSync />
 
           <SkipLink />
+          <TrustBar />
           <Header />
 
           {/*
@@ -103,6 +106,9 @@ export default async function LocaleLayout({
           </main>
 
           <Footer />
+
+          {/* Dekorativ mini-personaj (TZ 12.2). */}
+          <MiniMascot />
         </NextIntlClientProvider>
       </body>
     </html>

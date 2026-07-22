@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { useTranslations } from "next-intl";
 import { Select } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 
@@ -20,6 +21,7 @@ export function ContentListFilters({
   onChange,
   onReset,
 }: ContentListFiltersProps) {
+  const t = useTranslations("content.filters");
   const selectTestId = useId();
   const selectCompletedId = useId();
   const selectLanguageId = useId();
@@ -34,18 +36,18 @@ export function ContentListFilters({
 
   return (
     <div
-      aria-label="Filtrlash paneli"
+      aria-label={t("panelLabel")}
       className="p-5 rounded-2xl border border-border bg-surface shadow-xs space-y-4 text-left"
     >
       <div className="grid grid-cols-2 tablet:grid-cols-4 gap-4">
         {/* Filter 1: Language */}
         <Select
           id={selectLanguageId}
-          label="Kontent tili"
+          label={t("language")}
           value={filters.language}
           onChange={(e) => handleFilterChange("language", e.target.value)}
           options={[
-            { value: "all", label: "Barcha tillar" },
+            { value: "all", label: t("allLanguages") },
             { value: "uz", label: "Oʼzbekcha" },
             { value: "ru", label: "Русский" },
             { value: "en", label: "English" },
@@ -55,38 +57,38 @@ export function ContentListFilters({
         {/* Filter 2: Test status */}
         <Select
           id={selectTestId}
-          label="Test holati"
+          label={t("testStatus")}
           value={filters.hasTest}
           onChange={(e) => handleFilterChange("hasTest", e.target.value)}
           options={[
-            { value: "all", label: "Farqi yoʼq" },
-            { value: "yes", label: "Testi borlar" },
-            { value: "no", label: "Testi yoʼqlar" },
+            { value: "all", label: t("any") },
+            { value: "yes", label: t("withTest") },
+            { value: "no", label: t("withoutTest") },
           ]}
         />
 
         {/* Filter 3: Completion status */}
         <Select
           id={selectCompletedId}
-          label="Progress holati"
+          label={t("progress")}
           value={filters.completed}
           onChange={(e) => handleFilterChange("completed", e.target.value)}
           options={[
-            { value: "all", label: "Farqi yoʼq" },
-            { value: "completed", label: "Bajarilganlar" },
-            { value: "uncompleted", label: "Bajarilmaganlar" },
+            { value: "all", label: t("any") },
+            { value: "completed", label: t("completed") },
+            { value: "uncompleted", label: t("uncompleted") },
           ]}
         />
 
         {/* Filter 4: Sorting */}
         <Select
           id={selectSortId}
-          label="Saralash"
+          label={t("sort")}
           value={filters.sortBy}
           onChange={(e) => handleFilterChange("sortBy", e.target.value)}
           options={[
-            { value: "newest", label: "Avval yangilari" },
-            { value: "oldest", label: "Avval eskilari" },
+            { value: "newest", label: t("newest") },
+            { value: "oldest", label: t("oldest") },
           ]}
         />
       </div>
@@ -99,7 +101,7 @@ export function ContentListFilters({
           onClick={onReset}
           className="text-xs"
         >
-          Filtrlarni tozalash
+          {t("clear")}
         </Button>
       </div>
     </div>

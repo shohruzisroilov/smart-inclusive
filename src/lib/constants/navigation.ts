@@ -17,11 +17,13 @@ export interface NavItem {
   children?: NavItem[];
 }
 
-// DIQQAT: bolalar bo'limi sahifalari (etiket, "men qila olaman", darslar,
-// kitoblar, testlar) hali qurilmagan. Ular tayyor bo'lguncha faqat mavjud
-// yagona bola-sahifasi — lug'at (/vocabulary) — havolada qoladi.
 export const KIDS_NAV: NavItem[] = [
+  { href: "/etiquette", labelKey: "kidsItems.etiquette" },
+  { href: "/i-can-do-it", labelKey: "kidsItems.iCan" },
+  { href: "/lessons", labelKey: "kidsItems.lessons" },
+  { href: "/books", labelKey: "kidsItems.books" },
   { href: "/vocabulary", labelKey: "kidsItems.dictionary" },
+  { href: "/tests", labelKey: "kidsItems.tests" },
 ];
 
 export const PARENTS_NAV: NavItem[] = [
@@ -35,9 +37,20 @@ export const PARENTS_NAV: NavItem[] = [
 ];
 
 export const MAIN_NAV: NavItem[] = [
-  // Bolalar bo'limi hozircha faqat lug'atdan iborat — to'g'ridan-to'g'ri unga.
-  { href: "/vocabulary", labelKey: "kids" },
+  { href: "/etiquette", labelKey: "kids", children: KIDS_NAV },
   { href: "/for-parents", labelKey: "parents", children: PARENTS_NAV },
+  { href: "/about-project", labelKey: "aboutProject" },
+  { href: "/volunteers", labelKey: "volunteers" },
+  { href: "/about-us", labelKey: "aboutUs" },
+  { href: "/contact", labelKey: "contact" },
+];
+
+/**
+ * "Bo'limlar" dropdownidagi bandlar — bolalar/ota-onalardan tashqari
+ * qolgan yuqori darajali sahifalar. Header'da alohida dropdown sifatida
+ * ko'rsatiladi.
+ */
+export const SECTIONS_NAV: NavItem[] = [
   { href: "/about-project", labelKey: "aboutProject" },
   { href: "/volunteers", labelKey: "volunteers" },
   { href: "/about-us", labelKey: "aboutUs" },

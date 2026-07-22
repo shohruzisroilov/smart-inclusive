@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 import { ArrowLeftIcon, CalendarIcon, ClockIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -24,13 +25,14 @@ export function ArticleLayout({
   content,
   onBack,
 }: ArticleLayoutProps) {
+  const t = useTranslations("article");
   return (
     <div className="max-w-2xl mx-auto space-y-6 text-left">
       {/* Back button link */}
       <div className="select-none">
         <Button variant="secondary" onClick={onBack} className="flex items-center gap-1.5">
           <ArrowLeftIcon className="h-4 w-4" />
-          Ortga qaytish
+          {t("back")}
         </Button>
       </div>
 

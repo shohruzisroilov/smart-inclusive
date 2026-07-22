@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -11,6 +12,7 @@ import { BookOpenIcon } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 export function VocabularyListClient() {
+  const t = useTranslations("vocab");
   const [langFilter, setLangFilter] = useState<string>("all");
 
   const filteredTopics = VOCABULARY_TOPICS.filter((topic) => {
@@ -24,11 +26,11 @@ export function VocabularyListClient() {
       <div className="max-w-xs select-none">
         <Select
           id="vocab-lang-filter"
-          label="Mavzu tili boʼyicha filtrlash"
+          label={t("filterLabel")}
           value={langFilter}
           onChange={(e) => setLangFilter(e.target.value)}
           options={[
-            { value: "all", label: "Barcha tillar" },
+            { value: "all", label: t("allLanguages") },
             { value: "uz", label: "Oʼzbekcha (UZ)" },
             { value: "ru", label: "Русский (RU)" },
             { value: "en", label: "English (EN)" },
@@ -39,7 +41,7 @@ export function VocabularyListClient() {
       {/* Grid listing */}
       {filteredTopics.length === 0 ? (
         <div className="text-center py-12 text-fg-subtle select-none">
-          Ushbu tilda hozircha mavzular yuklanmagan.
+          {t("emptyLang")}
         </div>
       ) : (
         <ul className="grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-6">
@@ -52,7 +54,7 @@ export function VocabularyListClient() {
                       {topic.language.toUpperCase()}
                     </Badge>
                     <Badge variant="neutral" size="sm" className="text-xs">
-                      {topic.wordsCount} ta soʼz
+                      {t("wordsCount", { count: topic.wordsCount })}
                     </Badge>
                   </div>
                   <h3 className="text-xl font-bold text-fg font-display leading-tight">
@@ -60,7 +62,7 @@ export function VocabularyListClient() {
                   </h3>
                 </CardHeader>
                 <CardContent className="pt-2 pb-6 text-sm text-fg-muted">
-                  Ushbu toʻplam orqali yangi soʻzlarni rasmli kartalar va ovozli aytilishi bilan oʻrganasiz.
+                  {t("cardDesc")}
                 </CardContent>
                 <CardFooter className="pt-3 pb-4">
                   <Link
@@ -68,7 +70,7 @@ export function VocabularyListClient() {
                     className={cn(buttonStyles({ variant: "primary", fullWidth: true }), "flex items-center justify-center gap-2")}
                   >
                     <BookOpenIcon className="h-4 w-4" />
-                    Oʻrganishni boshlash
+                    {t("start")}
                   </Link>
                 </CardFooter>
               </Card>

@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { getTranslations } from "next-intl/server";
 import {
   SmileIcon,
   UsersIcon,
@@ -20,59 +21,58 @@ interface NavigationCard {
   hoverColorClass: string; // custom hover border/text highlight
 }
 
-// ESLATMA: bolalar bo'limining ko'p sahifalari (etiket, "men qila olaman",
-// darslar, kitoblar, testlar) hali qurilmagan — ular tayyor bo'lgach shu
-// yerga qaytariladi. Hozircha faqat mavjud yo'nalishlar ko'rsatiladi.
-const PORTAL_CARDS: NavigationCard[] = [
-  {
-    id: "nav-dictionary",
-    title: "Lugʼat",
-    description: "Qiziqarli rasmlar va imo-ishora lugʼati.",
-    href: "/vocabulary",
-    icon: SmileIcon,
-    colorClass: "text-accent",
-    hoverColorClass: "hover:border-accent/60 hover:shadow-accent/5",
-  },
-  {
-    id: "nav-parents",
-    title: "Ota-onalar uchun",
-    description: "Tavsiyalar, huquqiy yordam va uyda taʼlim yoʼriqnomalari.",
-    href: "/for-parents",
-    icon: UsersIcon,
-    colorClass: "text-status-warning",
-    hoverColorClass: "hover:border-status-warning/60 hover:shadow-status-warning/5",
-  },
-  {
-    id: "nav-volunteers",
-    title: "Koʼngillilar",
-    description: "Koʼngillilar hamjamiyati va yordam soʼrovlari.",
-    href: "/volunteers",
-    icon: UsersIcon,
-    colorClass: "text-status-success",
-    hoverColorClass: "hover:border-status-success/60 hover:shadow-status-success/5",
-  },
-  {
-    id: "nav-contact",
-    title: "Murojaat",
-    description: "Takliflar va loyiha maʼmurlari bilan bogʼlanish formasi.",
-    href: "/contact",
-    icon: MessageSquareIcon,
-    colorClass: "text-brand",
-    hoverColorClass: "hover:border-brand/60 hover:shadow-brand/5",
-  },
-];
+export async function HomeNavigation() {
+  const t = await getTranslations("home");
 
-export function HomeNavigation() {
+  const PORTAL_CARDS: NavigationCard[] = [
+    {
+      id: "nav-dictionary",
+      title: t("navDictionary"),
+      description: t("navDictionaryDesc"),
+      href: "/vocabulary",
+      icon: SmileIcon,
+      colorClass: "text-accent",
+      hoverColorClass: "hover:border-accent/60 hover:shadow-accent/5",
+    },
+    {
+      id: "nav-parents",
+      title: t("navParents"),
+      description: t("navParentsDesc"),
+      href: "/for-parents",
+      icon: UsersIcon,
+      colorClass: "text-status-warning",
+      hoverColorClass: "hover:border-status-warning/60 hover:shadow-status-warning/5",
+    },
+    {
+      id: "nav-volunteers",
+      title: t("navVolunteers"),
+      description: t("navVolunteersDesc"),
+      href: "/volunteers",
+      icon: UsersIcon,
+      colorClass: "text-status-success",
+      hoverColorClass: "hover:border-status-success/60 hover:shadow-status-success/5",
+    },
+    {
+      id: "nav-contact",
+      title: t("navContact"),
+      description: t("navContactDesc"),
+      href: "/contact",
+      icon: MessageSquareIcon,
+      colorClass: "text-brand",
+      hoverColorClass: "hover:border-brand/60 hover:shadow-brand/5",
+    },
+  ];
+
   return (
     <section className="py-16 bg-surface" aria-labelledby="nav-heading">
       <Container>
         {/* Header Title */}
         <div className="text-center max-w-xl mx-auto mb-12">
           <h2 id="nav-heading" className="text-3xl font-extrabold text-fg font-display tracking-tight max-phone:text-2xl">
-            Asosiy yoʼnalishlar
+            {t("navHeading")}
           </h2>
           <p className="mt-2 text-base text-fg-muted">
-            Platformaning barcha interaktiv boʼlimlariga tezkor oʼtish. Kerakli boʼlimni tanlang va oʼrganishni boshlang!
+            {t("navDesc")}
           </p>
         </div>
 

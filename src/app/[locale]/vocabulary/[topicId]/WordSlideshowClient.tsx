@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { ChevronLeftIcon, ChevronRightIcon, Volume2Icon, PlayIcon, PauseIcon, GraduationCapIcon, ArrowLeftIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button, buttonStyles } from "@/components/ui/Button";
@@ -22,6 +23,7 @@ interface WordSlideshowClientProps {
 type AudioLang = "uz" | "ru" | "en";
 
 export function WordSlideshowClient({ topicId, words, hasTest }: WordSlideshowClientProps) {
+  const t = useTranslations("vocab");
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   
@@ -158,13 +160,13 @@ export function WordSlideshowClient({ topicId, words, hasTest }: WordSlideshowCl
                 onClick={handlePlayPause}
                 disabled={!audioTrackExists}
                 className="rounded-full w-12 h-12 flex items-center justify-center p-0 shrink-0"
-                aria-label="Talaffuzni eshitish"
+                aria-label={t("pronounce")}
               >
                 {isPlaying ? <PauseIcon className="h-5 w-5 fill-current" /> : <PlayIcon className="h-5 w-5 fill-current ml-0.5" />}
               </Button>
               <span className="text-sm font-bold text-fg flex items-center gap-1">
                 <Volume2Icon className="h-4 w-4 text-brand" />
-                Talaffuzni eshitish
+                {t("pronounce")}
               </span>
             </div>
 
@@ -199,7 +201,7 @@ export function WordSlideshowClient({ topicId, words, hasTest }: WordSlideshowCl
       <div className="flex items-center justify-between gap-4 py-2 select-none">
         <Button variant="secondary" onClick={handlePrev} disabled={currentIdx === 0} className="flex items-center gap-1.5">
           <ChevronLeftIcon className="h-4 w-4" />
-          Orqaga
+          {t("prev")}
         </Button>
 
         {isFinalWord ? (
@@ -209,7 +211,7 @@ export function WordSlideshowClient({ topicId, words, hasTest }: WordSlideshowCl
               className={cn(buttonStyles({ variant: "accent", size: "md" }), "flex items-center gap-2 animate-in fade-in zoom-in-95 duration-200")}
             >
               <GraduationCapIcon className="h-5 w-5" />
-              Testni boshlash
+              {t("startTest")}
             </Link>
           ) : (
             <Link
@@ -217,12 +219,12 @@ export function WordSlideshowClient({ topicId, words, hasTest }: WordSlideshowCl
               className={cn(buttonStyles({ variant: "primary", size: "md" }), "flex items-center gap-2 animate-in fade-in zoom-in-95 duration-200")}
             >
               <ArrowLeftIcon className="h-4 w-4" />
-              Mavzularga qaytish
+              {t("backToTopics")}
             </Link>
           )
         ) : (
           <Button onClick={handleNext} className="flex items-center gap-1.5">
-            Keyingi
+            {t("next")}
             <ChevronRightIcon className="h-4 w-4" />
           </Button>
         )}

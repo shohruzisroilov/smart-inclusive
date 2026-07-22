@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import {
   BookOpenIcon,
@@ -34,6 +35,7 @@ const iconMap = {
 };
 
 export function VolunteersClientWrapper() {
+  const t = useTranslations("volunteersPage");
   const [data] = useState(MOCK_VOLUNTEER_HUB);
 
   // Form states
@@ -57,13 +59,13 @@ export function VolunteersClientWrapper() {
 
   const validateForm = () => {
     const errors: Record<string, string> = {};
-    if (!formData.name.trim()) errors.name = "Ismingizni kiriting";
+    if (!formData.name.trim()) errors.name = t("errName");
     if (!formData.phone.trim()) {
-      errors.phone = "Telefon raqamingizni kiriting";
+      errors.phone = t("errPhone");
     } else if (!/^\+?[0-9]{9,15}$/.test(formData.phone.replace(/[\s-]/g, ""))) {
-      errors.phone = "Noto'g'ri telefon raqami shakli";
+      errors.phone = t("errPhoneFormat");
     }
-    if (!formData.activityId) errors.activityId = "Sohani tanlang";
+    if (!formData.activityId) errors.activityId = t("errActivity");
     return errors;
   };
 
@@ -91,7 +93,7 @@ export function VolunteersClientWrapper() {
         <Container>
           <div className="bg-gradient-to-r from-brand/10 via-brand-light/5 to-transparent rounded-3xl p-10 max-phone:p-6 text-left relative overflow-hidden select-none border border-brand/10">
             <div className="max-w-2xl">
-              <Badge variant="brand" className="mb-4">KO&apos;NGILLILAR PROGRAMMASI</Badge>
+              <Badge variant="brand" className="mb-4">{t("badge")}</Badge>
               <h1 className="text-4xl font-black text-fg font-display tracking-tight leading-tight max-phone:text-3xl">
                 {data.hero.title}
               </h1>
@@ -105,7 +107,7 @@ export function VolunteersClientWrapper() {
                   }}
                   className="px-6 py-3 font-bold"
                 >
-                  Ko&apos;ngilli bo&apos;lish ariza topshirish
+                  {t("applyCta")}
                 </Button>
               </div>
             </div>
@@ -118,10 +120,10 @@ export function VolunteersClientWrapper() {
         <Container>
           <div className="text-center max-w-xl mx-auto mb-10 select-none">
             <h2 className="text-3xl font-extrabold text-fg font-display tracking-tight">
-              Biz bilan nima shug&apos;ullanasiz?
+              {t("activitiesTitle")}
             </h2>
             <p className="mt-2 text-fg-muted">
-              Har bir volontyor o&apos;z salohiyati va qiziqishiga mos bo&apos;lgan yo&apos;nalishda ko&apos;mak berishi mumkin.
+              {t("activitiesSubtitle")}
             </p>
           </div>
 
@@ -167,10 +169,10 @@ export function VolunteersClientWrapper() {
         <Container>
           <div className="text-center max-w-xl mx-auto mb-10 select-none">
             <h2 className="text-3xl font-extrabold text-fg font-display tracking-tight">
-              Muvaffaqiyatli Volontyorlik Hikoyalari
+              {t("casesTitle")}
             </h2>
             <p className="mt-2 text-fg-muted">
-              Hamkorlikda amalga oshirilgan darslar, tadbirlar va oilalar hayotidagi o&apos;zgarishlar.
+              {t("casesSubtitle")}
             </p>
           </div>
 
@@ -183,7 +185,7 @@ export function VolunteersClientWrapper() {
                     <img src={cs.imageUrl} alt={cs.title} className="w-full h-full object-cover" />
                     {cs.mediaType === "video" && (
                       <Badge variant="accent" className="absolute top-2 left-2">
-                        VIDEO
+                        {t("videoBadge")}
                       </Badge>
                     )}
                   </div>
@@ -203,7 +205,7 @@ export function VolunteersClientWrapper() {
                       href={`/volunteers/${cs.id}`}
                       className="inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:text-brand-dark transition-colors"
                     >
-                      Batafsil o&apos;qish
+                      {t("readMore")}
                       <ArrowRightIcon className="h-4 w-4" />
                     </Link>
                   </div>
@@ -222,21 +224,21 @@ export function VolunteersClientWrapper() {
               <div className="w-12 h-12 bg-brand/10 rounded-full flex items-center justify-center text-brand mx-auto mb-3">
                 <UserCheckIcon className="h-6 w-6" />
               </div>
-              <h2 className="text-2xl font-extrabold text-fg font-display">Ko&apos;ngilli Bo&apos;lishga Ariza</h2>
+              <h2 className="text-2xl font-extrabold text-fg font-display">{t("formTitle")}</h2>
               <p className="text-sm text-fg-muted mt-1">
-                Bizga qo&apos;shiling va bolajonlarimiz rivojlanishiga o&apos;z hissangizni qo&apos;shing!
+                {t("formSubtitle")}
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4 text-left">
               <div>
-                <label className="block text-sm font-bold text-fg mb-1">Ismingiz *</label>
+                <label className="block text-sm font-bold text-fg mb-1">{t("nameLabel")} *</label>
                 <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="Masalan, Madina Axmedova"
+                  placeholder={t("namePlaceholder")}
                   className="w-full px-4 py-2.5 rounded-lg border border-border bg-surface focus:outline-none focus:border-brand text-sm"
                 />
                 {formErrors.name && (
@@ -245,13 +247,13 @@ export function VolunteersClientWrapper() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-fg mb-1">Telefon raqamingiz *</label>
+                <label className="block text-sm font-bold text-fg mb-1">{t("phoneLabel")} *</label>
                 <input
                   type="text"
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  placeholder="Masalan, +998901234567"
+                  placeholder={t("phonePlaceholder")}
                   className="w-full px-4 py-2.5 rounded-lg border border-border bg-surface focus:outline-none focus:border-brand text-sm"
                 />
                 {formErrors.phone && (
@@ -264,7 +266,7 @@ export function VolunteersClientWrapper() {
                   id="activityId-label"
                   className="block text-sm font-bold text-fg mb-1"
                 >
-                  Yo&apos;nalishingiz *
+                  {t("activityLabel")} *
                 </label>
                 <Select
                   value={formData.activityId}
@@ -280,7 +282,7 @@ export function VolunteersClientWrapper() {
                     aria-invalid={formErrors.activityId ? true : undefined}
                     className="text-sm"
                   >
-                    <SelectValue placeholder="Yo&apos;nalishni tanlang" />
+                    <SelectValue placeholder={t("activityPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
                     {data.activities.map((a) => (
@@ -296,19 +298,19 @@ export function VolunteersClientWrapper() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-fg mb-1">Qo&apos;shimcha ma&apos;lumot</label>
+                <label className="block text-sm font-bold text-fg mb-1">{t("extraLabel")}</label>
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
                   rows={3}
-                  placeholder="Bizga aytadigan so&apos;zingiz yoki tajribangiz haqida yozing..."
+                  placeholder={t("extraPlaceholder")}
                   className="w-full px-4 py-2.5 rounded-lg border border-border bg-surface focus:outline-none focus:border-brand text-sm resize-none"
                 />
               </div>
 
               <Button type="submit" disabled={submitting} className="w-full py-3 font-bold mt-2">
-                {submitting ? "Jo'natilmoqda..." : "Ariza topshirish"}
+                {submitting ? t("submitting") : t("submit")}
               </Button>
             </form>
           </Card>
@@ -330,14 +332,14 @@ export function VolunteersClientWrapper() {
               <CheckCircle2Icon className="h-8 w-8" />
             </div>
 
-            <h3 className="text-xl font-extrabold text-fg font-display">Arizangiz qabul qilindi!</h3>
+            <h3 className="text-xl font-extrabold text-fg font-display">{t("successTitle")}</h3>
             <p className="text-sm text-fg-muted leading-relaxed">
-              Jamoamizga qiziqish bildirganingiz uchun tashakkur. Arizangiz ko&apos;rib chiqilib, tez orada koordinatirlarimiz siz bilan bog&apos;lanishadi!
+              {t("successDesc")}
             </p>
 
             <div className="pt-2">
               <Button onClick={() => setShowSuccess(false)} className="w-full">
-                Tushunarli
+                {t("gotIt")}
               </Button>
             </div>
           </div>

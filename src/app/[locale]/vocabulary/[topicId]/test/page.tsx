@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
 import { VOCABULARY_TOPICS, VOCABULARY_TESTS } from "@/lib/mocks/vocabulary";
 import { VocabularyTestClientWrapper } from "./VocabularyTestClientWrapper";
@@ -11,6 +11,7 @@ interface VocabularyTestProps {
 export default async function VocabularyTestPage({ params }: VocabularyTestProps) {
   const { locale, topicId } = await params;
   setRequestLocale(locale);
+  const tv = await getTranslations("vocab");
 
   const topic = VOCABULARY_TOPICS.find((t) => t.id === topicId);
   const test = VOCABULARY_TESTS[topicId];
@@ -22,9 +23,9 @@ export default async function VocabularyTestPage({ params }: VocabularyTestProps
   return (
     <Container className="py-12 text-left max-w-2xl">
       <div className="mb-6">
-        <span className="text-xs font-bold text-accent uppercase tracking-wider block">Lugʻat testi</span>
+        <span className="text-xs font-bold text-accent uppercase tracking-wider block">{tv("testEyebrow")}</span>
         <h1 className="text-3xl font-black text-fg font-display tracking-tight mt-0.5">
-          {topic.title} sinovi
+          {tv("testTitle", { title: topic.title })}
         </h1>
       </div>
 

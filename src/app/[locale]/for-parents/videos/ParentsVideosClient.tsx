@@ -24,7 +24,6 @@ export function ParentsVideosClient() {
         error={error}
         onRetry={() => {}}
         onActionClick={handleAction}
-        actionText="Videoni tomosha qilish"
       />
     </div>
   );

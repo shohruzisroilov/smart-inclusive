@@ -4,12 +4,12 @@ import { useCallback, useState } from "react";
 import { useTranslations } from "next-intl";
 import { MenuIcon } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
-import { CTA_NAV } from "@/lib/constants/navigation";
+import { CTA_NAV, KIDS_NAV, PARENTS_NAV, SECTIONS_NAV } from "@/lib/constants/navigation";
 import { Container } from "@/components/ui/Container";
 import { buttonStyles } from "@/components/ui/Button";
 import { Logo } from "@/components/layout/Logo";
 import { MobileMenu } from "@/components/layout/MobileMenu";
-import { SectionsMenu } from "@/components/layout/SectionsMenu";
+import { NavDropdown } from "@/components/layout/NavDropdown";
 import { LanguageSwitcher } from "@/components/settings/LanguageSwitcher";
 import { AccessibilityPanel } from "@/components/settings/AccessibilityPanel";
 import { cn } from "@/lib/utils/cn";
@@ -69,7 +69,9 @@ export function Header() {
               {t("home")}
             </Link>
 
-            <SectionsMenu />
+            <NavDropdown label={t("kids")} items={KIDS_NAV} />
+            <NavDropdown label={t("parents")} items={PARENTS_NAV} />
+            <NavDropdown label={tHeader("more")} items={SECTIONS_NAV} />
           </nav>
         </div>
 

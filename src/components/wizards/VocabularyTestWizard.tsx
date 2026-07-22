@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useId } from "react";
+import { useTranslations } from "next-intl";
 import { CheckCircle2Icon, XCircleIcon, XIcon, RotateCcwIcon, ArrowRightIcon, LogOutIcon } from "lucide-react";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -97,6 +98,7 @@ export function VocabularyTestWizard({
   questions,
   onClose,
 }: VocabularyTestWizardProps) {
+  const t = useTranslations("test");
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -169,16 +171,16 @@ export function VocabularyTestWizard({
           <div className="p-3 w-12 h-12 bg-status-warning-subtle text-status-warning rounded-full mx-auto flex items-center justify-center">
             <LogOutIcon className="h-6 w-6" />
           </div>
-          <h3 className="text-xl font-bold text-fg font-display">Testni toʼxtatmoqchimisiz?</h3>
+          <h3 className="text-xl font-bold text-fg font-display">{t("exitTitle")}</h3>
           <p className="text-sm text-fg-muted leading-relaxed">
-            Haqiqatan ham testni yakunlamoqchimisiz? Hozirgi natijangiz saqlanmaydi.
+            {t("vocabExitDesc")}
           </p>
           <div className="flex gap-4 pt-2">
             <Button variant="secondary" fullWidth onClick={() => setShowExitConfirm(false)}>
-              Davom etish
+              {t("continue")}
             </Button>
             <Button variant="primary" fullWidth onClick={onClose}>
-              Ha, chiqish
+              {t("exitConfirm")}
             </Button>
           </div>
         </CardContent>
@@ -193,15 +195,15 @@ export function VocabularyTestWizard({
         {isPassed ? (
           <div className="rounded-2xl border border-border bg-surface shadow-sm overflow-hidden text-center">
             <EmptyState
-              title="Ajoyib! Lug'at testidan o'tdingiz!"
-              description={`Siz ${topicTitle} mavzuidan ${correctCount} ta so'zni to'g'ri topdingiz! Umumiy ball: ${scorePercentage}%`}
+              title={t("vocabPassedTitle")}
+              description={t("vocabPassedDesc", { topic: topicTitle, correct: correctCount, score: scorePercentage })}
               action={
                 <div className="flex flex-wrap gap-4 justify-center">
                   <Button variant="secondary" onClick={handleRetake} className="flex items-center gap-2">
                     <RotateCcwIcon className="h-4 w-4" />
-                    Yana topshirish
+                    {t("retake")}
                   </Button>
-                  <Button onClick={onClose}>Qaytish</Button>
+                  <Button onClick={onClose}>{t("backToMaterial")}</Button>
                 </div>
               }
             />
@@ -209,15 +211,15 @@ export function VocabularyTestWizard({
         ) : (
           <div className="rounded-2xl border border-border bg-surface shadow-sm overflow-hidden text-center">
             <ErrorState
-              title="Kutilgan natija bo'lmadi"
-              description={`Sizning ko'rsatkichingiz: ${scorePercentage}% (${correctCount}/${totalQuestions} to'g'ri). Xavotir olmang, so'zlarni yana bir bor takrorlab, qayta urinib ko'ring!`}
+              title={t("vocabFailedTitle")}
+              description={t("vocabFailedDesc", { score: scorePercentage, correct: correctCount, total: totalQuestions })}
               action={
                 <div className="flex flex-wrap gap-4 justify-center pt-2">
                   <Button variant="primary" onClick={handleRetake} className="flex items-center gap-2">
                     <RotateCcwIcon className="h-4 w-4" />
-                    Yana urinish
+                    {t("retry")}
                   </Button>
-                  <Button variant="secondary" onClick={onClose}>Qaytish</Button>
+                  <Button variant="secondary" onClick={onClose}>{t("backToMaterial")}</Button>
                 </div>
               }
             />
@@ -246,7 +248,7 @@ export function VocabularyTestWizard({
       {/* Header index counters */}
       <CardHeader className="border-none pb-0 pt-6 flex flex-row items-center justify-between gap-4">
         <Badge variant="brand">
-          {currentIdx + 1} / {totalQuestions} savol
+          {t("questionCounter", { current: currentIdx + 1, total: totalQuestions })}
         </Badge>
         
         <button
@@ -256,7 +258,7 @@ export function VocabularyTestWizard({
             "tap-target p-2 rounded-lg text-fg-muted hover:text-fg hover:bg-surface-subtle transition-all",
             "focus-visible:outline-3 focus-visible:outline-[var(--focus-ring)]"
           )}
-          aria-label="Testni toʼxtatish"
+          aria-label={t("stop")}
         >
           <XIcon className="h-5 w-5" />
         </button>
@@ -266,7 +268,7 @@ export function VocabularyTestWizard({
         {/* Word Prompt Question */}
         <div className="space-y-2">
           <span className="text-xs font-bold text-fg-subtle uppercase tracking-wider block">
-            Ushbu soʼzga mos keladigan rasmni toping:
+            {t("vocabPrompt")}
           </span>
           <h3 className="text-4xl font-black text-brand font-display tracking-tight max-phone:text-3xl">
             &ldquo;{currentQuestion.questionWord}&rdquo;
@@ -274,7 +276,7 @@ export function VocabularyTestWizard({
         </div>
 
         {/* 4-Image Card grid option */}
-        <div className="grid grid-cols-2 gap-4" role="radiogroup" aria-label="Javob variantlari">
+        <div className="grid grid-cols-2 gap-4" role="radiogroup" aria-label={t("answersLabel")}>
           {currentQuestion.options.map((option, index) => {
             const isSelected = selectedOpt === index;
             const isCorrect = index === currentQuestion.correctOptionIndex;
@@ -315,7 +317,7 @@ export function VocabularyTestWizard({
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={option.imageUrl}
-                    alt="Variant tasviri"
+                    alt={t("vocabImageAlt")}
                     className="w-full h-full object-cover select-none"
                   />
                 </div>
@@ -345,7 +347,7 @@ export function VocabularyTestWizard({
           disabled={!isAnswered}
           className="flex items-center gap-1.5 min-w-32 justify-center"
         >
-          {currentIdx === totalQuestions - 1 ? "Natijani koʼrish" : "Keyingi"}
+          {currentIdx === totalQuestions - 1 ? t("viewResult") : t("next")}
           <ArrowRightIcon className="h-4 w-4" />
         </Button>
       </CardFooter>

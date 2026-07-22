@@ -29,6 +29,7 @@ interface AccessibilityPanelProps {
 
 export function AccessibilityPanel({ variant = "compact", className }: AccessibilityPanelProps) {
   const t = useTranslations("a11y");
+  const tc = useTranslations("common");
   const hydrated = useSettingsHydrated();
   const [isOpen, setIsOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -136,7 +137,7 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
                 )}
               >
                 <XIcon className="h-6 w-6" aria-hidden="true" />
-                <span className="sr-only">Yopish</span>
+                <span className="sr-only">{tc("close")}</span>
               </button>
             </div>
 

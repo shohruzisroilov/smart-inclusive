@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useTranslations } from "next-intl";
 import { UserPlusIcon, CheckCircle2Icon, AlertCircleIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Card, CardContent, CardFooter } from "@/components/ui/Card";
@@ -8,6 +9,8 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 
 export function BecomeVolunteerClientWrapper() {
+  const t = useTranslations("forms.volunteer");
+  const tf = useTranslations("forms");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -32,21 +35,21 @@ export function BecomeVolunteerClientWrapper() {
   const validateForm = () => {
     const errors: Record<string, string> = {};
     if (!formData.name.trim()) {
-      errors.name = "Ism va familiyangizni kiriting";
+      errors.name = t("errName");
     }
     if (!formData.phone.trim()) {
-      errors.phone = "Telefon raqamingizni kiriting";
+      errors.phone = t("errPhone");
     } else if (!/^\+?[0-9]{9,15}$/.test(formData.phone.replace(/[\s-]/g, ""))) {
-      errors.phone = "Noto'g'ri telefon raqami ko'rinishi (masalan, +998901234567)";
+      errors.phone = tf("errPhoneFormat");
     }
     if (!formData.city.trim()) {
-      errors.city = "Shahar yoki tumaningizni kiriting";
+      errors.city = t("errCity");
     }
     if (formData.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      errors.email = "Noto'g'ri email manzili";
+      errors.email = t("errEmail");
     }
     if (formData.age.trim() && (isNaN(Number(formData.age)) || Number(formData.age) <= 0 || Number(formData.age) > 120)) {
-      errors.age = "Noto'g'ri yosh kiritildi";
+      errors.age = t("errAge");
     }
     return errors;
   };
@@ -78,24 +81,24 @@ export function BecomeVolunteerClientWrapper() {
             <CheckCircle2Icon className="h-10 w-10" />
           </div>
           <div className="space-y-2">
-            <h1 className="text-2xl font-extrabold text-fg font-display">Arizangiz muvaffaqiyatli yuborildi!</h1>
+            <h1 className="text-2xl font-extrabold text-fg font-display">{t("successTitle")}</h1>
             <p className="text-sm text-fg-muted leading-relaxed">
-              Ko&apos;ngillilar safiga qo&apos;shilishga qiziqish bildirganingiz uchun tashakkur. Jamoamiz arizani ko&apos;rib chiqib, tez fursatda siz bilan bog&apos;lanadi.
+              {t("successDesc")}
             </p>
           </div>
           <div className="pt-2">
             <Button onClick={() => setSuccess(false)} className="w-full">
-              Yangi ariza topshirish
+              {t("newApplication")}
             </Button>
           </div>
         </Card>
       ) : (
         <Card className="border border-border/80 shadow-md rounded-2xl overflow-hidden">
           <div className="bg-gradient-to-r from-accent/10 to-transparent p-6 border-b border-border/60">
-            <Badge variant="accent" className="mb-2">VOLONTYORLIK</Badge>
-            <h1 className="text-2xl font-extrabold text-fg font-display">Ko&apos;ngilli Bo&apos;lish</h1>
+            <Badge variant="accent" className="mb-2">{t("badge")}</Badge>
+            <h1 className="text-2xl font-extrabold text-fg font-display">{t("title")}</h1>
             <p className="text-sm text-fg-muted mt-1">
-              Alohida ehtiyojli bolalar hayotiga birgalikda quvonch va bilim olib kiraylik!
+              {t("subtitle")}
             </p>
           </div>
 
@@ -105,20 +108,20 @@ export function BecomeVolunteerClientWrapper() {
                 <div className="bg-red-500/10 border border-red-500/20 text-red-600 rounded-lg p-4 flex items-start gap-3 text-sm">
                   <AlertCircleIcon className="h-5 w-5 shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-bold block">Yuborishda xatolik yuz berdi</span>
+                    <span className="font-bold block">{tf("submitErrorTitle")}</span>
                     <span className="block mt-0.5">{submitError}</span>
                   </div>
                 </div>
               )}
 
               <div>
-                <label className="block text-sm font-bold text-fg mb-1">Ism va familiyangiz *</label>
+                <label className="block text-sm font-bold text-fg mb-1">{t("nameLabel")} *</label>
                 <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="Masalan, Madina Axmedova"
+                  placeholder={t("namePlaceholder")}
                   className="w-full px-4 py-2.5 rounded-lg border border-border bg-surface focus:outline-none focus:border-brand text-sm"
                   disabled={loading}
                 />
@@ -129,13 +132,13 @@ export function BecomeVolunteerClientWrapper() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-bold text-fg mb-1">Telefon raqamingiz *</label>
+                  <label className="block text-sm font-bold text-fg mb-1">{t("phoneLabel")} *</label>
                   <input
                     type="text"
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    placeholder="Masalan, +998901234567"
+                    placeholder={t("phonePlaceholder")}
                     className="w-full px-4 py-2.5 rounded-lg border border-border bg-surface focus:outline-none focus:border-brand text-sm"
                     disabled={loading}
                   />
@@ -145,13 +148,13 @@ export function BecomeVolunteerClientWrapper() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-fg mb-1">Shahar / Tuman *</label>
+                  <label className="block text-sm font-bold text-fg mb-1">{t("cityLabel")} *</label>
                   <input
                     type="text"
                     name="city"
                     value={formData.city}
                     onChange={handleInputChange}
-                    placeholder="Masalan, Toshkent, Chilonzor"
+                    placeholder={t("cityPlaceholder")}
                     className="w-full px-4 py-2.5 rounded-lg border border-border bg-surface focus:outline-none focus:border-brand text-sm"
                     disabled={loading}
                   />
@@ -163,13 +166,13 @@ export function BecomeVolunteerClientWrapper() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-bold text-fg mb-1">Email manzilingiz</label>
+                  <label className="block text-sm font-bold text-fg mb-1">{t("emailLabel")}</label>
                   <input
                     type="text"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    placeholder="Masalan, madina@example.com"
+                    placeholder={t("emailPlaceholder")}
                     className="w-full px-4 py-2.5 rounded-lg border border-border bg-surface focus:outline-none focus:border-brand text-sm"
                     disabled={loading}
                   />
@@ -179,13 +182,13 @@ export function BecomeVolunteerClientWrapper() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-fg mb-1">Yoshingiz</label>
+                  <label className="block text-sm font-bold text-fg mb-1">{t("ageLabel")}</label>
                   <input
                     type="text"
                     name="age"
                     value={formData.age}
                     onChange={handleInputChange}
-                    placeholder="Masalan, 20"
+                    placeholder={t("agePlaceholder")}
                     className="w-full px-4 py-2.5 rounded-lg border border-border bg-surface focus:outline-none focus:border-brand text-sm"
                     disabled={loading}
                   />
@@ -196,13 +199,13 @@ export function BecomeVolunteerClientWrapper() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-fg mb-1">Nega ko&apos;ngilli bo&apos;lishni istaysiz?</label>
+                <label className="block text-sm font-bold text-fg mb-1">{t("reasonLabel")}</label>
                 <textarea
                   name="reason"
                   value={formData.reason}
                   onChange={handleInputChange}
                   rows={3}
-                  placeholder="Loyihada ishtirok etishdan maqsadingizni qisqacha yozing..."
+                  placeholder={t("reasonPlaceholder")}
                   className="w-full px-4 py-2.5 rounded-lg border border-border bg-surface focus:outline-none focus:border-brand text-sm resize-none"
                   disabled={loading}
                 />
@@ -211,9 +214,9 @@ export function BecomeVolunteerClientWrapper() {
 
             <CardFooter className="p-6 pt-0">
               <Button type="submit" disabled={loading} className="w-full py-3 font-bold flex items-center justify-center gap-2">
-                {loading ? "Jo'natilmoqda..." : (
+                {loading ? t("submitting") : (
                   <>
-                    Ariza topshirish
+                    {t("submit")}
                     <UserPlusIcon className="h-4 w-4" />
                   </>
                 )}

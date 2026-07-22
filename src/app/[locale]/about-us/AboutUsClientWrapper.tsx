@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useTranslations } from "next-intl";
 import { PlayIcon, CalendarIcon, QuoteIcon, XIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -10,6 +11,7 @@ import { MOCK_ABOUT_US, type AboutUsData, type RegionVideo } from "@/lib/mocks/v
 import { cn } from "@/lib/utils/cn";
 
 export function AboutUsClientWrapper() {
+  const t = useTranslations("aboutUsPage");
   const [data] = useState<AboutUsData>(MOCK_ABOUT_US);
   const [activeVideo, setActiveVideo] = useState<RegionVideo | null>(null);
 
@@ -20,7 +22,7 @@ export function AboutUsClientWrapper() {
         <Container>
           <div className="bg-gradient-to-r from-accent/10 via-accent-light/5 to-transparent rounded-3xl p-10 max-phone:p-6 text-left relative overflow-hidden select-none border border-accent/10">
             <div className="max-w-2xl">
-              <Badge variant="accent" className="mb-4">LOYIHA MISSIYASI</Badge>
+              <Badge variant="accent" className="mb-4">{t("badge")}</Badge>
               <h1 className="text-4xl font-black text-fg font-display tracking-tight leading-tight max-phone:text-3xl">
                 {data.hero.title}
               </h1>
@@ -93,10 +95,10 @@ export function AboutUsClientWrapper() {
         <Container>
           <div className="text-center max-w-xl mx-auto mb-10 select-none">
             <h2 className="text-3xl font-extrabold text-fg font-display tracking-tight">
-              Hamjamiyat Fikrlari
+              {t("testimonialsTitle")}
             </h2>
             <p className="mt-2 text-fg-muted">
-              Platforma orqali farzandlari ta&apos;lim olayotgan ota-onalar va ko&apos;ngillilarimiz fikrlari.
+              {t("testimonialsSubtitle")}
             </p>
           </div>
 
@@ -131,10 +133,10 @@ export function AboutUsClientWrapper() {
         <Container>
           <div className="text-center max-w-xl mx-auto mb-10 select-none">
             <h2 className="text-3xl font-extrabold text-fg font-display tracking-tight">
-              Hududlardan Safarlarimiz
+              {t("travelsTitle")}
             </h2>
             <p className="mt-2 text-fg-muted">
-              Inklyuzivlikni viloyat va chekka tumanlardagi maktablarda keng yoyish bo&apos;yicha sayohatlarimiz galereyasi.
+              {t("travelsSubtitle")}
             </p>
           </div>
 
@@ -172,10 +174,10 @@ export function AboutUsClientWrapper() {
         <Container>
           <div className="text-center max-w-xl mx-auto mb-10 select-none">
             <h2 className="text-3xl font-extrabold text-fg font-display tracking-tight">
-              Sayohat Videolavhalari
+              {t("videosTitle")}
             </h2>
             <p className="mt-2 text-fg-muted">
-              Viloyatlardagi faoliyatimizdan olingan qisqa interaktiv hisobotlar va dars jarayonlari.
+              {t("videosSubtitle")}
             </p>
           </div>
 
@@ -226,7 +228,7 @@ export function AboutUsClientWrapper() {
             <button
               onClick={() => setActiveVideo(null)}
               className="absolute top-4 right-4 p-2 rounded-lg text-white/70 hover:text-white bg-black/60 hover:bg-black/80 transition-all z-20 focus:outline-none"
-              aria-label="Yopish"
+              aria-label={t("close")}
             >
               <XIcon className="h-5 w-5" />
             </button>

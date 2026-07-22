@@ -24,7 +24,6 @@ export function ParentsTestsClient() {
         error={error}
         onRetry={() => {}}
         onActionClick={handleAction}
-        actionText="Testni boshlash"
       />
     </div>
   );

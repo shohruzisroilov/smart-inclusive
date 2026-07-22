@@ -24,7 +24,6 @@ export function ParentsLegalClient() {
         error={error}
         onRetry={() => {}}
         onActionClick={handleAction}
-        actionText="Maqolani o'qish"
       />
     </div>
   );

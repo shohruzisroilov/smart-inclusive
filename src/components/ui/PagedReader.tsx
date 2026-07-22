@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, type ReactNode, type TouchEvent } from "react";
+import { useTranslations } from "next-intl";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -50,6 +51,7 @@ export function PagedReader({
   testId,
   onBack,
 }: PagedReaderProps) {
+  const t = useTranslations("reader");
   const [currentPage, setCurrentPage] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -250,7 +252,7 @@ export function PagedReader({
       <div className="flex flex-wrap items-center justify-between gap-4 bg-surface p-4 rounded-2xl border border-border shadow-xs">
         <Button variant="secondary" size="sm" onClick={onBack} className="flex items-center gap-2">
           <ArrowLeftIcon className="h-4 w-4" />
-          Kutubxonaga qaytish
+          {t("backToLibrary")}
         </Button>
 
         <div className="flex items-center gap-3">
@@ -263,7 +265,7 @@ export function PagedReader({
               className="text-xs flex items-center gap-1.5"
             >
               <BookmarkCheckIcon className="h-4 w-4 text-brand" />
-              Xatchoʼpga qaytish ({savedPage + 1}-sahifa)
+              {t("bookmarkReturn", { page: savedPage + 1 })}
             </Button>
           )}
 
@@ -276,7 +278,7 @@ export function PagedReader({
             className="text-xs flex items-center gap-1.5"
           >
             <BookmarkIcon className="h-4 w-4" />
-            {savedPage === currentPage ? "Sahifa saqlandi" : "Xatchoʼpni saqlash"}
+            {savedPage === currentPage ? t("bookmarkSaved") : t("bookmarkSave")}
           </Button>
         </div>
       </div>
@@ -300,7 +302,7 @@ export function PagedReader({
               variant="primary"
               size="sm"
               className="rounded-full shrink-0 w-11 h-11 flex items-center justify-center"
-              aria-label={isPlaying ? "Audioni toʼxtatish" : "Audioni eshitish"}
+              aria-label={isPlaying ? t("pauseAudio") : t("playAudio")}
               disabled={!audioUrls?.[audioLang]}
             >
               {isPlaying ? (
@@ -313,7 +315,7 @@ export function PagedReader({
             <div className="text-left select-none">
               <div className="text-sm font-bold text-fg flex items-center gap-1.5">
                 <Volume2Icon className="h-4 w-4 text-brand" />
-                Audio eshitish
+                {t("listen")}
               </div>
               <div className="text-xs text-fg-muted">
                 {formatTime(currentTime)} / {formatTime(duration)}
@@ -352,7 +354,7 @@ export function PagedReader({
                       : "bg-surface border border-border text-fg-muted hover:text-fg hover:border-border-strong",
                     disabled && "opacity-35 cursor-not-allowed hover:bg-surface hover:text-fg-muted hover:border-border"
                   )}
-                  aria-label={`${lang.toUpperCase()} tilidagi ovozli tarjima`}
+                  aria-label={t("audioLangLabel", { lang: lang.toUpperCase() })}
                 >
                   {lang.toUpperCase()}
                 </button>
@@ -380,12 +382,12 @@ export function PagedReader({
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={activePage.imageUrl}
-                alt={activePage.title || `${currentPage + 1}-sahifa`}
+                alt={activePage.title || t("pageCounter", { current: currentPage + 1, total: pages.length })}
                 className="w-full max-h-[300px] object-contain rounded-xl select-none"
               />
             ) : (
               <div className="p-8 text-center text-fg-subtle select-none">
-                Tasvir mavjud emas
+                {t("noImage")}
               </div>
             )}
           </div>
@@ -394,12 +396,12 @@ export function PagedReader({
           <CardContent className="laptop:col-span-7 p-8 max-phone:p-6 flex flex-col justify-between text-left">
               <div className="flex items-center justify-between gap-4">
                 <Badge variant="brand" size="sm">
-                  {currentPage + 1} / {pages.length} sahifa
+                  {t("pageCounter", { current: currentPage + 1, total: pages.length })}
                 </Badge>
                 {savedPage === currentPage && (
                   <span className="text-xs font-semibold text-brand flex items-center gap-1">
                     <BookmarkIcon className="h-3.5 w-3.5 fill-current" />
-                    Belgilangan sahifa
+                    {t("markedPage")}
                   </span>
                 )}
                 {!hasAudio && <ReadAloud targetId="paged-reader-content" className="py-1 px-3 text-xs" />}
@@ -422,17 +424,17 @@ export function PagedReader({
               <div className="mt-8 pt-6 border-t border-border/60 flex flex-col items-start gap-3 animate-in fade-in slide-in-from-bottom-3 duration-[var(--duration-base)]">
                 <div className="flex items-center gap-2 text-status-success text-sm font-bold">
                   <CheckCircle2Icon className="h-5 w-5" />
-                  Siz kitobni toʻliq oʻqib tugatdingiz!
+                  {t("finished")}
                 </div>
                 <p className="text-xs text-fg-muted">
-                  Ushbu kitob boʻyicha bilimlaringizni sinab koʻrish uchun quyidagi testni boshlang.
+                  {t("testPrompt")}
                 </p>
                 <Link
-                  href={`/kids/tests/${testId}`}
+                  href={`/tests/${testId}`}
                   className={cn(buttonStyles({ variant: "accent", size: "md" }), "flex items-center gap-2 mt-1")}
                 >
                   <GraduationCapIcon className="h-5 w-5" />
-                  Testga oʻtish
+                  {t("goToTest")}
                 </Link>
               </div>
             )}
@@ -449,11 +451,11 @@ export function PagedReader({
           className="flex items-center gap-1.5"
         >
           <ChevronLeftIcon className="h-4 w-4" />
-          Orqaga
+          {t("prev")}
         </Button>
 
         <span className="text-sm font-bold text-fg-muted select-none">
-          {currentPage + 1} / {pages.length} sahifa
+          {t("pageCounter", { current: currentPage + 1, total: pages.length })}
         </span>
 
         <Button
@@ -462,7 +464,7 @@ export function PagedReader({
           disabled={isFinalPage}
           className="flex items-center gap-1.5"
         >
-          Keyingi
+          {t("next")}
           <ChevronRightIcon className="h-4 w-4" />
         </Button>
       </div>

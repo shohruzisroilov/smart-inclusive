@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { type BaseContentItem } from "@/types/content";
 import { useProgressStore } from "@/stores/progress-store";
 import { ContentCard } from "@/components/ui/ContentCard";
@@ -35,9 +36,12 @@ export function ContentList({
   onRetry,
   onActionClick,
   actionText,
-  emptyNoDataTitle = "Hozircha hech qanday maʼlumot yoʼq",
-  emptyNoDataDesc = "Ushbu boʼlimga tez orada yangi oʼquv materiallari yuklanadi.",
+  emptyNoDataTitle,
+  emptyNoDataDesc,
 }: ContentListProps) {
+  const t = useTranslations("content.list");
+  const tc = useTranslations("common");
+  const tf = useTranslations("content.filters");
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const completedItems = useProgressStore((s) => s.completedItems);
 
@@ -66,9 +70,9 @@ export function ContentList({
   if (error) {
     return (
       <ErrorState
-        title="Maʼlumotlarni oʼqib boʼlmadi"
+        title={t("errorTitle")}
         description={error}
-        action={onRetry ? <Button onClick={onRetry}>Qayta urinish</Button> : undefined}
+        action={onRetry ? <Button onClick={onRetry}>{tc("retry")}</Button> : undefined}
       />
     );
   }
@@ -77,8 +81,8 @@ export function ContentList({
   if (items.length === 0) {
     return (
       <EmptyState
-        title={emptyNoDataTitle}
-        description={emptyNoDataDesc}
+        title={emptyNoDataTitle ?? t("emptyTitle")}
+        description={emptyNoDataDesc ?? t("emptyDesc")}
       />
     );
   }
@@ -119,9 +123,9 @@ export function ContentList({
       {/* 5. Filtered Empty State */}
       {filteredItems.length === 0 ? (
         <EmptyState
-          title="Saralash boʼyicha hech narsa topilmadi"
-          description="Kiritilgan filtrlar boʼyicha birorta ham kontent mavjud emas. Boshqa filtrlarni sinab koʼring yoki sozlamalarni tozalang."
-          action={<Button variant="secondary" onClick={resetFilters}>Filtrlarni tozalash</Button>}
+          title={t("filteredEmptyTitle")}
+          description={t("filteredEmptyDesc")}
+          action={<Button variant="secondary" onClick={resetFilters}>{tf("clear")}</Button>}
         />
       ) : (
         /* 6. Success Grid List */

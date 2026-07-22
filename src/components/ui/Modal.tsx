@@ -2,6 +2,7 @@
 
 import { createPortal } from "react-dom";
 import { useRef, type ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import { XIcon } from "lucide-react";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
 import { useBodyScrollLock } from "@/hooks/use-body-scroll-lock";
@@ -27,6 +28,7 @@ export function Modal({
 }: ModalProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const hydrated = useHydrated();
+  const tc = useTranslations("common");
 
   // Focus trap: locks focus within containerRef when open, trigger onClose on ESC key
   useFocusTrap(isOpen, containerRef, onClose);
@@ -82,7 +84,7 @@ export function Modal({
             )}
           >
             <XIcon className="h-5 w-5" aria-hidden="true" />
-            <span className="sr-only">Yopish</span>
+            <span className="sr-only">{tc("close")}</span>
           </button>
         </div>
 

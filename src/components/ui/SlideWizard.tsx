@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { ChevronLeftIcon, ChevronRightIcon, XIcon, CheckIcon, RotateCcwIcon, ArrowLeftIcon } from "lucide-react";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -34,6 +35,7 @@ export function SlideWizard({
   completionDescription,
   completionAction,
 }: SlideWizardProps) {
+  const t = useTranslations("slides");
   const [currentIdx, setCurrentIdx] = useState(0);
   const [showCompletion, setShowCompletion] = useState(false);
 
@@ -73,8 +75,8 @@ export function SlideWizard({
   if (totalSlides === 0) {
     return (
       <Card className="p-8 text-center border border-border">
-        <p className="text-fg-muted">Slaydlar mavjud emas.</p>
-        <Button onClick={onClose} className="mt-4">Qaytish</Button>
+        <p className="text-fg-muted">{t("noSlides")}</p>
+        <Button onClick={onClose} className="mt-4">{t("back")}</Button>
       </Card>
     );
   }
@@ -106,21 +108,18 @@ export function SlideWizard({
     return (
       <div className="max-w-2xl mx-auto rounded-2xl border border-border bg-surface shadow-sm overflow-hidden text-center">
         <EmptyState
-          title={completionTitle || "Taqdimot yakunlandi!"}
-          description={
-            completionDescription ||
-            "Siz ushbu bo&apos;limning barcha slaydlarini to&apos;liq ko&apos;rib chiqdingiz. Quyidagi tugmalar orqali taqdimotni qayta ko&apos;rishingiz yoki darslarga qaytishingiz mumkin."
-          }
+          title={completionTitle || t("completionTitle")}
+          description={completionDescription || t("completionDesc")}
           action={
             completionAction || (
               <div className="flex flex-wrap gap-4 justify-center">
                 <Button variant="secondary" onClick={handleRestart} className="flex items-center gap-2">
                   <RotateCcwIcon className="h-4 w-4" />
-                  {"Yana o'tish"}
+                  {t("restart")}
                 </Button>
                 <Button onClick={onClose} className="flex items-center gap-2">
                   <ArrowLeftIcon className="h-4 w-4" />
-                  Qaytish
+                  {t("back")}
                 </Button>
               </div>
             )
@@ -148,7 +147,7 @@ export function SlideWizard({
       <CardHeader className="border-none pb-0 pt-6 flex flex-row items-center justify-between gap-4 select-none">
         <div className="flex items-center gap-2">
           <Badge variant="brand">
-            {currentIdx + 1} / {totalSlides} slayd
+            {t("slideCounter", { current: currentIdx + 1, total: totalSlides })}
           </Badge>
           <span className="text-xs font-bold text-fg-muted font-display truncate max-w-xs md:max-w-md">
             {title}
@@ -161,7 +160,7 @@ export function SlideWizard({
           className={cn(
             "tap-target p-2 rounded-lg text-fg-muted hover:text-fg hover:bg-surface-subtle transition-all focus-visible:outline-3 focus-visible:outline-[var(--focus-ring)]"
           )}
-          aria-label="Yopish"
+          aria-label={t("close")}
         >
           <XIcon className="h-5 w-5" />
         </button>
@@ -200,7 +199,7 @@ export function SlideWizard({
           className="flex items-center gap-1.5"
         >
           <ChevronLeftIcon className="h-4 w-4" />
-          Orqaga
+          {t("prev")}
         </Button>
 
         <Button
@@ -209,12 +208,12 @@ export function SlideWizard({
         >
           {isLast ? (
             <>
-              Tayyor!
+              {t("finish")}
               <CheckIcon className="h-4 w-4" />
             </>
           ) : (
             <>
-              Keyingi
+              {t("next")}
               <ChevronRightIcon className="h-4 w-4" />
             </>
           )}

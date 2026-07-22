@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { ArrowLeftIcon, CalendarIcon, UserIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -15,6 +16,7 @@ interface VolunteerDetailClientWrapperProps {
 }
 
 export function VolunteerDetailClientWrapper({ caseId }: VolunteerDetailClientWrapperProps) {
+  const t = useTranslations("volunteersPage");
   const router = useRouter();
   const item = MOCK_VOLUNTEER_HUB.cases.find((c) => c.id === caseId);
 
@@ -22,11 +24,11 @@ export function VolunteerDetailClientWrapper({ caseId }: VolunteerDetailClientWr
     return (
       <Container className="py-12">
         <ErrorState
-          title="Topilmadi"
-          description="Tafsilotlar topilmadi."
+          title={t("notFoundTitle")}
+          description={t("notFoundDesc")}
           action={
             <Button onClick={() => router.push("/volunteers")}>
-              Ko&apos;ngillilar ro&apos;yxatiga qaytish
+              {t("backToList")}
             </Button>
           }
         />
@@ -44,13 +46,13 @@ export function VolunteerDetailClientWrapper({ caseId }: VolunteerDetailClientWr
           className="flex items-center gap-1.5"
         >
           <ArrowLeftIcon className="h-4 w-4" />
-          Ko&apos;ngillilar ro&apos;yxatiga qaytish
+          {t("backToList")}
         </Button>
       </div>
 
       {/* Title */}
       <div className="space-y-4 mb-8">
-        <Badge variant="accent">Muvaffaqiyat tarixi</Badge>
+        <Badge variant="accent">{t("successStory")}</Badge>
         <h1 className="text-3xl font-black text-fg font-display tracking-tight leading-tight max-phone:text-2xl">
           {item.title}
         </h1>

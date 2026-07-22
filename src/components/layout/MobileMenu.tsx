@@ -148,6 +148,31 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
                 >
                   {t(item.labelKey)}
                 </Link>
+
+                {/* Ostki bo'limlar akkordeoni (Bolalar / Ota-onalar). */}
+                {item.children && item.children.length > 0 && (
+                  <ul className="mt-1 mb-2 ml-4 border-l border-border/60 pl-3 space-y-0.5">
+                    {item.children.map((child) => (
+                      <li key={child.href}>
+                        <Link
+                          href={child.href}
+                          onClick={onClose}
+                          aria-current={isActive(child.href) ? "page" : undefined}
+                          className={cn(
+                            "flex items-center rounded-lg px-4 text-base font-medium",
+                            "min-h-[var(--tap-target-min)]",
+                            "transition-colors duration-[var(--duration-fast)]",
+                            isActive(child.href)
+                              ? "bg-brand-subtle text-brand"
+                              : "text-fg-muted hover:bg-surface-muted hover:text-fg",
+                          )}
+                        >
+                          {t(child.labelKey)}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>

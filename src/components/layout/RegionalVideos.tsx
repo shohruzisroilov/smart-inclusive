@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { PlayIcon, MapPinIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Card, CardHeader, CardContent } from "@/components/ui/Card";
@@ -17,35 +18,38 @@ interface RegionalVideo {
   thumbnailColor: string; // vector placeholder background color
 }
 
-const REGIONAL_VIDEOS: RegionalVideo[] = [
-  {
-    id: "story-tashkent",
-    title: "Akmalning birinchi muvaffaqiyati",
-    region: "Toshkent shahri",
-    description: "Toshkentlik 8 yoshli Akmal Smart Inclusive darslari orqali harflarni mustaqil oʼrganishga muvaffaq boʼldi.",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-    thumbnailColor: "from-brand/20 to-brand/40",
-  },
-  {
-    id: "story-samarkand",
-    title: "Samarqandlik Madina bilan darslar",
-    region: "Samarqand viloyati",
-    description: "Inklyuziv taʼlim platformasi qanday qilib Madinaning uyda taʼlim olish jarayonini osonlashtirdi?",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-    thumbnailColor: "from-accent/20 to-accent/40",
-  },
-  {
-    id: "story-fergana",
-    title: "Koʼngillilar bilan yangi marralar",
-    region: "Fargʼona viloyati",
-    description: "Fargʼonalik koʼngillilar bolalarga darslarni oʼzlashtirishda qanday yordam berayotganliklari haqida video lavha.",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    thumbnailColor: "from-status-info/20 to-status-info/40",
-  },
-];
-
 export function RegionalVideos() {
+  const t = useTranslations("home");
+  const tp = useTranslations("player");
+  const tc = useTranslations("common");
   const [activeVideo, setActiveVideo] = useState<RegionalVideo | null>(null);
+
+  const REGIONAL_VIDEOS: RegionalVideo[] = [
+    {
+      id: "story-tashkent",
+      title: t("story1Title"),
+      region: t("story1Region"),
+      description: t("story1Desc"),
+      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      thumbnailColor: "from-brand/20 to-brand/40",
+    },
+    {
+      id: "story-samarkand",
+      title: t("story2Title"),
+      region: t("story2Region"),
+      description: t("story2Desc"),
+      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      thumbnailColor: "from-accent/20 to-accent/40",
+    },
+    {
+      id: "story-fergana",
+      title: t("story3Title"),
+      region: t("story3Region"),
+      description: t("story3Desc"),
+      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      thumbnailColor: "from-status-info/20 to-status-info/40",
+    },
+  ];
 
   return (
     <section className="py-16 bg-surface" aria-labelledby="videos-heading">
@@ -54,14 +58,14 @@ export function RegionalVideos() {
         <div className="flex flex-wrap items-end justify-between gap-4 mb-10 border-b border-border/50 pb-6">
           <div>
             <h2 id="videos-heading" className="text-3xl font-extrabold text-fg font-display tracking-tight max-phone:text-2xl">
-              Hududlardan videolar
+              {t("videosHeading")}
             </h2>
             <p className="mt-2 text-base text-fg-muted max-w-xl">
-              Smart Inclusive platformasidan foydalanib yutuqlarga erishayotgan bolalar va koʼngillilarning real hayotiy hikoyalari.
+              {t("videosDesc")}
             </p>
           </div>
           <Link href="/volunteers" className={cn(buttonStyles({ variant: "secondary", size: "md" }), "max-phone:w-full")}>
-            Barcha tarixlarni koʼrish
+            {t("videosAll")}
           </Link>
         </div>
 
@@ -89,7 +93,7 @@ export function RegionalVideos() {
                 {/* Big Accessible Play Button overlay */}
                 <button
                   type="button"
-                  aria-label={`${video.title} videosini tomosha qilish`}
+                  aria-label={t("watchVideo", { title: video.title })}
                   className={cn(
                     "tap-target w-14 h-14 rounded-full bg-surface/90 text-brand flex items-center justify-center shadow-md",
                     "transition-all duration-[var(--duration-base)] group-hover:scale-110 group-hover:bg-brand group-hover:text-fg-on-brand",
@@ -133,19 +137,19 @@ export function RegionalVideos() {
                   className="w-full h-full"
                   aria-label={activeVideo.title}
                 >
-                  Bizning pleyer brauzeringizda qoʼllab-quvvatlanmadi.
+                  {tp("unsupported")}
                 </video>
               ) : (
                 <div className="text-center p-6 text-fg-muted/60 space-y-2">
                   <PlayIcon className="h-12 w-12 mx-auto opacity-35" />
-                  <p className="text-base font-semibold">Video hozircha yo'q</p>
+                  <p className="text-base font-semibold">{tp("unavailable")}</p>
                 </div>
               )}
             </div>
 
             <div className="flex justify-end pt-1">
               <Button variant="secondary" size="md" onClick={() => setActiveVideo(null)}>
-                Yopish
+                {tc("close")}
               </Button>
             </div>
           </div>

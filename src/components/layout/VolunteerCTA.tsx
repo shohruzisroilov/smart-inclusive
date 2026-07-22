@@ -1,10 +1,12 @@
 import { HeartHandshakeIcon } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
 import { Link } from "@/i18n/navigation";
 import { buttonStyles } from "@/components/ui/Button";
 import { cn } from "@/lib/utils/cn";
 
-export function VolunteerCTA() {
+export async function VolunteerCTA() {
+  const t = await getTranslations("home");
   return (
     <section className="py-16 bg-surface-subtle" aria-labelledby="volunteer-heading">
       <Container>
@@ -22,15 +24,15 @@ export function VolunteerCTA() {
           <div className="space-y-4 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-subtle border border-brand/20 text-xs font-semibold text-brand select-none">
               <HeartHandshakeIcon className="h-4 w-4" />
-              Koʼngillilar jamoasi
+              {t("ctaBadge")}
             </div>
-            
+
             <h2 id="volunteer-heading" className="text-3xl font-extrabold text-fg tracking-tight font-display max-phone:text-2xl">
-              Koʼngilli boʼlishni xohlaysizmi?
+              {t("ctaHeading")}
             </h2>
-            
+
             <p className="text-base text-fg-muted leading-relaxed">
-              Bizning inklyuziv oilamizga qoʼshiling. Bolalarga darslarni oʼzlashtirishda yordam bering, ularga quvonch ulashing va kelajak uchun katta hissangizni qoʼshing. Hamkorlik roʼyxatdan oʼtish talab etmaydi!
+              {t("ctaDesc")}
             </p>
           </div>
 
@@ -39,13 +41,13 @@ export function VolunteerCTA() {
               href="/become-volunteer"
               className={buttonStyles({ variant: "primary", size: "lg", className: "w-full tablet:w-auto" })}
             >
-              Koʼngilli boʼlib qoʼshilish
+              {t("ctaJoin")}
             </Link>
             <Link
               href="/volunteers"
               className={buttonStyles({ variant: "secondary", size: "lg", className: "w-full tablet:w-auto" })}
             >
-              Koʼngillilar faoliyati
+              {t("ctaActivity")}
             </Link>
           </div>
         </div>

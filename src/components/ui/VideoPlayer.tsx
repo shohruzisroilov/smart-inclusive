@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { PlayIcon, PauseIcon, Volume2Icon, VolumeXIcon, ArrowLeftIcon, Maximize2Icon } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils/cn";
@@ -12,6 +13,7 @@ interface VideoPlayerProps {
 }
 
 export function VideoPlayer({ src, title, onBack }: VideoPlayerProps) {
+  const t = useTranslations("player");
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -154,7 +156,7 @@ export function VideoPlayer({ src, title, onBack }: VideoPlayerProps) {
               size="sm"
               onClick={onBack}
               className="p-2 rounded-lg bg-white/10 hover:bg-white/20 border-none text-white shrink-0"
-              aria-label="Orqaga"
+              aria-label={t("back")}
             >
               <ArrowLeftIcon className="h-4 w-4" />
             </Button>
@@ -171,7 +173,7 @@ export function VideoPlayer({ src, title, onBack }: VideoPlayerProps) {
           type="button"
           onClick={handlePlayPause}
           className="absolute inset-0 flex items-center justify-center bg-black/30 text-white transition-all duration-300 hover:scale-105 select-none focus:outline-none z-10"
-          aria-label="Videoni qo'yish"
+          aria-label={t("play")}
         >
           <div className="w-16 h-16 bg-brand/90 hover:bg-brand rounded-full flex items-center justify-center shadow-lg transition-colors">
             <PlayIcon className="h-8 w-8 fill-current ml-1" />
@@ -197,7 +199,7 @@ export function VideoPlayer({ src, title, onBack }: VideoPlayerProps) {
             value={currentTime}
             onChange={handleSeek}
             className="w-full accent-brand bg-white/30 h-1 rounded-lg cursor-pointer appearance-none hover:h-1.5 transition-all select-none"
-            aria-label="Video vaqti"
+            aria-label={t("timeline")}
           />
 
           <span className="text-white text-xs font-mono select-none">{formatTime(duration)}</span>
@@ -210,7 +212,7 @@ export function VideoPlayer({ src, title, onBack }: VideoPlayerProps) {
               type="button"
               onClick={handlePlayPause}
               className="text-white hover:text-brand transition-colors focus:outline-none"
-              aria-label={isPlaying ? "Vaqtinchalik to'xtatish" : "Videoni qo'yish"}
+              aria-label={isPlaying ? t("pause") : t("play")}
             >
               {isPlaying ? <PauseIcon className="h-5 w-5 fill-current" /> : <PlayIcon className="h-5 w-5 fill-current" />}
             </button>
@@ -219,7 +221,7 @@ export function VideoPlayer({ src, title, onBack }: VideoPlayerProps) {
               type="button"
               onClick={handleMuteToggle}
               className="text-white hover:text-brand transition-colors focus:outline-none"
-              aria-label={isMuted ? "Ovozni yoqish" : "Ovozni o'chirish"}
+              aria-label={isMuted ? t("unmute") : t("mute")}
             >
               {isMuted ? <VolumeXIcon className="h-5 w-5" /> : <Volume2Icon className="h-5 w-5" />}
             </button>
@@ -230,7 +232,7 @@ export function VideoPlayer({ src, title, onBack }: VideoPlayerProps) {
               type="button"
               onClick={handleFullscreen}
               className="text-white hover:text-brand transition-colors focus:outline-none"
-              aria-label="Butun ekranga kattalashtirish"
+              aria-label={t("fullscreen")}
             >
               <Maximize2Icon className="h-5 w-5" />
             </button>

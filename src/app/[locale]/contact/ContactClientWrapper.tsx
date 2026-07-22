@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useTranslations } from "next-intl";
 import { SendIcon, CheckCircle2Icon, AlertCircleIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Card, CardContent, CardFooter } from "@/components/ui/Card";
@@ -8,6 +9,8 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 
 export function ContactClientWrapper() {
+  const t = useTranslations("forms.contact");
+  const tf = useTranslations("forms");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -29,15 +32,15 @@ export function ContactClientWrapper() {
   const validateForm = () => {
     const errors: Record<string, string> = {};
     if (!formData.name.trim()) {
-      errors.name = "Ismingizni kiriting";
+      errors.name = t("errName");
     }
     if (!formData.phone.trim()) {
-      errors.phone = "Telefon raqamingizni kiriting";
+      errors.phone = t("errPhone");
     } else if (!/^\+?[0-9]{9,15}$/.test(formData.phone.replace(/[\s-]/g, ""))) {
-      errors.phone = "Noto'g'ri telefon raqami ko'rinishi (masalan, +998901234567)";
+      errors.phone = tf("errPhoneFormat");
     }
     if (!formData.message.trim()) {
-      errors.message = "Murojaat matnini kiriting";
+      errors.message = t("errMessage");
     }
     return errors;
   };
@@ -64,29 +67,29 @@ export function ContactClientWrapper() {
   return (
     <Container className="py-12 max-w-xl text-left select-none">
       {success ? (
-        <Card className="border border-border/80 p-8 shadow-md rounded-2xl text-center space-y-6">
+        <Card className="border border-border/80 p-8 shadow-sm rounded-2xl text-center space-y-6">
           <div className="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto">
             <CheckCircle2Icon className="h-10 w-10" />
           </div>
           <div className="space-y-2">
-            <h1 className="text-2xl font-extrabold text-fg font-display">Murojaatingiz yuborildi!</h1>
+            <h1 className="text-2xl font-extrabold text-fg font-display">{t("successTitle")}</h1>
             <p className="text-sm text-fg-muted leading-relaxed">
-              Bizga yozganingiz uchun rahmat. Murojaat jamoamiz tomonidan o&apos;rganib chiqiladi va tez fursatda siz bilan bog&apos;lanamiz.
+              {t("successDesc")}
             </p>
           </div>
           <div className="pt-2">
             <Button onClick={() => setSuccess(false)} className="w-full">
-              Yangi murojaat yuborish
+              {t("newRequest")}
             </Button>
           </div>
         </Card>
       ) : (
-        <Card className="border border-border/80 shadow-md rounded-2xl overflow-hidden">
+        <Card className="border border-border/80 shadow-sm rounded-2xl overflow-hidden">
           <div className="bg-gradient-to-r from-brand/10 to-transparent p-6 border-b border-border/60">
-            <Badge variant="brand" className="mb-2">BOG&apos;LANISH</Badge>
-            <h1 className="text-2xl font-extrabold text-fg font-display">Murojaat formasi</h1>
+            <Badge variant="brand" className="mb-2">{t("badge")}</Badge>
+            <h1 className="text-2xl font-extrabold text-fg font-display">{t("title")}</h1>
             <p className="text-sm text-fg-muted mt-1">
-              Savol va takliflaringiz bo&apos;lsa, quyidagi shaklni to&apos;ldiring.
+              {t("subtitle")}
             </p>
           </div>
 
@@ -96,20 +99,20 @@ export function ContactClientWrapper() {
                 <div className="bg-red-500/10 border border-red-500/20 text-red-600 rounded-lg p-4 flex items-start gap-3 text-sm">
                   <AlertCircleIcon className="h-5 w-5 shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-bold block">Yuborishda xatolik yuz berdi</span>
+                    <span className="font-bold block">{tf("submitErrorTitle")}</span>
                     <span className="block mt-0.5">{submitError}</span>
                   </div>
                 </div>
               )}
 
               <div>
-                <label className="block text-sm font-bold text-fg mb-1">Ismingiz *</label>
+                <label className="block text-sm font-bold text-fg mb-1">{t("nameLabel")} *</label>
                 <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="Masalan, Shohrux"
+                  placeholder={t("namePlaceholder")}
                   className="w-full px-4 py-2.5 rounded-lg border border-border bg-surface focus:outline-none focus:border-brand text-sm"
                   disabled={loading}
                 />
@@ -119,13 +122,13 @@ export function ContactClientWrapper() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-fg mb-1">Telefon raqamingiz *</label>
+                <label className="block text-sm font-bold text-fg mb-1">{t("phoneLabel")} *</label>
                 <input
                   type="text"
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  placeholder="Masalan, +998901234567"
+                  placeholder={t("phonePlaceholder")}
                   className="w-full px-4 py-2.5 rounded-lg border border-border bg-surface focus:outline-none focus:border-brand text-sm"
                   disabled={loading}
                 />
@@ -135,13 +138,13 @@ export function ContactClientWrapper() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-fg mb-1">Murojaat matni *</label>
+                <label className="block text-sm font-bold text-fg mb-1">{t("messageLabel")} *</label>
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
                   rows={4}
-                  placeholder="Savolingiz yoki taklifingizni bu yerga batafsil yozing..."
+                  placeholder={t("messagePlaceholder")}
                   className="w-full px-4 py-2.5 rounded-lg border border-border bg-surface focus:outline-none focus:border-brand text-sm resize-none"
                   disabled={loading}
                 />
@@ -153,9 +156,9 @@ export function ContactClientWrapper() {
 
             <CardFooter className="p-6 pt-0">
               <Button type="submit" disabled={loading} className="w-full py-3 font-bold flex items-center justify-center gap-2">
-                {loading ? "Yuborilmoqda..." : (
+                {loading ? t("submitting") : (
                   <>
-                    Murojaatni jo&apos;natish
+                    {t("submit")}
                     <SendIcon className="h-4 w-4" />
                   </>
                 )}

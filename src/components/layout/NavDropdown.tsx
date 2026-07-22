@@ -1,29 +1,33 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
 import { ChevronDownIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import { MAIN_NAV } from "@/lib/constants/navigation";
+import { type NavItem } from "@/lib/constants/navigation";
 import { cn } from "@/lib/utils/cn";
 
+interface NavDropdownProps {
+  /** Tugma yorlig'i — allaqachon tarjima qilingan matn. */
+  label: string;
+  /** Ochilganda ko'rsatiladigan havolalar. */
+  items: NavItem[];
+}
+
 /**
- * "Bo'limlar" ochiladigan menyusi (faqat laptop navigatsiyasi uchun).
+ * Bitta ochiladigan navigatsiya menyusi (faqat laptop uchun).
  *
- * Barcha yuqori darajali bo'limlar bitta tugma ostiga yig'iladi — header
- * tinchroq ko'rinadi. Mobil qurilmada bu ishlatilmaydi (u yerda gamburger
- * yon paneli bor).
+ * Header'da bir nechta marta ishlatiladi: "Bolalar uchun", "Ota-onalar uchun"
+ * va qolgan bo'limlar uchun alohida-alohida.
  *
  * QULAYLIK (WAI-ARIA "Disclosure Navigation" naqshi — menyu emas, havolalar):
  *  - tugma `aria-expanded` + `aria-controls` bilan panelni boshqaradi;
  *  - Escape yopadi va fokusni tugmaga qaytaradi;
  *  - tashqariga bosish yoki fokus chiqishi yopadi;
- *  - ↓/↑, Home/End bilan bandlar orasida yurish mumkin;
- *  - havolalar haqiqiy `<a>` — JS'siz ham (panel ochiq bo'lmasa-da) mazmun bor.
+ *  - ↓/↑, Home/End bilan bandlar orasida yurish mumkin.
  */
-export function SectionsMenu() {
+export function NavDropdown({ label, items }: NavDropdownProps) {
   const t = useTranslations("nav");
-  const tHeader = useTranslations("header");
   const pathname = usePathname();
 
   const [open, setOpen] = useState(false);
@@ -38,7 +42,7 @@ export function SectionsMenu() {
   };
 
   // Ochiq bo'limlardan biri joriy sahifami — tugmani ham faol ko'rsatamiz.
-  const anyActive = MAIN_NAV.some((item) => isActive(item.href));
+  const anyActive = items.some((item) => isActive(item.href));
 
   // Sahifa almashganda menyu ochiq qolib ketmasin.
   useEffect(() => {
@@ -69,13 +73,12 @@ export function SectionsMenu() {
     };
   }, [open]);
 
-  const items = () =>
+  const links = () =>
     Array.from(listRef.current?.querySelectorAll<HTMLAnchorElement>("a") ?? []);
 
   const openAndFocusFirst = () => {
     setOpen(true);
-    // Panel render bo'lgach birinchi bandga fokus.
-    requestAnimationFrame(() => items()[0]?.focus());
+    requestAnimationFrame(() => links()[0]?.focus());
   };
 
   const handleButtonKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -85,33 +88,31 @@ export function SectionsMenu() {
     }
   };
 
-  // Panel ichida ↓/↑, Home/End bilan yurish.
   const handleListKeyDown = (event: React.KeyboardEvent<HTMLUListElement>) => {
-    const links = items();
-    if (links.length === 0) return;
-    const current = links.indexOf(document.activeElement as HTMLAnchorElement);
+    const all = links();
+    if (all.length === 0) return;
+    const current = all.indexOf(document.activeElement as HTMLAnchorElement);
 
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault();
-        links[(current + 1) % links.length]?.focus();
+        all[(current + 1) % all.length]?.focus();
         break;
       case "ArrowUp":
         event.preventDefault();
-        links[(current - 1 + links.length) % links.length]?.focus();
+        all[(current - 1 + all.length) % all.length]?.focus();
         break;
       case "Home":
         event.preventDefault();
-        links[0]?.focus();
+        all[0]?.focus();
         break;
       case "End":
         event.preventDefault();
-        links[links.length - 1]?.focus();
+        all[all.length - 1]?.focus();
         break;
     }
   };
 
-  // Fokus panel/tugmadan tashqariga chiqsa (masalan Tab bilan) — yopamiz.
   const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
     if (!containerRef.current?.contains(event.relatedTarget as Node)) {
       setOpen(false);
@@ -137,7 +138,7 @@ export function SectionsMenu() {
             : "text-fg hover:bg-surface-muted",
         )}
       >
-        {tHeader("sections")}
+        {label}
         <ChevronDownIcon
           className={cn(
             "h-4 w-4 transition-transform duration-[var(--duration-base)]",
@@ -153,12 +154,13 @@ export function SectionsMenu() {
           className={cn(
             "absolute left-0 top-[calc(100%+0.5rem)] z-[var(--z-header)] min-w-[15rem]",
             "rounded-xl border border-border bg-surface p-2 shadow-lg",
+            "max-h-[calc(100dvh-var(--header-height)-1.5rem)] overflow-y-auto overscroll-contain",
             "animate-in fade-in slide-in-from-top-1 duration-[var(--duration-fast)]",
           )}
         >
-          <nav aria-label={tHeader("mainNavigation")}>
+          <nav aria-label={label}>
             <ul ref={listRef} className="space-y-0.5" onKeyDown={handleListKeyDown}>
-              {MAIN_NAV.map((item) => (
+              {items.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
