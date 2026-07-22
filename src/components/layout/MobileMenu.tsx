@@ -112,6 +112,25 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
           className="flex-1 overflow-y-auto overscroll-contain px-3 py-4"
         >
           <ul className="space-y-1">
+            {/* Bosh sahifa (Home) */}
+            <li>
+              <Link
+                href="/"
+                onClick={onClose}
+                aria-current={isActive("/") ? "page" : undefined}
+                className={cn(
+                  "flex items-center rounded-lg px-4 text-lg font-semibold",
+                  "min-h-[var(--tap-target-min)]",
+                  "transition-colors duration-[var(--duration-fast)]",
+                  isActive("/")
+                    ? "bg-brand-subtle text-brand"
+                    : "text-fg hover:bg-surface-muted",
+                )}
+              >
+                {t("home")}
+              </Link>
+            </li>
+
             {MAIN_NAV.map((item) => (
               <li key={item.href}>
                 <Link
