@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "@/i18n/navigation";
 import { useSettingsStore } from "@/stores/settings-store";
 
 /**
@@ -13,10 +14,18 @@ import { useSettingsStore } from "@/stores/settings-store";
  * Hech narsa render qilmaydi.
  */
 export function SettingsSync() {
+  const pathname = usePathname();
   const theme = useSettingsStore((s) => s.theme);
   const fontScale = useSettingsStore((s) => s.fontScale);
   const reducedMotion = useSettingsStore((s) => s.reducedMotion);
   const dyslexicFont = useSettingsStore((s) => s.dyslexicFont);
+
+  // --- Har safar sahifa o'zgarganda sahifaning eng yuqori qismiga o'tish ---
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTo(0, 0);
+    document.body.scrollTo(0, 0);
+  }, [pathname]);
 
   // --- Mavzu (tizim sozlamasini ham kuzatavi) ---
   useEffect(() => {
