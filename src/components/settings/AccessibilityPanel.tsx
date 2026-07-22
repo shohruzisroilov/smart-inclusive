@@ -96,13 +96,13 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
             aria-modal="true"
             aria-labelledby={titleId}
             className={cn(
-              "relative z-[var(--z-drawer)] h-full w-[min(34rem,95vw)] flex flex-col bg-surface border-l border-border p-6 md:p-8 shadow-xl",
+              "relative z-[var(--z-drawer)] h-full w-[min(34rem,95vw)] flex flex-col bg-surface border-l border-border p-5 md:p-6 shadow-xl",
               "animate-in slide-in-from-right duration-[var(--duration-slow)] ease-out"
             )}
           >
             {/* Header with Close Button */}
-            <div className="flex items-center justify-between mb-6 border-b border-border/50 pb-4">
-              <h2 id={titleId} className="text-xl md:text-2xl font-black text-fg font-display">
+            <div className="flex items-center justify-between mb-4 border-b border-border/50 pb-3">
+              <h2 id={titleId} className="text-lg md:text-xl font-black text-fg font-display">
                 {t("accessibilitySettings")}
               </h2>
 
@@ -122,27 +122,27 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
             </div>
 
             {/* Scrollable controls container */}
-            <div className="flex-1 overflow-y-auto pr-1 space-y-8">
+            <div className="flex-1 overflow-y-auto pr-1 space-y-5">
               
               {/* --- 1. MAVZULAR (Themes) - Big Tap Targets for Children --- */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-bold text-fg-muted uppercase tracking-wider flex items-center gap-2">
-                  <PaletteIcon className="h-4 w-4 text-brand" aria-hidden="true" />
+              <div className="space-y-2">
+                <h3 className="text-xs font-bold text-fg-muted uppercase tracking-wider flex items-center gap-2">
+                  <PaletteIcon className="h-3.5 w-3.5 text-brand" aria-hidden="true" />
                   {t("theme")}
                 </h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   {/* Light */}
                   <button
                     type="button"
                     onClick={() => setTheme("light")}
                     className={cn(
-                      "flex items-center justify-center gap-3 px-4 py-4.5 rounded-xl border-2 text-base font-bold transition-all duration-[var(--duration-fast)]",
+                      "flex items-center justify-center gap-2.5 px-3 py-2.5 rounded-xl border-2 text-sm font-bold transition-all duration-[var(--duration-fast)]",
                       theme === "light"
                         ? "border-brand bg-brand-subtle text-brand ring-2 ring-brand/35"
                         : "border-border hover:bg-surface-muted text-fg"
                     )}
                   >
-                    <SunIcon className="h-5 w-5" aria-hidden="true" />
+                    <SunIcon className="h-4.5 w-4.5" aria-hidden="true" />
                     <span>{t("themeLight")}</span>
                   </button>
 
@@ -151,13 +151,13 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
                     type="button"
                     onClick={() => setTheme("dark")}
                     className={cn(
-                      "flex items-center justify-center gap-3 px-4 py-4.5 rounded-xl border-2 text-base font-bold transition-all duration-[var(--duration-fast)]",
+                      "flex items-center justify-center gap-2.5 px-3 py-2.5 rounded-xl border-2 text-sm font-bold transition-all duration-[var(--duration-fast)]",
                       theme === "dark"
                         ? "border-brand bg-brand-subtle text-brand ring-2 ring-brand/35"
                         : "border-border hover:bg-surface-muted text-fg"
                     )}
                   >
-                    <MoonIcon className="h-5 w-5" aria-hidden="true" />
+                    <MoonIcon className="h-4.5 w-4.5" aria-hidden="true" />
                     <span>{t("themeDark")}</span>
                   </button>
 
@@ -166,13 +166,13 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
                     type="button"
                     onClick={() => setTheme("high-contrast")}
                     className={cn(
-                      "flex items-center justify-center gap-3 px-4 py-4.5 rounded-xl border-2 text-base font-bold transition-all duration-[var(--duration-fast)]",
+                      "flex items-center justify-center gap-2.5 px-3 py-2.5 rounded-xl border-2 text-sm font-bold transition-all duration-[var(--duration-fast)]",
                       theme === "high-contrast"
                         ? "border-brand bg-brand-subtle text-brand ring-2 ring-brand/35"
                         : "border-border hover:bg-surface-muted text-fg"
                     )}
                   >
-                    <EyeIcon className="h-5 w-5" aria-hidden="true" />
+                    <EyeIcon className="h-4.5 w-4.5" aria-hidden="true" />
                     <span>{t("themeHighContrast")}</span>
                   </button>
 
@@ -181,124 +181,127 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
                     type="button"
                     onClick={() => setTheme("monochrome")}
                     className={cn(
-                      "flex items-center justify-center gap-3 px-4 py-4.5 rounded-xl border-2 text-base font-bold transition-all duration-[var(--duration-fast)]",
+                      "flex items-center justify-center gap-2.5 px-3 py-2.5 rounded-xl border-2 text-sm font-bold transition-all duration-[var(--duration-fast)]",
                       theme === "monochrome"
                         ? "border-brand bg-brand-subtle text-brand ring-2 ring-brand/35"
                         : "border-border hover:bg-surface-muted text-fg"
                     )}
                   >
-                    <PaletteIcon className="h-5 w-5" aria-hidden="true" />
+                    <PaletteIcon className="h-4.5 w-4.5" aria-hidden="true" />
                     <span>{t("themeMonochrome")}</span>
                   </button>
                 </div>
               </div>
 
               {/* --- 2. MATN O'LCHAMI (Font Scale) - Spaced and Wide Grid --- */}
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-fg-muted uppercase tracking-wider flex items-center gap-2">
-                    <span className="text-xl font-black">A</span>
+                  <h3 className="text-xs font-bold text-fg-muted uppercase tracking-wider flex items-center gap-1.5">
+                    <span className="text-lg font-black leading-none">A</span>
                     <span>{t("fontScale")}</span>
                   </h3>
-                  <span className="text-lg font-black text-brand">
+                  <span className="text-base font-black text-brand">
                     {Math.round(fontScale * 100)}%
                   </span>
                 </div>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-6 gap-1.5">
                   {FONT_SCALES.map((scale) => (
                     <button
                       key={scale}
                       type="button"
                       onClick={() => setFontScale(scale)}
                       className={cn(
-                        "flex flex-col items-center justify-center py-4.5 rounded-xl border-2 text-sm font-black transition-all duration-[var(--duration-fast)]",
+                        "flex flex-col items-center justify-center py-2 rounded-xl border-2 text-xs font-black transition-all duration-[var(--duration-fast)]",
                         fontScale === scale
                           ? "border-brand bg-brand-subtle text-brand ring-2 ring-brand/35"
                           : "border-border hover:bg-surface-muted text-fg"
                       )}
                     >
-                      <span style={{ fontSize: `${Math.min(1.4, scale)}rem` }} className="h-7 flex items-center mb-1">A</span>
-                      <span>{Math.round(scale * 100)}%</span>
+                      <span style={{ fontSize: `${Math.min(1.2, scale)}rem` }} className="h-6 flex items-center mb-0.5">A</span>
+                      <span className="text-[10px] opacity-80">{Math.round(scale * 100)}%</span>
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* --- 3. DYSLEXIA REJIMI --- */}
-              <div className="flex items-center justify-between border-t border-border/50 pt-5">
-                <div className="space-y-1 max-w-[75%]">
-                  <label htmlFor="dyslexia-toggle-drawer" className="text-base font-bold text-fg block select-none">
-                    {t("dyslexiaMode")}
-                  </label>
-                  <span className="text-xs text-fg-muted block">
-                    Disleksiyasi bor bolalar uchun maxsus shrift, kengaytirilgan intervallar va osonroq o'qish qoidalari.
-                  </span>
-                </div>
-                <button
-                  id="dyslexia-toggle-drawer"
-                  type="button"
-                  role="switch"
-                  aria-checked={dyslexicFont}
-                  onClick={() => setDyslexicFont(!dyslexicFont)}
-                  className={cn(
-                    "relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2",
-                    dyslexicFont ? "bg-brand" : "bg-surface-muted"
-                  )}
-                >
-                  <span
-                    aria-hidden="true"
+              {/* --- 3 & 4. DYSLEXIA & REDUCED MOTION TOGGLES (Vertical Stack) --- */}
+              <div className="flex flex-col gap-2.5 border-t border-border/50 pt-4">
+                {/* Dyslexia Mode */}
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-surface-muted border border-border/40 gap-4">
+                  <div className="space-y-0.5">
+                    <label htmlFor="dyslexia-toggle-drawer" className="text-sm font-bold text-fg block select-none">
+                      {t("dyslexiaMode")}
+                    </label>
+                    <span className="text-[10px] text-fg-muted leading-tight block">
+                      Disleksiyali bolalar uchun maxsus qulay shrift.
+                    </span>
+                  </div>
+                  <button
+                    id="dyslexia-toggle-drawer"
+                    type="button"
+                    role="switch"
+                    aria-checked={dyslexicFont}
+                    onClick={() => setDyslexicFont(!dyslexicFont)}
                     className={cn(
-                      "pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
-                      dyslexicFont ? "translate-x-7" : "translate-x-0"
+                      "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand",
+                      dyslexicFont ? "bg-brand" : "bg-border-strong"
                     )}
-                  />
-                </button>
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={cn(
+                        "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
+                        dyslexicFont ? "translate-x-5" : "translate-x-0"
+                      )}
+                    />
+                  </button>
+                </div>
+
+                {/* Reduced Motion */}
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-surface-muted border border-border/40 gap-4">
+                  <div className="space-y-0.5">
+                    <label htmlFor="motion-toggle-drawer" className="text-sm font-bold text-fg block select-none">
+                      {t("reducedMotion")}
+                    </label>
+                    <span className="text-[10px] text-fg-muted leading-tight block">
+                      Tezkor animatsiyalar va harakatlarni kamaytiradi.
+                    </span>
+                  </div>
+                  <button
+                    id="motion-toggle-drawer"
+                    type="button"
+                    role="switch"
+                    aria-checked={!!reducedMotion}
+                    onClick={() => setReducedMotion(reducedMotion ? null : true)}
+                    className={cn(
+                      "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand",
+                      reducedMotion ? "bg-brand" : "bg-border-strong"
+                    )}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={cn(
+                        "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
+                        reducedMotion ? "translate-x-5" : "translate-x-0"
+                      )}
+                    />
+                  </button>
+                </div>
               </div>
 
-              {/* --- 4. REDUCED MOTION --- */}
-              <div className="flex items-center justify-between border-t border-border/50 pt-5">
-                <div className="space-y-1 max-w-[75%]">
-                  <label htmlFor="motion-toggle-drawer" className="text-base font-bold text-fg block select-none">
-                    {t("reducedMotion")}
-                  </label>
-                  <span className="text-xs text-fg-muted block">
-                    Saytdagi tez animatsiyalar, miltillashlar va harakatlarni kamaytiradi (ADHD/autizm uchun tavsiya etiladi).
-                  </span>
+              {/* --- 5. SCREEN READER INFO --- */}
+              <div className="bg-surface-muted rounded-2xl p-3.5 flex gap-3 border border-border/50 mt-1">
+                <HelpCircleIcon className="h-5 w-5 text-brand shrink-0 mt-0.5" aria-hidden="true" />
+                <div className="space-y-1">
+                  <h4 className="text-xs font-bold text-fg uppercase tracking-wider">
+                    Screen Reader mosligi
+                  </h4>
+                  <p className="text-[11px] text-fg-muted leading-normal">
+                    {t("screenReaderInfo")}
+                  </p>
                 </div>
-                <button
-                  id="motion-toggle-drawer"
-                  type="button"
-                  role="switch"
-                  aria-checked={!!reducedMotion}
-                  onClick={() => setReducedMotion(reducedMotion ? null : true)}
-                  className={cn(
-                    "relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2",
-                    reducedMotion ? "bg-brand" : "bg-surface-muted"
-                  )}
-                >
-                  <span
-                    aria-hidden="true"
-                    className={cn(
-                      "pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
-                      reducedMotion ? "translate-x-7" : "translate-x-0"
-                )}
-              />
-            </button>
-          </div>
-
-          {/* --- 5. SCREEN READER INFO --- */}
-          <div className="bg-surface-muted rounded-2xl p-5 flex gap-4 border border-border/50 mt-6">
-            <HelpCircleIcon className="h-6 w-6 text-brand shrink-0 mt-0.5" aria-hidden="true" />
-            <div className="space-y-1.5">
-              <h4 className="text-sm font-bold text-fg uppercase tracking-wider">
-                Screen Reader mosligi
-              </h4>
-              <p className="text-xs text-fg-muted leading-relaxed">
-                {t("screenReaderInfo")}
-              </p>
+              </div>
             </div>
-          </div>
-        </div>
       </div>
     </div>,
     drawerPortal
