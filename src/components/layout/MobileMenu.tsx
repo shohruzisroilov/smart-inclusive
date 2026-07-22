@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
-import { ChevronDownIcon, XIcon } from "lucide-react";
+import { XIcon } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { CTA_NAV, MAIN_NAV, type NavItem } from "@/lib/constants/navigation";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
@@ -31,92 +31,7 @@ function useIsActive() {
   );
 }
 
-/**
- * Ichki bo'limli navigatsiya elementi (Bolalar / Ota-onalar).
- *
- * Disclosure patterni: tugma `aria-expanded` va `aria-controls` bilan
- * ochiladigan ro'yxatni boshqaradi. Bo'lim ichida joriy sahifa bo'lsa,
- * u boshlang'ich holatda ochiq turadi.
- */
-function NavGroup({
-  item,
-  onNavigate,
-}: {
-  item: NavItem;
-  onNavigate: () => void;
-}) {
-  const t = useTranslations("nav");
-  const isActive = useIsActive();
-  const panelId = useId();
-  const [expanded, setExpanded] = useState(() => isActive(item.href));
 
-  return (
-    <li>
-      <div className="flex items-stretch gap-1">
-        {/* Bo'lim bosh sahifasiga o'tish — havola bo'lib qoladi. */}
-        <Link
-          href={item.href}
-          onClick={onNavigate}
-          aria-current={isActive(item.href) ? "page" : undefined}
-          className={cn(
-            "flex flex-1 items-center rounded-lg px-4 text-lg font-semibold",
-            "min-h-[var(--tap-target-min)]",
-            "transition-colors duration-[var(--duration-fast)]",
-            isActive(item.href)
-              ? "bg-brand-subtle text-brand"
-              : "text-fg hover:bg-surface-muted",
-          )}
-        >
-          {t(item.labelKey)}
-        </Link>
-
-        <button
-          type="button"
-          onClick={() => setExpanded((v) => !v)}
-          aria-expanded={expanded}
-          aria-controls={panelId}
-          className={cn(
-            "tap-target flex items-center justify-center rounded-lg",
-            "text-fg-muted transition-colors duration-[var(--duration-fast)]",
-            "hover:bg-surface-muted hover:text-fg",
-          )}
-        >
-          <ChevronDownIcon
-            className={cn(
-              "h-5 w-5 transition-transform duration-[var(--duration-base)]",
-              expanded && "rotate-180",
-            )}
-            aria-hidden="true"
-          />
-          {/* Tugmaning maqsadi ekran o'quvchiga aniq bo'lishi uchun. */}
-          <span className="sr-only">{t(item.labelKey)}</span>
-        </button>
-      </div>
-
-      <ul id={panelId} hidden={!expanded} className="mt-1 space-y-0.5 pl-4">
-        {item.children?.map((child) => (
-          <li key={child.href}>
-            <Link
-              href={child.href}
-              onClick={onNavigate}
-              aria-current={isActive(child.href) ? "page" : undefined}
-              className={cn(
-                "flex items-center rounded-lg px-4 text-base",
-                "min-h-[var(--tap-target-min)]",
-                "transition-colors duration-[var(--duration-fast)]",
-                isActive(child.href)
-                  ? "bg-brand-subtle font-medium text-brand"
-                  : "text-fg-muted hover:bg-surface-muted hover:text-fg",
-              )}
-            >
-              {t(child.labelKey)}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </li>
-  );
-}
 
 /**
  * Yon panel navigatsiyasi — planshet va telefon uchun asosiy menyu.
@@ -197,29 +112,25 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
           className="flex-1 overflow-y-auto overscroll-contain px-3 py-4"
         >
           <ul className="space-y-1">
-            {MAIN_NAV.map((item) =>
-              item.children ? (
-                <NavGroup key={item.href} item={item} onNavigate={onClose} />
-              ) : (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    onClick={onClose}
-                    aria-current={isActive(item.href) ? "page" : undefined}
-                    className={cn(
-                      "flex items-center rounded-lg px-4 text-lg font-semibold",
-                      "min-h-[var(--tap-target-min)]",
-                      "transition-colors duration-[var(--duration-fast)]",
-                      isActive(item.href)
-                        ? "bg-brand-subtle text-brand"
-                        : "text-fg hover:bg-surface-muted",
-                    )}
-                  >
-                    {t(item.labelKey)}
-                  </Link>
-                </li>
-              ),
-            )}
+            {MAIN_NAV.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  onClick={onClose}
+                  aria-current={isActive(item.href) ? "page" : undefined}
+                  className={cn(
+                    "flex items-center rounded-lg px-4 text-lg font-semibold",
+                    "min-h-[var(--tap-target-min)]",
+                    "transition-colors duration-[var(--duration-fast)]",
+                    isActive(item.href)
+                      ? "bg-brand-subtle text-brand"
+                      : "text-fg hover:bg-surface-muted",
+                  )}
+                >
+                  {t(item.labelKey)}
+                </Link>
+              </li>
+            ))}
           </ul>
 
           <Link
