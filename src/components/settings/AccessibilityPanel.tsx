@@ -10,7 +10,9 @@ import {
   EyeIcon, 
   PaletteIcon, 
   HelpCircleIcon,
-  XIcon
+  XIcon,
+  MinusIcon,
+  PlusIcon
 } from "lucide-react";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useSettingsHydrated } from "@/hooks/use-hydrated";
@@ -41,6 +43,22 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
   const setFontScale = useSettingsStore((s) => s.setFontScale);
   const setReducedMotion = useSettingsStore((s) => s.setReducedMotion);
   const setDyslexicFont = useSettingsStore((s) => s.setDyslexicFont);
+
+  const currentIndex = FONT_SCALES.indexOf(fontScale);
+  const canDecrease = currentIndex > 0;
+  const canIncrease = currentIndex !== -1 && currentIndex < FONT_SCALES.length - 1;
+
+  const handleDecreaseFont = () => {
+    if (canDecrease) {
+      setFontScale(FONT_SCALES[currentIndex - 1]!);
+    }
+  };
+
+  const handleIncreaseFont = () => {
+    if (canIncrease) {
+      setFontScale(FONT_SCALES[currentIndex + 1]!);
+    }
+  };
 
   const isList = variant === "list";
 
@@ -122,7 +140,7 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
             </div>
 
             {/* Scrollable controls container */}
-            <div className="flex-1 flex flex-col justify-between overflow-y-auto pr-1 py-1 gap-4">
+            <div className="flex-1 flex flex-col justify-between overflow-y-auto overflow-x-hidden pr-1 py-1 gap-4 w-full">
               
               {/* --- 1. MAVZULAR (Themes) - Big Tap Targets for Children --- */}
               <div className="space-y-2">
@@ -204,23 +222,48 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
                     {Math.round(fontScale * 100)}%
                   </span>
                 </div>
-                <div className="grid grid-cols-6 gap-1.5">
-                  {FONT_SCALES.map((scale) => (
-                    <button
-                      key={scale}
-                      type="button"
-                      onClick={() => setFontScale(scale)}
-                      className={cn(
-                        "flex flex-col items-center justify-center py-2 rounded-xl border-2 text-xs font-black transition-all duration-[var(--duration-fast)]",
-                        fontScale === scale
-                          ? "border-brand bg-brand-subtle text-brand ring-2 ring-brand/35"
-                          : "border-border hover:bg-surface-muted text-fg"
-                      )}
-                    >
-                      <span style={{ fontSize: `${Math.min(1.2, scale)}rem` }} className="h-6 flex items-center mb-0.5">A</span>
-                      <span className="text-[10px] opacity-80">{Math.round(scale * 100)}%</span>
-                    </button>
-                  ))}
+
+                <div className="flex items-center justify-between gap-3 bg-surface-muted p-2 rounded-xl border border-border/40 w-full">
+                  <button
+                    type="button"
+                    onClick={handleDecreaseFont}
+                    disabled={!canDecrease}
+                    aria-label="Matn o'lchamini kichiklashtirish"
+                    className={cn(
+                      "tap-target w-10 h-10 rounded-lg bg-surface border border-border flex items-center justify-center font-bold text-lg text-fg transition-all duration-[var(--duration-fast)]",
+                      "hover:bg-brand-subtle hover:text-brand disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-surface disabled:hover:text-fg",
+                      "focus-visible:outline-3 focus-visible:outline-[var(--focus-ring)]"
+                    )}
+                  >
+                    <MinusIcon className="h-4 w-4" aria-hidden="true" />
+                  </button>
+                  
+                  {/* Visual slider progress bar */}
+                  <div className="flex-1 px-3 flex items-center justify-between gap-1 select-none">
+                    {FONT_SCALES.map((scale, i) => (
+                      <div
+                        key={scale}
+                        className={cn(
+                          "h-2.5 rounded-full flex-1 transition-all duration-[var(--duration-fast)]",
+                          i <= currentIndex ? "bg-brand" : "bg-border-strong/60"
+                        )}
+                      />
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleIncreaseFont}
+                    disabled={!canIncrease}
+                    aria-label="Matn o'lchamini kattalashtirish"
+                    className={cn(
+                      "tap-target w-10 h-10 rounded-lg bg-surface border border-border flex items-center justify-center font-bold text-lg text-fg transition-all duration-[var(--duration-fast)]",
+                      "hover:bg-brand-subtle hover:text-brand disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-surface disabled:hover:text-fg",
+                      "focus-visible:outline-3 focus-visible:outline-[var(--focus-ring)]"
+                    )}
+                  >
+                    <PlusIcon className="h-4 w-4" aria-hidden="true" />
+                  </button>
                 </div>
               </div>
 
