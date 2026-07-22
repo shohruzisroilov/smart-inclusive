@@ -4,7 +4,7 @@ import { useState, useRef, useId } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { 
-  Sliders, 
+  Accessibility, 
   SunIcon, 
   MoonIcon, 
   EyeIcon, 
@@ -94,7 +94,7 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
           className
         )}
       >
-        <Sliders className="h-5 w-5 shrink-0" aria-hidden="true" />
+        <Accessibility className="h-5 w-5 shrink-0" aria-hidden="true" />
         {isList && <span>{t("accessibilitySettings")}</span>}
       </button>
 
