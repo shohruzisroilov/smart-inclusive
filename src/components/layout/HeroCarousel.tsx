@@ -22,156 +22,31 @@ interface CarouselSlide {
 // ----------------------------------------------------------------------------
 function WelcomeIllustration() {
   return (
-    <svg viewBox="0 0 400 300" className="w-full h-full max-h-[300px] text-brand" aria-hidden="true">
-      {/* Background circles */}
-      <circle cx="200" cy="150" r="120" fill="currentColor" opacity="0.08" />
-      <circle cx="200" cy="150" r="80" fill="currentColor" opacity="0.12" />
-      
-      {/* Cute Smart Star Mascot */}
-      <g transform="translate(140, 70)">
-        {/* Star body */}
-        <path
-          d="M60 10 L73 40 L105 42 L80 65 L88 96 L60 80 L32 96 L40 65 L15 42 L47 40 Z"
-          fill="var(--accent)"
-          stroke="var(--accent-hover)"
-          strokeWidth="2.5"
-          strokeLinejoin="round"
-        />
-        {/* Smart Glasses */}
-        <circle cx="51" cy="54" r="7" fill="none" stroke="var(--surface-inverse)" strokeWidth="2" />
-        <circle cx="69" cy="54" r="7" fill="none" stroke="var(--surface-inverse)" strokeWidth="2" />
-        <path d="M58 54 L62 54" stroke="var(--surface-inverse)" strokeWidth="2" />
-        {/* Eyes */}
-        <circle cx="51" cy="54" r="2.5" fill="var(--surface-inverse)" />
-        <circle cx="69" cy="54" r="2.5" fill="var(--surface-inverse)" />
-        {/* Smile */}
-        <path d="M56 63 Q60 67 64 63" fill="none" stroke="var(--surface-inverse)" strokeWidth="2" strokeLinecap="round" />
-      </g>
-
-      {/* Stack of Books */}
-      <g transform="translate(60, 180)">
-        <rect x="0" y="40" width="80" height="15" fill="var(--brand)" rx="2" />
-        <line x1="10" y1="40" x2="10" y2="55" stroke="var(--surface)" strokeWidth="3" />
-        
-        <rect x="10" y="25" width="65" height="15" fill="var(--accent)" rx="2" />
-        <line x1="20" y1="25" x2="20" y2="40" stroke="var(--surface)" strokeWidth="3" />
-        
-        <rect x="5" y="10" width="70" height="15" fill="var(--status-info)" rx="2" />
-        <line x1="15" y1="10" x2="15" y2="25" stroke="var(--surface)" strokeWidth="3" />
-      </g>
-
-      {/* Graduation Hat floating */}
-      <g transform="translate(70, 60) rotate(-10)">
-        <path d="M20 15 L40 10 L60 15 L40 20 Z" fill="var(--brand)" />
-        <path d="M30 18 L30 25 Q40 28 50 25 L50 18" fill="none" stroke="var(--brand)" strokeWidth="2" />
-        <line x1="60" y1="15" x2="62" y2="22" stroke="var(--accent)" strokeWidth="1.5" />
-      </g>
-
-      {/* Alphabet Blocks */}
-      <g transform="translate(260, 160)">
-        {/* Cube A */}
-        <rect x="0" y="20" width="35" height="35" fill="var(--status-success)" rx="6" />
-        <text x="18" y="44" fill="var(--surface)" fontSize="20" fontWeight="bold" textAnchor="middle">A</text>
-        {/* Cube B */}
-        <rect x="40" y="10" width="35" height="35" fill="var(--brand)" rx="6" />
-        <text x="58" y="34" fill="var(--fg-on-brand)" fontSize="20" fontWeight="bold" textAnchor="middle">B</text>
-      </g>
-    </svg>
+    <img
+      src="/welcome-banner.png"
+      alt="Smart Inclusive ta'lim platformasi"
+      className="w-full h-auto max-h-[320px] object-contain rounded-2xl shadow-md border border-border/40"
+    />
   );
 }
 
 function CreativePainterIllustration() {
   return (
-    <svg viewBox="0 0 400 300" className="w-full h-full max-h-[300px] text-brand" aria-hidden="true">
-      <circle cx="200" cy="150" r="120" fill="var(--accent)" opacity="0.06" />
-      
-      {/* Easel/Board */}
-      <g transform="translate(230, 60)">
-        <line x1="20" y1="10" x2="5" y2="180" stroke="var(--border-strong)" strokeWidth="4" />
-        <line x1="60" y1="10" x2="75" y2="180" stroke="var(--border-strong)" strokeWidth="4" />
-        <line x1="40" y1="10" x2="40" y2="180" stroke="var(--border-strong)" strokeWidth="3" />
-        {/* Canvas */}
-        <rect x="0" y="20" width="80" height="90" fill="var(--surface)" rx="4" stroke="var(--border-strong)" strokeWidth="2" />
-        {/* Painted Rainbow */}
-        <path d="M15 80 Q40 40 65 80" fill="none" stroke="var(--status-danger)" strokeWidth="6" />
-        <path d="M20 80 Q40 48 60 80" fill="none" stroke="var(--accent)" strokeWidth="6" />
-        <path d="M25 80 Q40 56 55 80" fill="none" stroke="var(--status-info)" strokeWidth="6" />
-      </g>
-
-      {/* Happy child drawing (sitting on a stool, no wheelchair) */}
-      <g transform="translate(80, 80)">
-        {/* Stool */}
-        <line x1="40" y1="105" x2="30" y2="140" stroke="var(--surface-inverse)" strokeWidth="4.5" strokeLinecap="round" />
-        <line x1="70" y1="105" x2="80" y2="140" stroke="var(--surface-inverse)" strokeWidth="4.5" strokeLinecap="round" />
-        <line x1="30" y1="105" x2="80" y2="105" stroke="var(--surface-inverse)" strokeWidth="6" strokeLinecap="round" />
-
-        {/* Happy Child Body */}
-        <circle cx="55" cy="40" r="14" fill="#fbd5c0" stroke="var(--surface-inverse)" strokeWidth="2" /> {/* Head */}
-        {/* Smiling face */}
-        <circle cx="59" cy="38" r="1.5" fill="var(--surface-inverse)" />
-        <path d="M62 43 Q64 46 66 43" fill="none" stroke="var(--surface-inverse)" strokeWidth="1.5" strokeLinecap="round" />
-        
-        {/* Shirt / Dress */}
-        <path d="M40 55 C40 55 50 55 58 55 C64 55 70 62 70 70 L50 90 Z" fill="var(--status-success)" />
-        
-        {/* Legs sitting */}
-        <path d="M48 90 L48 118" stroke="var(--surface-inverse)" strokeWidth="4.5" strokeLinecap="round" />
-        <path d="M60 90 L68 118" stroke="var(--surface-inverse)" strokeWidth="4.5" strokeLinecap="round" />
-
-        {/* Arm reaching out to paint */}
-        <path d="M65 62 L110 62" fill="none" stroke="#fbd5c0" strokeWidth="6" strokeLinecap="round" />
-        {/* Paintbrush */}
-        <line x1="110" y1="62" x2="125" y2="52" stroke="brown" strokeWidth="2.5" strokeLinecap="round" />
-        <path d="M125 52 L128 50" stroke="var(--status-info)" strokeWidth="4" strokeLinecap="round" />
-      </g>
-    </svg>
+    <img
+      src="/creativity-banner.png"
+      alt="Bolalar uchun ijodiy rasm chizish darslari"
+      className="w-full h-auto max-h-[320px] object-contain rounded-2xl shadow-md border border-border/40"
+    />
   );
 }
 
 function FamilyIllustration() {
   return (
-    <svg viewBox="0 0 400 300" className="w-full h-full max-h-[300px] text-brand" aria-hidden="true">
-      <circle cx="200" cy="150" r="120" fill="var(--status-info)" opacity="0.06" />
-
-      {/* Sun */}
-      <circle cx="340" cy="60" r="22" fill="var(--accent)" opacity="0.7" />
-
-      {/* Big Cloud */}
-      <g transform="translate(40, 40)" fill="var(--surface-muted)" opacity="0.8">
-        <circle cx="30" cy="30" r="20" />
-        <circle cx="50" cy="20" r="25" />
-        <circle cx="75" cy="30" r="22" />
-        <rect x="30" y="22" width="45" height="20" />
-      </g>
-
-      {/* Parents & Child Reading Book */}
-      <g transform="translate(100, 100)">
-        {/* Mother Head & Body */}
-        <circle cx="50" cy="40" r="15" fill="#fdd5b1" stroke="var(--surface-inverse)" strokeWidth="2" />
-        <path d="M35 55 C35 55 45 52 55 52 C65 52 75 75 75 90 L35 90 Z" fill="var(--brand)" />
-
-        {/* Father Head & Body */}
-        <circle cx="150" cy="35" r="16" fill="#fdd5b1" stroke="var(--surface-inverse)" strokeWidth="2" />
-        <path d="M130 50 C130 50 145 48 160 48 C170 48 180 75 180 90 L130 90 Z" fill="var(--surface-inverse)" />
-
-        {/* Child sitting between them */}
-        <circle cx="100" cy="60" r="11" fill="#fdd5b1" stroke="var(--surface-inverse)" strokeWidth="2" />
-        <path d="M90 71 C90 71 95 70 105 70 C110 70 115 85 115 95 L85 95 Z" fill="var(--accent)" />
-
-        {/* Large Open Book held by all */}
-        <path d="M70 90 L100 84 L130 90 L125 98 L100 93 L75 98 Z" fill="var(--surface)" stroke="var(--border-strong)" strokeWidth="1.5" />
-        {/* Book cover back */}
-        <path d="M68 91 L100 85 L132 91" fill="none" stroke="var(--status-danger)" strokeWidth="3" strokeLinecap="round" />
-      </g>
-
-      {/* Decorative Tree/Plant */}
-      <g transform="translate(30, 160)">
-        <path d="M20 80 Q25 40 25 10" fill="none" stroke="brown" strokeWidth="5" strokeLinecap="round" />
-        <circle cx="25" cy="15" r="22" fill="var(--status-success)" opacity="0.85" />
-        <circle cx="12" cy="28" r="16" fill="var(--status-success)" opacity="0.75" />
-        <circle cx="38" cy="26" r="18" fill="var(--status-success)" opacity="0.8" />
-      </g>
-    </svg>
+    <img
+      src="/parents-banner.png"
+      alt="Ota-onalar va ko'ngillilar bilan hamkorlik"
+      className="w-full h-auto max-h-[320px] object-contain rounded-2xl shadow-md border border-border/40"
+    />
   );
 }
 
