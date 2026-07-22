@@ -72,7 +72,7 @@ export function LanguageSwitcher({
                   "transition-colors duration-[var(--duration-fast)]",
                   isList
                     ? "min-h-[var(--tap-target-min)] w-full px-4 py-3 text-base"
-                    : "tap-target px-3 text-sm",
+                    : "h-9 min-w-[36px] px-2.5 text-sm",
                   isActive
                     ? "bg-brand text-fg-on-brand"
                     : "text-fg-muted hover:bg-surface hover:text-fg",
