@@ -1,7 +1,7 @@
 {
   "site": {
     "name": "Smart Inclusive",
-    "tagline": "Har bir bola uchun inklyuziv ta'lim platformasi"
+    "tagline": "Bolalar uchun inklyuziv ta'lim platformasi"
   },
   "nav": {
     "home": "Bosh sahifa",
@@ -23,8 +23,8 @@
     "parentsItems": {
       "tests": "Testlar",
       "videoLessons": "Videodarslar",
-      "legalArticles": "Huquqiy maqolalar",
-      "articles": "Platforma maqolalari",
+      "legalArticles": "Huquqiy yordam",
+      "articles": "Maqolalar",
       "onboarding": "Onboarding",
       "presentation": "Platforma taqdimoti",
       "homeEducation": "Uyda ta'lim"
@@ -48,7 +48,7 @@
     "sections": "Bo'limlar",
     "about": "Platforma haqida",
     "contactUs": "Bog'lanish",
-    "description": "Smart Inclusive — bolalar, ota-onalar va ko'ngillilar uchun ochiq inklyuziv ta'lim platformasi. Ro'yxatdan o'tish talab qilinmaydi.",
+    "description": "Smart Inclusive — bolalar, ota-onalar va ko'ngillilar uchun ochiq ta'lim platformasi. Ro'yxatdan o'tish shart emas.",
     "rights": "Barcha huquqlar himoyalangan.",
     "accessibilityStatement": "Qulaylik bayonoti"
   },
@@ -71,7 +71,7 @@
     "readAloud": "Ovozli o'qish (Eshitish)",
     "readAloudStop": "Ovozni to'xtatish",
     "readAloudPlay": "Matnni eshitish",
-    "screenReaderInfo": "Ekran o'quvchi (Screen Reader) mosligi yoqilgan. Saytni klaviatura (Tab, Enter) yordamida to'liq boshqarishingiz mumkin."
+    "screenReaderInfo": "Sayt ekran o'quvchi (Screen Reader) dasturlariga moslangan va klaviatura (Tab, Enter) orqali to'liq boshqariladi."
   },
   "common": {
     "loading": "Yuklanmoqda",

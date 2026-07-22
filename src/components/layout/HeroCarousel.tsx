@@ -54,8 +54,8 @@ const SLIDES: CarouselSlide[] = [
   {
     id: "welcome",
     title: "Smart Inclusive platformasiga xush kelibsiz!",
-    description: "Har bir bola uchun inklyuziv va qiziqarli taʼlim muhiti. Bu yerda siz bolalar uchun oʼyinlar, darslar va kitoblarni topasiz.",
-    ctaText: "Lugʼatni ochish",
+    description: "Bolalar uchun interfaol o'yinlar, qiziqarli darslar va elektron kitoblar.",
+    ctaText: "Lug'atni ochish",
     ctaHref: "/vocabulary",
     illustration: WelcomeIllustration,
     bgColorClass: "bg-brand/5 dark:bg-brand/10",
@@ -63,7 +63,7 @@ const SLIDES: CarouselSlide[] = [
   {
     id: "ican",
     title: "Men hammasini qila olaman!",
-    description: "Bolalarning oʼziga boʼlgan ishonchini oshirish, rasm chizish, sanʼat va ijod orqali dunyoni kashf etish portaliga kiring.",
+    description: "Bolalarning ijodiy salohiyatini oshirish hamda dunyoni san'at orqali kashf etish portali.",
     ctaText: "Ijodni boshlash",
     ctaHref: "/become-volunteer",
     illustration: CreativePainterIllustration,
@@ -71,9 +71,9 @@ const SLIDES: CarouselSlide[] = [
   },
   {
     id: "parents",
-    title: "Ota-onalar va koʼngillilar uchun",
-    description: "Bolalarga uyda taʼlim berish usullari, huquqiy yordam va koʼngillilar hamjamiyati. Keling, inklyuziv jamiyatni birgalikda quramiz!",
-    ctaText: "Koʼngilli boʼlish",
+    title: "Ota-onalar va ko'ngillilar uchun",
+    description: "Uyda ta'lim berish usullari, huquqiy qo'llab-quvvatlash va faol ko'ngillilar hamjamiyati.",
+    ctaText: "Ko'ngilli bo'lish",
     ctaHref: "/become-volunteer",
     illustration: FamilyIllustration,
     bgColorClass: "bg-status-info-subtle/30 dark:bg-status-info-subtle/10",
