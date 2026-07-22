@@ -151,7 +151,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
     <div className="laptop:hidden">
       {/* Orqa fon. Dekorativ — ekran o'quvchidan yashiramiz. */}
       <div
-        className="fixed inset-0 z-[var(--z-overlay)] bg-overlay"
+        className="fixed inset-0 z-[var(--z-overlay)] bg-overlay animate-in fade-in duration-[var(--duration-base)]"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -164,7 +164,8 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
         className={cn(
           "fixed inset-y-0 right-0 z-[var(--z-drawer)]",
           "flex w-[min(24rem,88vw)] flex-col",
-          "border-l border-border bg-surface shadow-lg",
+          "border-l border-border bg-surface shadow-2xl",
+          "animate-in slide-in-from-right duration-[var(--duration-base)] ease-out"
         )}
       >
         {/* --- Panel sarlavhasi --- */}
