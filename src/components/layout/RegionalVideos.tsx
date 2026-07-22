@@ -119,12 +119,12 @@ export function RegionalVideos() {
         isOpen={activeVideo !== null}
         onClose={() => setActiveVideo(null)}
         title={activeVideo?.title}
-        className="max-w-2xl"
+        className="max-w-4xl w-[95vw]"
       >
         {activeVideo && (
           <div className="space-y-4">
             {/* HTML5 video element with standard controls */}
-            <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-border">
+            <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-border shadow-md">
               <video
                 src={activeVideo.videoUrl}
                 controls
@@ -135,14 +135,9 @@ export function RegionalVideos() {
                 Bizning pleyer brauzeringizda qoʼllab-quvvatlanmadi.
               </video>
             </div>
-            
-            <p className="text-sm text-fg-muted font-medium bg-surface-subtle p-3 rounded-lg border border-border/50">
-              <span className="font-bold text-brand block mb-1">{activeVideo.region}</span>
-              {activeVideo.description}
-            </p>
 
-            <div className="flex justify-end pt-2">
-              <Button variant="secondary" size="sm" onClick={() => setActiveVideo(null)}>
+            <div className="flex justify-end pt-1">
+              <Button variant="secondary" size="md" onClick={() => setActiveVideo(null)}>
                 Yopish
               </Button>
             </div>
