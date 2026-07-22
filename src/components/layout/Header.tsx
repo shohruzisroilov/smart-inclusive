@@ -74,7 +74,7 @@ export function Header() {
         </div>
 
         {/* --- O'ng tomon --- */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 max-phone:gap-1.5">
           <div className="hidden laptop:flex laptop:items-center laptop:gap-3">
             <AccessibilityPanel />
             <LanguageSwitcher />
@@ -83,8 +83,11 @@ export function Header() {
             </Link>
           </div>
 
-          {/* --- Mobil maxsus imkoniyatlar sozlamalari --- */}
-          <AccessibilityPanel className="laptop:hidden" />
+          {/* --- Mobil maxsus imkoniyatlar va til tanlash --- */}
+          <div className="flex items-center gap-2 max-phone:gap-1 laptop:hidden">
+            <AccessibilityPanel />
+            <LanguageSwitcher className="max-phone:[&_a]:min-w-[32px] max-phone:[&_a]:px-1.5 max-phone:[&_a]:text-xs max-phone:[&_ul]:gap-0.5" />
+          </div>
 
           {/* --- Gamburger: laptopgacha --- */}
           <button

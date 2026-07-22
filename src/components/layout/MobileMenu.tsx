@@ -231,11 +231,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
           </Link>
         </nav>
 
-        {/* --- Sozlamalar --- */}
-        <div className="space-y-4 border-t border-border px-4 py-4">
-          <AccessibilityPanel variant="list" />
-          <LanguageSwitcher variant="list" onNavigate={onClose} />
-        </div>
+
       </div>
     </div>,
     menuPortal
