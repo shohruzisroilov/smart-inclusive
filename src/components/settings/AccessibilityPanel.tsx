@@ -140,7 +140,7 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
             </div>
 
             {/* Scrollable controls container */}
-            <div className="flex-1 flex flex-col justify-between overflow-y-auto overflow-x-hidden pr-1 py-1 gap-4 w-full">
+            <div className="flex-1 flex flex-col justify-between overflow-y-auto overflow-x-hidden px-1 py-1 gap-4 w-full">
               
               {/* --- 1. MAVZULAR (Themes) - Big Tap Targets for Children --- */}
               <div className="space-y-2">
