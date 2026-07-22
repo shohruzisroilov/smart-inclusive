@@ -25,7 +25,7 @@ function WelcomeIllustration() {
     <img
       src="/welcome-banner.png"
       alt="Smart Inclusive ta'lim platformasi"
-      className="w-full h-auto max-h-[320px] object-contain rounded-2xl shadow-md border border-border/40"
+      className="w-full h-auto max-h-[320px] object-contain select-none"
     />
   );
 }
@@ -35,7 +35,7 @@ function CreativePainterIllustration() {
     <img
       src="/creativity-banner.png"
       alt="Bolalar uchun ijodiy rasm chizish darslari"
-      className="w-full h-auto max-h-[320px] object-contain rounded-2xl shadow-md border border-border/40"
+      className="w-full h-auto max-h-[320px] object-contain select-none"
     />
   );
 }
@@ -45,7 +45,7 @@ function FamilyIllustration() {
     <img
       src="/parents-banner.png"
       alt="Ota-onalar va ko'ngillilar bilan hamkorlik"
-      className="w-full h-auto max-h-[320px] object-contain rounded-2xl shadow-md border border-border/40"
+      className="w-full h-auto max-h-[320px] object-contain select-none"
     />
   );
 }
