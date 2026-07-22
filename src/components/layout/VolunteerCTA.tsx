@@ -37,13 +37,13 @@ export function VolunteerCTA() {
           <div className="flex flex-col tablet:flex-row gap-4 w-full tablet:w-auto shrink-0 z-[1]">
             <Link
               href="/become-volunteer"
-              className={buttonStyles({ variant: "primary", size: "lg", className: "max-phone:w-full" })}
+              className={buttonStyles({ variant: "primary", size: "lg", className: "w-full tablet:w-auto" })}
             >
               Koʼngilli boʼlib qoʼshilish
             </Link>
             <Link
               href="/volunteers"
-              className={buttonStyles({ variant: "secondary", size: "lg", className: "max-phone:w-full" })}
+              className={buttonStyles({ variant: "secondary", size: "lg", className: "w-full tablet:w-auto" })}
             >
               Koʼngillilar faoliyati
             </Link>

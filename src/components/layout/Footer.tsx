@@ -64,7 +64,7 @@ export function Footer() {
   return (
     <footer className="mt-auto border-t border-border bg-surface-subtle">
       <Container className="py-12">
-        <div className="grid gap-10 laptop:grid-cols-4">
+        <div className="grid grid-cols-1 phone:grid-cols-2 tablet:grid-cols-4 gap-10">
           {/* --- Brend --- */}
           <div className="laptop:col-span-1">
             <Logo />

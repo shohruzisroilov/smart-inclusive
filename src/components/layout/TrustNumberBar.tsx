@@ -58,10 +58,8 @@ export function TrustNumberBar({ items = TRUST_NUMBERS, className }: TrustNumber
 
         <ul
           className={cn(
-            // Planshet — asosiy holat: 4 ta ustun bemalol sig'adi.
-            "grid grid-cols-4 gap-6",
-            // Telefonda 2×2 ga tushamiz.
-            "max-phone:grid-cols-2 max-phone:gap-5",
+            // Mobil/planshetlarda 2 ustun, kompyuterlarda 4 ustun
+            "grid grid-cols-2 tablet:grid-cols-4 gap-6 max-phone:gap-5",
           )}
         >
           {items.map((item) => {
