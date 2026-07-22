@@ -122,7 +122,7 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
             </div>
 
             {/* Scrollable controls container */}
-            <div className="flex-1 overflow-y-auto pr-1 space-y-5">
+            <div className="flex-1 flex flex-col justify-between overflow-y-auto pr-1 py-1 gap-4">
               
               {/* --- 1. MAVZULAR (Themes) - Big Tap Targets for Children --- */}
               <div className="space-y-2">
@@ -290,7 +290,7 @@ export function AccessibilityPanel({ variant = "compact", className }: Accessibi
               </div>
 
               {/* --- 5. SCREEN READER INFO --- */}
-              <div className="bg-surface-muted rounded-2xl p-3.5 flex gap-3 border border-border/50 mt-1">
+              <div className="bg-surface-muted rounded-2xl p-3.5 flex gap-3 border border-border/50">
                 <HelpCircleIcon className="h-5 w-5 text-brand shrink-0 mt-0.5" aria-hidden="true" />
                 <div className="space-y-1">
                   <h4 className="text-xs font-bold text-fg uppercase tracking-wider">
