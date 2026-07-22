@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { ChevronDownIcon, XIcon } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -145,9 +146,11 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  if (!open) return null;
+  const menuPortal = typeof document !== "undefined" ? document.body : null;
 
-  return (
+  if (!open || !menuPortal) return null;
+
+  return createPortal(
     <div className="laptop:hidden">
       {/* Orqa fon. Dekorativ — ekran o'quvchidan yashiramiz. */}
       <div
@@ -234,6 +237,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
           <LanguageSwitcher variant="list" onNavigate={onClose} />
         </div>
       </div>
-    </div>
+    </div>,
+    menuPortal
   );
 }
