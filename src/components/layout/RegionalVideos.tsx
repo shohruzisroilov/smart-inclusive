@@ -124,16 +124,23 @@ export function RegionalVideos() {
         {activeVideo && (
           <div className="space-y-4">
             {/* HTML5 video element with standard controls */}
-            <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-border shadow-md">
-              <video
-                src={activeVideo.videoUrl}
-                controls
-                autoPlay
-                className="w-full h-full"
-                aria-label={activeVideo.title}
-              >
-                Bizning pleyer brauzeringizda qoʼllab-quvvatlanmadi.
-              </video>
+            <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-border shadow-md flex items-center justify-center">
+              {activeVideo.videoUrl ? (
+                <video
+                  src={activeVideo.videoUrl}
+                  controls
+                  autoPlay
+                  className="w-full h-full"
+                  aria-label={activeVideo.title}
+                >
+                  Bizning pleyer brauzeringizda qoʼllab-quvvatlanmadi.
+                </video>
+              ) : (
+                <div className="text-center p-6 text-fg-muted/60 space-y-2">
+                  <PlayIcon className="h-12 w-12 mx-auto opacity-35" />
+                  <p className="text-base font-semibold">Video hozircha yo'q</p>
+                </div>
+              )}
             </div>
 
             <div className="flex justify-end pt-1">
