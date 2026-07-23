@@ -27,7 +27,7 @@ const SLIDES: CarouselSlide[] = [
     descKey: "slide1Desc",
     ctaKey: "slide1Cta",
     ctaHref: "/vocabulary",
-    image: "/welcome-banner.png",
+    image: "",
     accent: "brand",
   },
   {
@@ -36,7 +36,7 @@ const SLIDES: CarouselSlide[] = [
     descKey: "slide2Desc",
     ctaKey: "slide2Cta",
     ctaHref: "/become-volunteer",
-    image: "/creativity-banner.png",
+    image: "",
     accent: "accent",
   },
   {
@@ -45,7 +45,7 @@ const SLIDES: CarouselSlide[] = [
     descKey: "slide3Desc",
     ctaKey: "slide3Cta",
     ctaHref: "/become-volunteer",
-    image: "/parents-banner.png",
+    image: "",
     accent: "info",
   },
 ];
@@ -115,8 +115,8 @@ export function HeroCarousel() {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
           className={cn(
-            "group relative w-full overflow-hidden rounded-3xl border border-border shadow-lg select-none",
-            "h-[440px] max-tablet:h-[380px] max-phone:h-[320px]",
+            "group relative grid w-full overflow-hidden rounded-3xl border border-border shadow-lg select-none",
+            "min-h-[440px] max-tablet:min-h-[380px] max-phone:min-h-[320px]",
           )}
         >
           {/* --- Slaydlar (stacked, cross-fade + Ken Burns) --- */}
@@ -127,19 +127,23 @@ export function HeroCarousel() {
                 key={slide.id}
                 aria-hidden={!isActive}
                 className={cn(
-                  "absolute inset-0 transition-opacity duration-[900ms] ease-out",
+                  "relative col-start-1 row-start-1 h-full w-full transition-opacity duration-[900ms] ease-out",
                   isActive ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none",
                 )}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={slide.image}
-                  alt={t(slide.titleKey)}
-                  className={cn(
-                    "absolute inset-0 h-full w-full object-cover",
-                    isActive && "hero-kenburns",
-                  )}
-                />
+                {slide.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={slide.image}
+                    alt={t(slide.titleKey)}
+                    className={cn(
+                      "absolute inset-0 h-full w-full object-cover",
+                      isActive && "hero-kenburns",
+                    )}
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-surface-subtle" />
+                )}
 
                 {/* Kontrast uchun gradient parda */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-black/10" />
@@ -149,7 +153,7 @@ export function HeroCarousel() {
           })}
 
           {/* --- Matn qatlami (faol slayd almashganda qayta animatsiya) --- */}
-          <div className="absolute inset-0 z-20 flex items-end pointer-events-none">
+          <div className="relative col-start-1 row-start-1 z-20 flex items-end pointer-events-none">
             <div
               key={currentIndex}
               className="p-8 pb-12 pl-20 laptop:p-10 laptop:pb-14 laptop:pl-24 max-phone:p-5 max-phone:pb-12 max-w-xl laptop:max-w-2xl space-y-3 laptop:space-y-4"

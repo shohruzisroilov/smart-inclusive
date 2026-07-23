@@ -22,10 +22,12 @@ import { cn } from "@/lib/utils/cn";
  *   + til + rang sozlamasi + CTA gorizontal qatorga sig'maydi.
  *   Shuning uchun:
  *     - base (planshetgacha va planshet) → gamburger + yon panel;
- *     - `laptop:` (≥1024px)             → gorizontal navigatsiya.
+ *     - `desktop:` (≥1280px)            → gorizontal navigatsiya.
  *
- *   Ya'ni planshet "kichraytirilgan desktop" emas — u asosiy holat,
- *   desktop esa kengaytirilgan variant.
+ *   Gorizontal qator faqat ≥1280px'da ochiladi, chunki 7 ta bo'lim +
+ *   til + sozlama + CTA 1024–1279px oralig'ida bitta qatorga sig'maydi
+ *   (aks holda ikkinchi qatorga tushib ketardi). Katta matn o'lchamida
+ *   esa `flex-wrap` zaxira sifatida ishlaydi.
  */
 export function Header() {
   const t = useTranslations("nav");
@@ -44,15 +46,15 @@ export function Header() {
         "border-b border-border bg-surface/95 backdrop-blur-sm",
       )}
     >
-      <Container className="flex items-center justify-between gap-4 h-[var(--header-height)] max-phone:h-[var(--header-height-compact)]">
-        {/* --- Chap tomon: logo + "Bosh sahifa" + "Bo'limlar" (laptop) --- */}
-        <div className="flex items-center gap-2 laptop:gap-8">
+      <Container className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 min-h-[var(--header-height)] max-phone:min-h-[var(--header-height-compact)] py-2">
+        {/* --- Chap tomon: logo + "Bosh sahifa" + "Bo'limlar" (desktop) --- */}
+        <div className="flex flex-wrap items-center gap-2 desktop:gap-8">
           <Logo />
 
-          {/* Bosh sahifa havolasi + barcha bo'limlar dropdown'i — faqat laptop. */}
+          {/* Bosh sahifa havolasi + barcha bo'limlar dropdown'i — faqat desktop. */}
           <nav
             aria-label={tHeader("mainNavigation")}
-            className="hidden laptop:flex laptop:items-center laptop:gap-1"
+            className="hidden desktop:flex desktop:flex-wrap desktop:items-center desktop:gap-1"
           >
             <Link
               href="/"
@@ -77,7 +79,7 @@ export function Header() {
 
         {/* --- O'ng tomon --- */}
         <div className="flex items-center gap-2 max-phone:gap-1.5">
-          <div className="hidden laptop:flex laptop:items-center laptop:gap-3">
+          <div className="hidden desktop:flex desktop:items-center desktop:gap-3">
             <AccessibilityPanel />
             <LanguageSwitcher />
             <Link href={CTA_NAV.href} className={buttonStyles({ size: "sm" })}>
@@ -86,19 +88,19 @@ export function Header() {
           </div>
 
           {/* --- Mobil maxsus imkoniyatlar va til tanlash --- */}
-          <div className="flex items-center gap-2 max-phone:gap-1 laptop:hidden">
+          <div className="flex items-center gap-2 max-phone:gap-1 desktop:hidden">
             <AccessibilityPanel />
             <LanguageSwitcher className="max-phone:[&_a]:min-w-[32px] max-phone:[&_a]:px-1.5 max-phone:[&_a]:text-xs max-phone:[&_ul]:gap-0.5" />
           </div>
 
-          {/* --- Gamburger: laptopgacha --- */}
+          {/* --- Gamburger: desktopgacha --- */}
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
             aria-expanded={menuOpen}
             aria-haspopup="dialog"
             className={cn(
-              "tap-target flex items-center justify-center rounded-lg laptop:hidden",
+              "tap-target flex items-center justify-center rounded-lg desktop:hidden",
               "text-fg transition-colors duration-[var(--duration-fast)]",
               "hover:bg-surface-muted",
             )}
