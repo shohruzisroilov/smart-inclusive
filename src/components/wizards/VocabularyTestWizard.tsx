@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
-import { type VocabularyTestQuestion as MockQuestion } from "@/lib/mocks/vocabulary";
+import { type VocabularyTestQuestionView as Question } from "@/lib/api/vocabulary";
 import { useTestResultsStore } from "@/stores/test-results-store";
 import { cn } from "@/lib/utils/cn";
 
@@ -88,7 +88,7 @@ function ConfettiEffect() {
 interface VocabularyTestWizardProps {
   topicId: string;
   topicTitle: string;
-  questions: MockQuestion[];
+  questions: Question[];
   onClose: () => void; // exit callback
 }
 

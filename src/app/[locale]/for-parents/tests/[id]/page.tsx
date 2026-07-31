@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
-import { PARENT_TESTS } from "@/lib/mocks/parents-content";
+import { getTestModel } from "@/lib/api/tests";
 import { ParentTestClientWrapper } from "./ParentTestClientWrapper";
 
 interface ParentTestProps {
@@ -13,7 +13,7 @@ export default async function ParentTestDetailPage({ params }: ParentTestProps) 
   setRequestLocale(locale);
   const tt = await getTranslations("sections");
 
-  const test = PARENT_TESTS.find((t) => t.id === id);
+  const test = await getTestModel(id);
 
   if (!test) {
     notFound();

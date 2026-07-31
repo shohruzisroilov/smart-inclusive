@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
-import { PARENT_HOME_ED_ARTICLES } from "@/lib/mocks/parents-content";
+import { getArticle } from "@/lib/api/content";
 import { ParentHomeEdClientWrapper } from "./ParentHomeEdClientWrapper";
 
 interface ParentHomeEdProps {
@@ -12,7 +12,7 @@ export default async function ParentHomeEdDetailPage({ params }: ParentHomeEdPro
   const { locale, id } = await params;
   setRequestLocale(locale);
 
-  const article = PARENT_HOME_ED_ARTICLES.find((a) => a.id === id);
+  const article = await getArticle("homeEducation", id, locale);
 
   if (!article) {
     notFound();

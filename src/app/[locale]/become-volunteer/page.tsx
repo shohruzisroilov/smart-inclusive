@@ -1,4 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
+import { fetchRegions } from "@/lib/api/services";
 import { BecomeVolunteerClientWrapper } from "./BecomeVolunteerClientWrapper";
 
 interface BecomeVolunteerPageProps {
@@ -9,5 +10,12 @@ export default async function BecomeVolunteerPage({ params }: BecomeVolunteerPag
   const { locale } = await params;
   setRequestLocale(locale);
 
-  return <BecomeVolunteerClientWrapper />;
+  // Viloyatlar ro'yxati — `[AllowAnonymous]`, ya'ni saytdan ochiq.
+  const regions = await fetchRegions();
+
+  return (
+    <BecomeVolunteerClientWrapper
+      regions={regions.map((region) => ({ id: region.value, text: region.text }))}
+    />
+  );
 }

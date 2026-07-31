@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
+import { getTestsForSection } from "@/lib/api/tests";
 import { EtiquetteTestsListClient } from "./EtiquetteTestsListClient";
 
 interface EtiquetteTestsProps {
@@ -10,6 +11,7 @@ export default async function EtiquetteTestsPage({ params }: EtiquetteTestsProps
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("sections");
+  const items = await getTestsForSection("etiquette");
 
   return (
     <Container className="py-12 text-left">
@@ -23,7 +25,7 @@ export default async function EtiquetteTestsPage({ params }: EtiquetteTestsProps
         </p>
       </div>
 
-      <EtiquetteTestsListClient />
+      <EtiquetteTestsListClient items={items} />
     </Container>
   );
 }

@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
+import { getKidsTests } from "@/lib/api/tests";
 import { TestsListClient } from "./TestsListClient";
 
 interface TestsIndexProps {
@@ -10,6 +11,7 @@ export default async function TestsIndexPage({ params }: TestsIndexProps) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("sections");
+  const items = await getKidsTests();
 
   return (
     <Container className="py-12 text-left">
@@ -23,7 +25,7 @@ export default async function TestsIndexPage({ params }: TestsIndexProps) {
         </p>
       </div>
 
-      <TestsListClient />
+      <TestsListClient items={items} />
     </Container>
   );
 }

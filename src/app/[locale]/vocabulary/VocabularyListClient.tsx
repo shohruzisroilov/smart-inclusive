@@ -6,16 +6,21 @@ import { Link } from "@/i18n/navigation";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Select } from "@/components/ui/Input";
-import { VOCABULARY_TOPICS } from "@/lib/mocks/vocabulary";
+import { type VocabularyTopicView } from "@/lib/api/mappers";
 import { buttonStyles } from "@/components/ui/Button";
 import { BookOpenIcon } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
-export function VocabularyListClient() {
+interface VocabularyListClientProps {
+  /** Server komponentida API dan olinadi (`getVocabularyTopics()`). */
+  topics: VocabularyTopicView[];
+}
+
+export function VocabularyListClient({ topics }: VocabularyListClientProps) {
   const t = useTranslations("vocab");
   const [langFilter, setLangFilter] = useState<string>("all");
 
-  const filteredTopics = VOCABULARY_TOPICS.filter((topic) => {
+  const filteredTopics = topics.filter((topic) => {
     if (langFilter !== "all" && topic.language !== langFilter) return false;
     return true;
   });

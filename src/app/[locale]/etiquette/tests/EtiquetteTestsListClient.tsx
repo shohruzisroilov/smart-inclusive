@@ -3,9 +3,13 @@
 import { useRouter } from "@/i18n/navigation";
 import { ContentList } from "@/components/ui/ContentList";
 import { type BaseContentItem } from "@/types/content";
-import { ETIQUETTE_TEST_ITEMS } from "@/lib/mocks/kids-content";
 
-export function EtiquetteTestsListClient() {
+interface EtiquetteTestsListClientProps {
+  /** Server komponentida API dan olinadi (`getTestsForSection("etiquette", ...)`). */
+  items: BaseContentItem[];
+}
+
+export function EtiquetteTestsListClient({ items }: EtiquetteTestsListClientProps) {
   const router = useRouter();
 
   const handleAction = (item: BaseContentItem) => {
@@ -14,10 +18,7 @@ export function EtiquetteTestsListClient() {
 
   return (
     <div className="text-left select-none">
-      <ContentList
-        items={ETIQUETTE_TEST_ITEMS}
-        onActionClick={handleAction}
-      />
+      <ContentList items={items} onActionClick={handleAction} />
     </div>
   );
 }

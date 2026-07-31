@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
+import { getSectionContent } from "@/lib/api/content";
 import { LessonsListClient } from "./LessonsListClient";
 
 interface LessonsIndexProps {
@@ -10,6 +11,7 @@ export default async function LessonsIndexPage({ params }: LessonsIndexProps) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("sections");
+  const items = await getSectionContent("lessons", locale);
 
   return (
     <Container className="py-12 text-left">
@@ -23,7 +25,7 @@ export default async function LessonsIndexPage({ params }: LessonsIndexProps) {
         </p>
       </div>
 
-      <LessonsListClient />
+      <LessonsListClient items={items} />
     </Container>
   );
 }

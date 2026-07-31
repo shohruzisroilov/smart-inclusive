@@ -1,25 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import { SlideWizard } from "@/components/ui/SlideWizard";
-import { PARENT_PRESENTATION_SLIDES } from "@/lib/mocks/parents-content";
+import { SlideWizard, type SlideItem } from "@/components/ui/SlideWizard";
 
-export function PresentationClientWrapper() {
+interface PresentationClientWrapperProps {
+  /** `Slide/GetList` (ssenariy: «platforma taqdimoti») dan. */
+  slides: SlideItem[];
+}
+
+export function PresentationClientWrapper({ slides }: PresentationClientWrapperProps) {
   const t = useTranslations("slidePages");
   const router = useRouter();
-  const [slides] = useState(PARENT_PRESENTATION_SLIDES);
 
   const handleClose = () => {
     router.push("/for-parents");
   };
 
-  return (
-    <SlideWizard
-      title={t("presentationTitle")}
-      slides={slides}
-      onClose={handleClose}
-    />
-  );
+  if (slides.length === 0) {
+    return <p className="py-12 text-center text-sm text-fg-muted">{t("empty")}</p>;
+  }
+
+  return <SlideWizard title={t("presentationTitle")} slides={slides} onClose={handleClose} />;
 }

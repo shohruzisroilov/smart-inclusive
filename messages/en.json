@@ -163,7 +163,8 @@
     "testPrompt": "To test your knowledge of this book, start the quiz below.",
     "goToTest": "Go to test",
     "prev": "Back",
-    "next": "Next"
+    "next": "Next",
+    "emptyPages": "Pages for this content have not been uploaded yet."
   },
   "player": {
     "back": "Back",
@@ -328,7 +329,8 @@
     "aboutCompletionTitle": "Thank you for getting to know the Smart Inclusive project!",
     "aboutCompletionDesc": "Our goal is to make education equally inclusive for every child. Join us — become a volunteer or help spread the word about the project.",
     "becomeVolunteer": "Become a volunteer",
-    "home": "Home"
+    "home": "Home",
+    "empty": "No slides have been added for this section yet."
   },
   "forms": {
     "submitErrorTitle": "An error occurred while sending",
@@ -376,9 +378,15 @@
       "errPhone": "Enter your phone number",
       "errCity": "Enter your city or district",
       "errEmail": "Invalid email address",
-      "errAge": "Invalid age entered"
+      "errAge": "Invalid age entered",
+      "regionLabel": "Your region",
+      "regionPlaceholder": "Select a region",
+      "errRegion": "Select a region"
     },
-    "errPhoneFormat": "Invalid phone number format (e.g. +998901234567)"
+    "errPhoneFormat": "Invalid phone number format (e.g. +998901234567)",
+    "submitErrorNetwork": "Could not reach the server. Check your internet connection and try again.",
+    "submitErrorServer": "A server error occurred. Please try again in a moment.",
+    "submitErrorValidation": "Some fields are missing or invalid."
   },
   "aboutUsPage": {
     "badge": "PROJECT MISSION",
@@ -421,6 +429,12 @@
     "notFoundTitle": "Not found",
     "notFoundDesc": "Details not found.",
     "backToList": "Back to volunteers list",
-    "successStory": "Success story"
+    "successStory": "Success story",
+    "regionLabel": "Your region",
+    "regionPlaceholder": "Select a region",
+    "errRegion": "Select a region",
+    "region": "Region",
+    "emptyCases": "No stories have been added yet.",
+    "emptyStats": "No statistics yet."
   }
 }

@@ -2,10 +2,10 @@
 
 import { useRouter } from "@/i18n/navigation";
 import { PagedReader } from "@/components/ui/PagedReader";
-import { type KidsReadable } from "@/lib/mocks/kids-content";
+import { type ReadableView } from "@/lib/api/content";
 
 interface EtiquetteReaderClientWrapperProps {
-  comic: KidsReadable;
+  comic: ReadableView;
 }
 
 export function EtiquetteReaderClientWrapper({ comic }: EtiquetteReaderClientWrapperProps) {

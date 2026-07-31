@@ -2,10 +2,14 @@
 
 import { useRouter } from "@/i18n/navigation";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
-import { type KidsVideo } from "@/lib/mocks/kids-content";
 
 interface KidsVideoClientWrapperProps {
-  video: KidsVideo;
+  /**
+   * Minimal shakl: pleyerga faqat manba va sarlavha kerak. Chaqiruvchi sahifa
+   * `videoUrl` ning MAVJUDLIGINI oldindan tekshiradi (`youtube_url` bo'sh
+   * kontent uchun sahifa 404 beradi).
+   */
+  video: { title: string; videoUrl: string };
   /** Ro'yxatga qaytish yo'li (masalan "/lessons"). */
   backHref: string;
 }

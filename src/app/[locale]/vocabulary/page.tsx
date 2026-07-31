@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
+import { getVocabularyTopics } from "@/lib/api/vocabulary";
 import { VocabularyListClient } from "./VocabularyListClient";
 import { LanguagesIcon } from "lucide-react";
 
@@ -11,6 +12,7 @@ export default async function VocabularyIndexPage({ params }: VocabularyIndexPro
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("vocab");
+  const topics = await getVocabularyTopics();
 
   return (
     <Container className="py-12 text-left">
@@ -24,7 +26,7 @@ export default async function VocabularyIndexPage({ params }: VocabularyIndexPro
         </p>
       </div>
 
-      <VocabularyListClient />
+      <VocabularyListClient topics={topics} />
     </Container>
   );
 }

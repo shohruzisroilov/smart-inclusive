@@ -242,7 +242,27 @@ export function PagedReader({
     return `${m}:${s < 10 ? "0" : ""}${s}`;
   };
 
-  const activePage = pages[currentPage]!;
+  /*
+   * Sahifalar API dan keladi, ya'ni ro'yxat BO'SH bo'lishi mumkin (kontent
+   * yaratilgan, lekin sahifalari hali yuklanmagan). Bunday holda o'quvchi
+   * boshqaruvlarini ko'rsatishning ma'nosi yo'q.
+   *
+   * Tekshiruv barcha hook'lardan KEYIN turadi — aks holda hook'lar tartibi
+   * renderlar orasida o'zgarib ketardi.
+   */
+  const activePage = pages[currentPage];
+  if (!activePage) {
+    return (
+      <div className="space-y-6 text-left">
+        <Button variant="secondary" size="sm" onClick={onBack} className="flex items-center gap-2">
+          <ArrowLeftIcon className="h-4 w-4" />
+          {t("backToLibrary")}
+        </Button>
+        <p className="py-12 text-center text-sm text-fg-muted">{t("emptyPages")}</p>
+      </div>
+    );
+  }
+
   const Illustration = activePage.illustration;
   const hasAudio = !!audioUrls && Object.values(audioUrls).some(Boolean);
 

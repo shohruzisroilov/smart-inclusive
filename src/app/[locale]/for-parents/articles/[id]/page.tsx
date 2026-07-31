@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
-import { PARENT_PLATFORM_ARTICLES } from "@/lib/mocks/parents-content";
+import { getArticle } from "@/lib/api/content";
 import { ParentArticleClientWrapper } from "./ParentArticleClientWrapper";
 
 interface ParentArticleProps {
@@ -12,7 +12,7 @@ export default async function ParentArticleDetailPage({ params }: ParentArticleP
   const { locale, id } = await params;
   setRequestLocale(locale);
 
-  const article = PARENT_PLATFORM_ARTICLES.find((a) => a.id === id);
+  const article = await getArticle("articles", id, locale);
 
   if (!article) {
     notFound();

@@ -3,6 +3,7 @@ import { GraduationCapIcon } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/Container";
 import { buttonStyles } from "@/components/ui/Button";
+import { getSectionContent } from "@/lib/api/content";
 import { EtiquetteListClient } from "./EtiquetteListClient";
 
 interface EtiquetteIndexProps {
@@ -13,6 +14,7 @@ export default async function EtiquetteIndexPage({ params }: EtiquetteIndexProps
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("sections");
+  const items = await getSectionContent("etiquette", locale);
 
   return (
     <Container className="py-12 text-left">
@@ -36,7 +38,7 @@ export default async function EtiquetteIndexPage({ params }: EtiquetteIndexProps
         </Link>
       </div>
 
-      <EtiquetteListClient />
+      <EtiquetteListClient items={items} />
     </Container>
   );
 }

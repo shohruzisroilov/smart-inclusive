@@ -1,3 +1,24 @@
+/**
+ * STATIK MARKETING MATNI — bu fayl endi «mock» emas.
+ *
+ * Boshqa bo'limlar (kitob, dars, test, lug'at, ko'ngillilar hikoyalari,
+ * slaydlar, statistika) API ga o'tkazildi va o'sha mock fayllar o'chirildi.
+ * Bu yerda QOLGANI — bekendda mos jadvali BO'LMAGAN kontent:
+ *
+ *   - `MOCK_VOLUNTEER_HUB.hero` va `.activities` — ko'ngillilar sahifasi
+ *     sarlavhasi va «yo'nalishlar» ro'yxati;
+ *   - `MOCK_ABOUT_US` — «Biz haqimizda» sahifasi to'liq
+ *     (bloklar, iqtiboslar, sayohatlar, videolar).
+ *
+ * `MOCK_VOLUNTEER_HUB.cases` va `.results` ENDI ISHLATILMAYDI — ular
+ * `VolunteerCase` va `PlatformStat` uchlaridan keladi (`lib/api/volunteers.ts`,
+ * `lib/api/stats.ts`). Namuna sifatida qoldirilgan.
+ *
+ * Bu matnlar 3 tilga tarjima qilinmagan (bir tilda qattiq yozilgan). To'g'ri
+ * yechim — ularni `messages/*.json` ga ko'chirish yoki bekendga mos jadval
+ * qo'shish.
+ */
+
 // Types for Volunteers Hub
 export interface VolunteerCase {
   id: string;

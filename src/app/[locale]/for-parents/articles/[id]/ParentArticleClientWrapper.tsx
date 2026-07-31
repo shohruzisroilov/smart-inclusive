@@ -2,10 +2,10 @@
 
 import { useRouter } from "@/i18n/navigation";
 import { ArticleLayout } from "@/components/ui/ArticleLayout";
-import { type ParentArticle } from "@/lib/mocks/parents-content";
+import { type ArticleView } from "@/lib/api/content";
 
 interface ParentArticleClientWrapperProps {
-  article: ParentArticle;
+  article: ArticleView;
 }
 
 export function ParentArticleClientWrapper({ article }: ParentArticleClientWrapperProps) {

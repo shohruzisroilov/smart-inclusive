@@ -8,11 +8,12 @@ import {
   HeartIcon,
   UsersIcon,
   AwardIcon,
-  CalendarIcon,
+  MapPinIcon,
   ArrowRightIcon,
   CheckCircle2Icon,
   UserCheckIcon,
-  XIcon
+  XIcon,
+  AlertCircleIcon
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Card, CardHeader, CardContent } from "@/components/ui/Card";
@@ -26,6 +27,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MOCK_VOLUNTEER_HUB } from "@/lib/mocks/volunteers-about";
+import { type ImpactMetricView, type VolunteerCaseView } from "@/lib/api/mappers";
+import { submitVolunteerApplication } from "@/lib/api/actions";
 
 const iconMap = {
   book: BookOpenIcon,
@@ -34,20 +37,42 @@ const iconMap = {
   award: AwardIcon,
 };
 
-export function VolunteersClientWrapper() {
+interface VolunteersClientWrapperProps {
+  /** `VolunteerCase/GetList` dan — muvaffaqiyat hikoyalari. */
+  cases: VolunteerCaseView[];
+  /** `PlatformStat/GetList` dan — sahifadagi raqamlar. */
+  metrics: ImpactMetricView[];
+  /** `/SelectList/RegionSelectList/{countryId}` dan — ariza formasi uchun. */
+  regions: { id: number; text: string }[];
+}
+
+export function VolunteersClientWrapper({
+  cases,
+  metrics,
+  regions,
+}: VolunteersClientWrapperProps) {
   const t = useTranslations("volunteersPage");
-  const [data] = useState(MOCK_VOLUNTEER_HUB);
+  const tf = useTranslations("forms");
+
+  /*
+   * Sarlavha matni va «yo'nalishlar» ro'yxati statik bo'lib qoladi: bekendda
+   * ularga mos jadval yo'q (`VolunteerApplication` da ham yo'nalish maydoni
+   * yo'q). Tanlangan yo'nalish shu sababli `message` matniga qo'shib yuboriladi.
+   */
+  const staticContent = MOCK_VOLUNTEER_HUB;
 
   // Form states
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
+    regionId: "",
     activityId: "",
     message: "",
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -65,11 +90,11 @@ export function VolunteersClientWrapper() {
     } else if (!/^\+?[0-9]{9,15}$/.test(formData.phone.replace(/[\s-]/g, ""))) {
       errors.phone = t("errPhoneFormat");
     }
-    if (!formData.activityId) errors.activityId = t("errActivity");
+    if (!formData.regionId) errors.regionId = t("errRegion");
     return errors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
@@ -78,12 +103,36 @@ export function VolunteersClientWrapper() {
     }
 
     setSubmitting(true);
-    // Simulate API Submission
-    setTimeout(() => {
-      setSubmitting(false);
+    setSubmitError(null);
+
+    // Yo'nalish uchun bekendda maydon yo'q — uni yo'qotmaslik uchun xabar
+    // matnining boshiga qo'shamiz.
+    const activity = staticContent.activities.find((a) => a.id === formData.activityId);
+    const message = [activity ? `${t("activityLabel")}: ${activity.title}` : "", formData.message]
+      .filter(Boolean)
+      .join("\n\n");
+
+    const result = await submitVolunteerApplication({
+      fullName: formData.name,
+      phone: formData.phone,
+      regionId: Number(formData.regionId),
+      message,
+    });
+
+    if (result.ok) {
       setShowSuccess(true);
-      setFormData({ name: "", phone: "", activityId: "", message: "" });
-    }, 1200);
+      setFormData({ name: "", phone: "", regionId: "", activityId: "", message: "" });
+    } else {
+      setSubmitError(
+        result.reason === "network"
+          ? tf("submitErrorNetwork")
+          : result.reason === "validation"
+            ? tf("submitErrorValidation")
+            : tf("submitErrorServer"),
+      );
+    }
+
+    setSubmitting(false);
   };
 
   return (
@@ -95,10 +144,10 @@ export function VolunteersClientWrapper() {
             <div className="max-w-2xl">
               <Badge variant="brand" className="mb-4">{t("badge")}</Badge>
               <h1 className="text-4xl font-black text-fg font-display tracking-tight leading-tight max-phone:text-3xl">
-                {data.hero.title}
+                {staticContent.hero.title}
               </h1>
               <p className="mt-4 text-lg text-fg-muted leading-relaxed">
-                {data.hero.subtitle}
+                {staticContent.hero.subtitle}
               </p>
               <div className="mt-8">
                 <Button
@@ -128,7 +177,7 @@ export function VolunteersClientWrapper() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {data.activities.map((act) => {
+            {staticContent.activities.map((act) => {
               const Icon = iconMap[act.iconName] || HeartIcon;
               return (
                 <Card key={act.id} className="border border-border/80 hover:border-brand/40 transition-colors">
@@ -151,16 +200,20 @@ export function VolunteersClientWrapper() {
       {/* 3. RESULTS STATISTICS */}
       <section className="bg-surface-subtle py-12 border-y border-border/50 px-4">
         <Container>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            {data.results.map((res) => (
-              <div key={res.id} className="space-y-2">
-                <span className="block text-4xl max-phone:text-3xl font-black text-brand font-display tracking-tight">
-                  {res.value}
-                </span>
-                <span className="block text-sm font-medium text-fg-muted">{res.label}</span>
-              </div>
-            ))}
-          </div>
+          {metrics.length === 0 ? (
+            <p className="text-center text-sm text-fg-muted">{t("emptyStats")}</p>
+          ) : (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+              {metrics.map((metric) => (
+                <div key={metric.id} className="space-y-2">
+                  <span className="block text-4xl max-phone:text-3xl font-black text-brand font-display tracking-tight">
+                    {metric.value}
+                  </span>
+                  <span className="block text-sm font-medium text-fg-muted">{metric.label}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </Container>
       </section>
 
@@ -176,43 +229,60 @@ export function VolunteersClientWrapper() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {data.cases.map((cs) => (
-              <Card key={cs.id} className="overflow-hidden border border-border flex flex-col md:flex-row h-full">
-                {cs.imageUrl && (
-                  <div className="w-full md:w-48 shrink-0 relative aspect-video md:aspect-auto bg-surface-subtle">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={cs.imageUrl} alt={cs.title} className="w-full h-full object-cover" />
-                    {cs.mediaType === "video" && (
-                      <Badge variant="accent" className="absolute top-2 left-2">
-                        {t("videoBadge")}
-                      </Badge>
-                    )}
-                  </div>
-                )}
-                <div className="p-6 flex flex-col justify-between flex-1">
-                  <div className="space-y-2 text-left">
-                    <div className="flex items-center gap-2 text-xs text-fg-muted">
-                      <CalendarIcon className="h-3 w-3" />
-                      <span>{cs.date}</span>
+          {cases.length === 0 ? (
+            <p className="text-center text-sm text-fg-muted">{t("emptyCases")}</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {cases.map((cs) => (
+                <Card
+                  key={cs.id}
+                  className="overflow-hidden border border-border flex flex-col md:flex-row h-full"
+                >
+                  {cs.mediaUrl && (
+                    <div className="w-full md:w-48 shrink-0 relative aspect-video md:aspect-auto bg-surface-subtle">
+                      {cs.mediaType === "video" ? (
+                        <Badge variant="accent" className="absolute top-2 left-2">
+                          {t("videoBadge")}
+                        </Badge>
+                      ) : (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          src={cs.mediaUrl}
+                          alt={cs.title}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
                     </div>
-                    <h3 className="text-lg font-bold text-fg font-display leading-tight">{cs.title}</h3>
-                    <p className="text-xs text-brand font-semibold">{cs.volunteerName} ({cs.volunteerTitle})</p>
-                    <p className="text-sm text-fg-muted line-clamp-3 leading-relaxed mt-2">{cs.description}</p>
+                  )}
+                  <div className="p-6 flex flex-col justify-between flex-1">
+                    <div className="space-y-2 text-left">
+                      {cs.region && (
+                        <div className="flex items-center gap-2 text-xs text-fg-muted">
+                          <MapPinIcon className="h-3 w-3" />
+                          <span>{cs.region}</span>
+                        </div>
+                      )}
+                      <h3 className="text-lg font-bold text-fg font-display leading-tight">
+                        {cs.title}
+                      </h3>
+                      <p className="text-sm text-fg-muted line-clamp-3 leading-relaxed mt-2">
+                        {cs.description}
+                      </p>
+                    </div>
+                    <div className="pt-4 text-left">
+                      <Link
+                        href={`/volunteers/${cs.id}`}
+                        className="inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:text-brand-dark transition-colors"
+                      >
+                        {t("readMore")}
+                        <ArrowRightIcon className="h-4 w-4" />
+                      </Link>
+                    </div>
                   </div>
-                  <div className="pt-4 text-left">
-                    <Link
-                      href={`/volunteers/${cs.id}`}
-                      className="inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:text-brand-dark transition-colors"
-                    >
-                      {t("readMore")}
-                      <ArrowRightIcon className="h-4 w-4" />
-                    </Link>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
+                </Card>
+              ))}
+            </div>
+          )}
         </Container>
       </section>
 
@@ -231,6 +301,16 @@ export function VolunteersClientWrapper() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4 text-left">
+              {submitError && (
+                <div className="bg-red-500/10 border border-red-500/20 text-red-600 rounded-lg p-4 flex items-start gap-3 text-sm">
+                  <AlertCircleIcon className="h-5 w-5 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold block">{tf("submitErrorTitle")}</span>
+                    <span className="block mt-0.5">{submitError}</span>
+                  </div>
+                </div>
+              )}
+
               <div>
                 <label className="block text-sm font-bold text-fg mb-1">{t("nameLabel")} *</label>
                 <input
@@ -263,6 +343,33 @@ export function VolunteersClientWrapper() {
 
               <div>
                 <label
+                  htmlFor="volunteer-hub-region"
+                  className="block text-sm font-bold text-fg mb-1"
+                >
+                  {t("regionLabel")} *
+                </label>
+                <select
+                  id="volunteer-hub-region"
+                  name="regionId"
+                  value={formData.regionId}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2.5 rounded-lg border border-border bg-surface focus:outline-none focus:border-brand text-sm"
+                  disabled={submitting || regions.length === 0}
+                >
+                  <option value="">{t("regionPlaceholder")}</option>
+                  {regions.map((region) => (
+                    <option key={region.id} value={region.id}>
+                      {region.text}
+                    </option>
+                  ))}
+                </select>
+                {formErrors.regionId && (
+                  <span className="text-xs text-red-500 mt-1 block">{formErrors.regionId}</span>
+                )}
+              </div>
+
+              <div>
+                <label
                   id="activityId-label"
                   className="block text-sm font-bold text-fg mb-1"
                 >
@@ -285,7 +392,7 @@ export function VolunteersClientWrapper() {
                     <SelectValue placeholder={t("activityPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
-                    {data.activities.map((a) => (
+                    {staticContent.activities.map((a) => (
                       <SelectItem key={a.id} value={a.id}>
                         {a.title}
                       </SelectItem>

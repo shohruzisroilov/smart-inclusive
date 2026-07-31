@@ -7,15 +7,27 @@ import { Container } from "@/components/ui/Container";
 import { Card, CardContent, CardFooter } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { submitVolunteerApplication } from "@/lib/api/actions";
 
-export function BecomeVolunteerClientWrapper() {
+interface BecomeVolunteerClientWrapperProps {
+  /**
+   * `/SelectList/RegionSelectList/{countryId}` dan olingan viloyatlar.
+   *
+   * Erkin matnli «shahar» maydoni o'rniga tanlagich kerak, chunki backend
+   * `VolunteerApplication.region_id` ni `NOT NULL` tashqi kalit sifatida
+   * saqlaydi — matnni id ga aylantirib bo'lmaydi.
+   */
+  regions: { id: number; text: string }[];
+}
+
+export function BecomeVolunteerClientWrapper({ regions }: BecomeVolunteerClientWrapperProps) {
   const t = useTranslations("forms.volunteer");
   const tf = useTranslations("forms");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
-    city: "",
+    regionId: "",
     age: "",
     reason: "",
   });
@@ -24,7 +36,9 @@ export function BecomeVolunteerClientWrapper() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (formErrors[name]) {
@@ -42,8 +56,8 @@ export function BecomeVolunteerClientWrapper() {
     } else if (!/^\+?[0-9]{9,15}$/.test(formData.phone.replace(/[\s-]/g, ""))) {
       errors.phone = tf("errPhoneFormat");
     }
-    if (!formData.city.trim()) {
-      errors.city = t("errCity");
+    if (!formData.regionId) {
+      errors.regionId = t("errRegion");
     }
     if (formData.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
       errors.email = t("errEmail");
@@ -65,11 +79,31 @@ export function BecomeVolunteerClientWrapper() {
     setLoading(true);
     setSubmitError(null);
 
-    // Simulate API submission with timeout
-    await new Promise((resolve) => setTimeout(resolve, 1200));
+    // `VolunteerApplication/Create` — bekendning `[AllowAnonymous]` uchi.
+    const result = await submitVolunteerApplication({
+      fullName: formData.name,
+      phone: formData.phone,
+      regionId: Number(formData.regionId),
+      email: formData.email,
+      // Bo'sh yosh maydoni backendda `int?` — `undefined` bo'lib ketishi kerak,
+      // `Number("")` bergan `0` emas.
+      age: formData.age.trim() ? Number(formData.age) : undefined,
+      message: formData.reason,
+    });
 
-    setSuccess(true);
-    setFormData({ name: "", phone: "", email: "", city: "", age: "", reason: "" });
+    if (result.ok) {
+      setSuccess(true);
+      setFormData({ name: "", phone: "", email: "", regionId: "", age: "", reason: "" });
+    } else {
+      setSubmitError(
+        result.reason === "network"
+          ? tf("submitErrorNetwork")
+          : result.reason === "validation"
+            ? tf("submitErrorValidation")
+            : tf("submitErrorServer"),
+      );
+    }
+
     setLoading(false);
   };
 
@@ -148,18 +182,29 @@ export function BecomeVolunteerClientWrapper() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-fg mb-1">{t("cityLabel")} *</label>
-                  <input
-                    type="text"
-                    name="city"
-                    value={formData.city}
+                  <label
+                    htmlFor="volunteer-region"
+                    className="block text-sm font-bold text-fg mb-1"
+                  >
+                    {t("regionLabel")} *
+                  </label>
+                  <select
+                    id="volunteer-region"
+                    name="regionId"
+                    value={formData.regionId}
                     onChange={handleInputChange}
-                    placeholder={t("cityPlaceholder")}
                     className="w-full px-4 py-2.5 rounded-lg border border-border bg-surface focus:outline-none focus:border-brand text-sm"
-                    disabled={loading}
-                  />
-                  {formErrors.city && (
-                    <span className="text-xs text-red-500 mt-1 block">{formErrors.city}</span>
+                    disabled={loading || regions.length === 0}
+                  >
+                    <option value="">{t("regionPlaceholder")}</option>
+                    {regions.map((region) => (
+                      <option key={region.id} value={region.id}>
+                        {region.text}
+                      </option>
+                    ))}
+                  </select>
+                  {formErrors.regionId && (
+                    <span className="text-xs text-red-500 mt-1 block">{formErrors.regionId}</span>
                   )}
                 </div>
               </div>

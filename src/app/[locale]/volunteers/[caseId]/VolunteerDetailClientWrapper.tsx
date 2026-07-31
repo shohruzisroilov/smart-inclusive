@@ -3,38 +3,24 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import { ArrowLeftIcon, CalendarIcon, UserIcon } from "lucide-react";
+import { ArrowLeftIcon, MapPinIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { ErrorState } from "@/components/ui/ErrorState";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
-import { MOCK_VOLUNTEER_HUB } from "@/lib/mocks/volunteers-about";
+import { type VolunteerCaseView } from "@/lib/api/mappers";
 
 interface VolunteerDetailClientWrapperProps {
-  caseId: string;
+  /**
+   * Server komponentida `VolunteerCase/Get/{id}` dan olinadi. «Topilmadi»
+   * holatiga bu yerda emas, sahifada `notFound()` bilan ishlov beriladi.
+   */
+  item: VolunteerCaseView;
 }
 
-export function VolunteerDetailClientWrapper({ caseId }: VolunteerDetailClientWrapperProps) {
+export function VolunteerDetailClientWrapper({ item }: VolunteerDetailClientWrapperProps) {
   const t = useTranslations("volunteersPage");
   const router = useRouter();
-  const item = MOCK_VOLUNTEER_HUB.cases.find((c) => c.id === caseId);
-
-  if (!item) {
-    return (
-      <Container className="py-12">
-        <ErrorState
-          title={t("notFoundTitle")}
-          description={t("notFoundDesc")}
-          action={
-            <Button onClick={() => router.push("/volunteers")}>
-              {t("backToList")}
-            </Button>
-          }
-        />
-      </Container>
-    );
-  }
 
   return (
     <Container className="py-12 max-w-3xl text-left select-none">
@@ -56,33 +42,35 @@ export function VolunteerDetailClientWrapper({ caseId }: VolunteerDetailClientWr
         <h1 className="text-3xl font-black text-fg font-display tracking-tight leading-tight max-phone:text-2xl">
           {item.title}
         </h1>
-        <div className="flex flex-wrap items-center gap-6 text-sm text-fg-muted font-medium pt-2 border-y border-border/40 py-3">
-          <div className="flex items-center gap-1.5">
-            <UserIcon className="h-4 w-4" />
-            <span>
-              {item.volunteerName} ({item.volunteerTitle})
-            </span>
+        {/*
+          Backend `VolunteerCaseDto` da ko'ngilli ismi va sana maydonlari YO'Q —
+          faqat hudud bor, shuning uchun meta qatorida o'sha ko'rsatiladi.
+        */}
+        {item.region && (
+          <div className="flex flex-wrap items-center gap-6 text-sm text-fg-muted font-medium pt-2 border-y border-border/40 py-3">
+            <div className="flex items-center gap-1.5">
+              <MapPinIcon className="h-4 w-4" />
+              <span>
+                {t("region")}: {item.region}
+              </span>
+            </div>
           </div>
-          <div className="flex items-center gap-1.5">
-            <CalendarIcon className="h-4 w-4" />
-            <span>{item.date}</span>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Visual Showcase */}
-      <div className="mb-8">
-        {item.mediaType === "video" && item.mediaUrl ? (
-          <VideoPlayer src={item.mediaUrl} title={item.title} />
-        ) : (
-          item.imageUrl && (
+      {item.mediaUrl && (
+        <div className="mb-8">
+          {item.mediaType === "video" ? (
+            <VideoPlayer src={item.mediaUrl} title={item.title} />
+          ) : (
             <div className="w-full aspect-video rounded-2xl overflow-hidden border border-border bg-surface-subtle">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover" />
+              <img src={item.mediaUrl} alt={item.title} className="w-full h-full object-cover" />
             </div>
-          )
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
       {/* Description copy */}
       <div className="prose max-w-none text-fg-muted leading-relaxed whitespace-pre-line text-base max-phone:text-sm">

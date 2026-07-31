@@ -1,4 +1,6 @@
+import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
+import { getVolunteerCase } from "@/lib/api/volunteers";
 import { VolunteerDetailClientWrapper } from "./VolunteerDetailClientWrapper";
 
 interface VolunteerDetailPageProps {
@@ -9,5 +11,8 @@ export default async function VolunteerDetailPage({ params }: VolunteerDetailPag
   const { locale, caseId } = await params;
   setRequestLocale(locale);
 
-  return <VolunteerDetailClientWrapper caseId={caseId} />;
+  const item = await getVolunteerCase(caseId);
+  if (!item) notFound();
+
+  return <VolunteerDetailClientWrapper item={item} />;
 }

@@ -7,6 +7,7 @@ import { Container } from "@/components/ui/Container";
 import { Card, CardContent, CardFooter } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { submitContactRequest } from "@/lib/api/actions";
 
 export function ContactClientWrapper() {
   const t = useTranslations("forms.contact");
@@ -56,11 +57,27 @@ export function ContactClientWrapper() {
     setLoading(true);
     setSubmitError(null);
 
-    // Simulate API submission with timeout
-    await new Promise((resolve) => setTimeout(resolve, 1200));
+    // `ContactRequest/Create` — bekendning `[AllowAnonymous]` uchi. Chaqiruv
+    // server funksiyasi orqali ketadi, ya'ni API manzili brauzerga tushmaydi.
+    const result = await submitContactRequest({
+      fullName: formData.name,
+      phone: formData.phone,
+      message: formData.message,
+    });
 
-    setSuccess(true);
-    setFormData({ name: "", phone: "", message: "" });
+    if (result.ok) {
+      setSuccess(true);
+      setFormData({ name: "", phone: "", message: "" });
+    } else {
+      setSubmitError(
+        result.reason === "network"
+          ? tf("submitErrorNetwork")
+          : result.reason === "validation"
+            ? tf("submitErrorValidation")
+            : tf("submitErrorServer"),
+      );
+    }
+
     setLoading(false);
   };
 

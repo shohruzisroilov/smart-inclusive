@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
-import { ETIQUETTE_COMICS } from "@/lib/mocks/kids-content";
+import { getReadable } from "@/lib/api/content";
 import { EtiquetteReaderClientWrapper } from "./EtiquetteReaderClientWrapper";
 
 interface EtiquetteReaderProps {
@@ -13,7 +13,8 @@ export default async function EtiquetteReaderPage({ params }: EtiquetteReaderPro
   setRequestLocale(locale);
   const t = await getTranslations("sections");
 
-  const comic = ETIQUETTE_COMICS.find((c) => c.id === id);
+  // Etiket komikslari `info_comic_page` da — matn maydoni `script`.
+  const comic = await getReadable(id, locale, "comic");
   if (!comic) notFound();
 
   return (

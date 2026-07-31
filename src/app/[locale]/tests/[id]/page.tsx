@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
-import { findKidsTest } from "@/lib/mocks/kids-content";
+import { getTestModel } from "@/lib/api/tests";
 import { KidsTestClientWrapper } from "./KidsTestClientWrapper";
 
 interface KidsTestProps {
@@ -13,7 +13,7 @@ export default async function KidsTestPage({ params }: KidsTestProps) {
   setRequestLocale(locale);
   const t = await getTranslations("sections");
 
-  const test = findKidsTest(id);
+  const test = await getTestModel(id);
   if (!test) notFound();
 
   return (

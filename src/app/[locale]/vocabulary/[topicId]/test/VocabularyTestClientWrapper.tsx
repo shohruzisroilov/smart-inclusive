@@ -2,12 +2,12 @@
 
 import { useRouter } from "@/i18n/navigation";
 import { VocabularyTestWizard } from "@/components/wizards/VocabularyTestWizard";
-import { type VocabularyTestQuestion } from "@/lib/mocks/vocabulary";
+import { type VocabularyTestQuestionView } from "@/lib/api/vocabulary";
 
 interface VocabularyTestClientWrapperProps {
   topicId: string;
   topicTitle: string;
-  questions: VocabularyTestQuestion[];
+  questions: VocabularyTestQuestionView[];
 }
 
 export function VocabularyTestClientWrapper({

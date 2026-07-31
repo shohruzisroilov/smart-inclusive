@@ -163,7 +163,8 @@
     "testPrompt": "Ushbu kitob bo'yicha bilimlaringizni sinab ko'rish uchun quyidagi testni boshlang.",
     "goToTest": "Testga o'tish",
     "prev": "Orqaga",
-    "next": "Keyingi"
+    "next": "Keyingi",
+    "emptyPages": "Bu kontent uchun sahifalar hali yuklanmagan."
   },
   "player": {
     "back": "Orqaga",
@@ -328,7 +329,8 @@
     "aboutCompletionTitle": "Smart Inclusive loyihasi bilan tanishganingiz uchun tashakkur!",
     "aboutCompletionDesc": "Bizning maqsadimiz har bir bola uchun taʼlim jarayonini teng darajada inklyuziv qilishdir. Bizga qoʻshiling — koʻngilli boʻling yoki loyihani keng targʻib qiling.",
     "becomeVolunteer": "Koʻngilli boʻlish",
-    "home": "Bosh sahifa"
+    "home": "Bosh sahifa",
+    "empty": "Bu boʻlim uchun slaydlar hali qoʻshilmagan."
   },
   "forms": {
     "submitErrorTitle": "Yuborishda xatolik yuz berdi",
@@ -376,9 +378,15 @@
       "errPhone": "Telefon raqamingizni kiriting",
       "errCity": "Shahar yoki tumaningizni kiriting",
       "errEmail": "Notoʻgʻri email manzili",
-      "errAge": "Notoʻgʻri yosh kiritildi"
+      "errAge": "Notoʻgʻri yosh kiritildi",
+      "regionLabel": "Viloyatingiz",
+      "regionPlaceholder": "Viloyatni tanlang",
+      "errRegion": "Viloyatni tanlang"
     },
-    "errPhoneFormat": "Notoʻgʻri telefon raqami koʻrinishi (masalan, +998901234567)"
+    "errPhoneFormat": "Notoʻgʻri telefon raqami koʻrinishi (masalan, +998901234567)",
+    "submitErrorNetwork": "Server bilan bogʻlanib boʻlmadi. Internet aloqangizni tekshirib, qaytadan urinib koʻring.",
+    "submitErrorServer": "Serverda xatolik yuz berdi. Birozdan soʻng qaytadan urinib koʻring.",
+    "submitErrorValidation": "Maʼlumotlar toʻliq yoki toʻgʻri kiritilmagan."
   },
   "aboutUsPage": {
     "badge": "LOYIHA MISSIYASI",
@@ -421,6 +429,12 @@
     "notFoundTitle": "Topilmadi",
     "notFoundDesc": "Tafsilotlar topilmadi.",
     "backToList": "Koʻngillilar roʻyxatiga qaytish",
-    "successStory": "Muvaffaqiyat tarixi"
+    "successStory": "Muvaffaqiyat tarixi",
+    "regionLabel": "Viloyatingiz",
+    "regionPlaceholder": "Viloyatni tanlang",
+    "errRegion": "Viloyatni tanlang",
+    "region": "Hudud",
+    "emptyCases": "Hozircha hikoyalar qoʻshilmagan.",
+    "emptyStats": "Statistika hali kiritilmagan."
   }
 }

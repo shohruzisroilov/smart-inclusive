@@ -2,10 +2,9 @@
 
 import { useRouter } from "@/i18n/navigation";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
-import { type ParentVideo } from "@/lib/mocks/parents-content";
-
 interface ParentVideoClientWrapperProps {
-  video: ParentVideo;
+  /** Pleyerga faqat manba va sarlavha kerak — sahifa `videoUrl` ni tekshiradi. */
+  video: { title: string; videoUrl: string };
 }
 
 export function ParentVideoClientWrapper({ video }: ParentVideoClientWrapperProps) {

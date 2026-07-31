@@ -1,16 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { ContentList } from "@/components/ui/ContentList";
 import { type BaseContentItem } from "@/types/content";
-import { PARENT_LEGAL_ARTICLES } from "@/lib/mocks/parents-content";
 
-export function ParentsLegalClient() {
+interface ParentsLegalClientProps {
+  /** Server komponentida API dan olinadi (`getSectionContent("legal", ...)`). */
+  items: BaseContentItem[];
+}
+
+export function ParentsLegalClient({ items }: ParentsLegalClientProps) {
   const router = useRouter();
-  const [items] = useState<BaseContentItem[]>(PARENT_LEGAL_ARTICLES);
-  const [loading] = useState(false);
-  const [error] = useState<string | null>(null);
 
   const handleAction = (item: BaseContentItem) => {
     router.push(`/for-parents/legal/${item.id}`);
@@ -18,13 +18,7 @@ export function ParentsLegalClient() {
 
   return (
     <div className="space-y-6 text-left select-none">
-      <ContentList
-        items={items}
-        loading={loading}
-        error={error}
-        onRetry={() => {}}
-        onActionClick={handleAction}
-      />
+      <ContentList items={items} onActionClick={handleAction} />
     </div>
   );
 }

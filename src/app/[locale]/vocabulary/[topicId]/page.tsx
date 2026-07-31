@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
-import { VOCABULARY_TOPICS, VOCABULARY_WORDS } from "@/lib/mocks/vocabulary";
+import { getVocabularyTopicDetail } from "@/lib/api/vocabulary";
 import { WordSlideshowClient } from "./WordSlideshowClient";
 
 interface VocabularyTopicProps {
@@ -14,12 +14,12 @@ export default async function VocabularyTopicPage({ params }: VocabularyTopicPro
   setRequestLocale(locale);
   const tv = await getTranslations("vocab");
 
-  const topic = VOCABULARY_TOPICS.find((t) => t.id === topicId);
-  const words = VOCABULARY_WORDS[topicId];
-
-  if (!topic || !words) {
+  const detail = await getVocabularyTopicDetail(topicId);
+  if (!detail) {
     notFound();
   }
+
+  const { topic, words } = detail;
 
   return (
     <Container className="py-12 text-left max-w-2xl">

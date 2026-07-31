@@ -3,9 +3,13 @@
 import { useRouter } from "@/i18n/navigation";
 import { ContentList } from "@/components/ui/ContentList";
 import { type BaseContentItem } from "@/types/content";
-import { BOOKS } from "@/lib/mocks/kids-content";
 
-export function BooksListClient() {
+interface BooksListClientProps {
+  /** Server komponentida API dan olinadi (`getSectionContent("books", ...)`). */
+  items: BaseContentItem[];
+}
+
+export function BooksListClient({ items }: BooksListClientProps) {
   const router = useRouter();
 
   const handleAction = (item: BaseContentItem) => {
@@ -14,10 +18,7 @@ export function BooksListClient() {
 
   return (
     <div className="text-left select-none">
-      <ContentList
-        items={BOOKS}
-        onActionClick={handleAction}
-      />
+      <ContentList items={items} onActionClick={handleAction} />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
-import { PARENT_VIDEOS } from "@/lib/mocks/parents-content";
+import { getSectionItem } from "@/lib/api/content";
 import { ParentVideoClientWrapper } from "./ParentVideoClientWrapper";
 
 interface ParentVideoProps {
@@ -13,9 +13,10 @@ export default async function ParentVideoDetailPage({ params }: ParentVideoProps
   setRequestLocale(locale);
   const t = await getTranslations("sections");
 
-  const video = PARENT_VIDEOS.find((v) => v.id === id);
+  const video = await getSectionItem("parentVideos", id, locale);
 
-  if (!video) {
+  // `youtube_url` bo'sh bo'lsa ko'rsatadigan narsa yo'q.
+  if (!video?.videoUrl) {
     notFound();
   }
 
@@ -31,7 +32,7 @@ export default async function ParentVideoDetailPage({ params }: ParentVideoProps
         </p>
       </div>
 
-      <ParentVideoClientWrapper video={video} />
+      <ParentVideoClientWrapper video={{ title: video.title, videoUrl: video.videoUrl }} />
     </Container>
   );
 }

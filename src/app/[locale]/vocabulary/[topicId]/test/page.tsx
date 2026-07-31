@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
-import { VOCABULARY_TOPICS, VOCABULARY_TESTS } from "@/lib/mocks/vocabulary";
+import { getVocabularyTest } from "@/lib/api/vocabulary";
 import { VocabularyTestClientWrapper } from "./VocabularyTestClientWrapper";
 
 interface VocabularyTestProps {
@@ -13,10 +13,8 @@ export default async function VocabularyTestPage({ params }: VocabularyTestProps
   setRequestLocale(locale);
   const tv = await getTranslations("vocab");
 
-  const topic = VOCABULARY_TOPICS.find((t) => t.id === topicId);
-  const test = VOCABULARY_TESTS[topicId];
-
-  if (!topic || !test) {
+  const test = await getVocabularyTest(topicId);
+  if (!test) {
     notFound();
   }
 
@@ -25,13 +23,13 @@ export default async function VocabularyTestPage({ params }: VocabularyTestProps
       <div className="mb-6">
         <span className="text-xs font-bold text-accent uppercase tracking-wider block">{tv("testEyebrow")}</span>
         <h1 className="text-3xl font-black text-fg font-display tracking-tight mt-0.5">
-          {tv("testTitle", { title: topic.title })}
+          {tv("testTitle", { title: test.topicTitle })}
         </h1>
       </div>
 
       <VocabularyTestClientWrapper
         topicId={topicId}
-        topicTitle={topic.title}
+        topicTitle={test.topicTitle}
         questions={test.questions}
       />
     </Container>

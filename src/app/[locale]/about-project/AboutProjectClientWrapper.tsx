@@ -1,17 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { HeartIcon, HomeIcon } from "lucide-react";
-import { SlideWizard } from "@/components/ui/SlideWizard";
+import { SlideWizard, type SlideItem } from "@/components/ui/SlideWizard";
 import { Button } from "@/components/ui/Button";
-import { ABOUT_PROJECT_SLIDES } from "@/lib/mocks/parents-content";
 
-export function AboutProjectClientWrapper() {
+interface AboutProjectClientWrapperProps {
+  /** `Slide/GetList` (ssenariy: «loyiha haqida») dan. */
+  slides: SlideItem[];
+}
+
+export function AboutProjectClientWrapper({ slides }: AboutProjectClientWrapperProps) {
   const t = useTranslations("slidePages");
   const router = useRouter();
-  const [slides] = useState(ABOUT_PROJECT_SLIDES);
 
   const handleClose = () => {
     router.push("/");
@@ -30,6 +33,10 @@ export function AboutProjectClientWrapper() {
       </Button>
     </div>
   );
+
+  if (slides.length === 0) {
+    return <p className="py-12 text-center text-sm text-fg-muted">{t("empty")}</p>;
+  }
 
   return (
     <SlideWizard

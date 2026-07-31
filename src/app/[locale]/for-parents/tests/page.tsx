@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
+import { getParentsTests } from "@/lib/api/tests";
 import { ParentsTestsClient } from "./ParentsTestsClient";
 
 interface ParentsTestsIndexProps {
@@ -10,6 +11,7 @@ export default async function ParentsTestsIndexPage({ params }: ParentsTestsInde
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("sections");
+  const items = await getParentsTests();
 
   return (
     <Container className="py-12 text-left">
@@ -23,7 +25,7 @@ export default async function ParentsTestsIndexPage({ params }: ParentsTestsInde
         </p>
       </div>
 
-      <ParentsTestsClient />
+      <ParentsTestsClient items={items} />
     </Container>
   );
 }

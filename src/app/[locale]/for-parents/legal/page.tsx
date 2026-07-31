@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
+import { getSectionContent } from "@/lib/api/content";
 import { ParentsLegalClient } from "./ParentsLegalClient";
 
 interface ParentsLegalIndexProps {
@@ -10,6 +11,7 @@ export default async function ParentsLegalIndexPage({ params }: ParentsLegalInde
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("sections");
+  const items = await getSectionContent("legal", locale);
 
   return (
     <Container className="py-12 text-left">
@@ -23,7 +25,7 @@ export default async function ParentsLegalIndexPage({ params }: ParentsLegalInde
         </p>
       </div>
 
-      <ParentsLegalClient />
+      <ParentsLegalClient items={items} />
     </Container>
   );
 }

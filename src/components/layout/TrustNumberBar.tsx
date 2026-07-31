@@ -23,7 +23,11 @@ const ICONS: Record<TrustNumberIcon, ComponentType<LucideProps>> = {
 };
 
 interface TrustNumberBarProps {
-  /** Standart holatda konstantalardan olinadi; server'dan ham berish mumkin. */
+  /**
+   * Odatda `getTrustNumbers()` (`PlatformStat` uchi) natijasi beriladi.
+   * Prop berilmasa vaqtinchalik konstantalarga tushadi — bekend bo'sh
+   * bo'lganda panel butunlay yo'qolmasligi uchun.
+   */
   items?: TrustNumberItem[];
   className?: string;
 }

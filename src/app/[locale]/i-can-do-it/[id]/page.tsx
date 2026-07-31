@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
-import { I_CAN_VIDEOS } from "@/lib/mocks/kids-content";
+import { getSectionItem } from "@/lib/api/content";
 import { KidsVideoClientWrapper } from "@/components/kids/KidsVideoClientWrapper";
 
 interface ICanVideoProps {
@@ -13,8 +13,8 @@ export default async function ICanVideoPage({ params }: ICanVideoProps) {
   setRequestLocale(locale);
   const t = await getTranslations("sections");
 
-  const video = I_CAN_VIDEOS.find((v) => v.id === id);
-  if (!video) notFound();
+  const video = await getSectionItem("iCanDoIt", id, locale);
+  if (!video?.videoUrl) notFound();
 
   return (
     <Container className="py-12 text-left max-w-2xl">
@@ -24,7 +24,10 @@ export default async function ICanVideoPage({ params }: ICanVideoProps) {
         <p className="mt-2 text-sm text-fg-muted">{video.description}</p>
       </div>
 
-      <KidsVideoClientWrapper video={video} backHref="/i-can-do-it" />
+      <KidsVideoClientWrapper
+        video={{ title: video.title, videoUrl: video.videoUrl }}
+        backHref="/i-can-do-it"
+      />
     </Container>
   );
 }

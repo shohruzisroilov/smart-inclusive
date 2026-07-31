@@ -3,9 +3,13 @@
 import { useRouter } from "@/i18n/navigation";
 import { ContentList } from "@/components/ui/ContentList";
 import { type BaseContentItem } from "@/types/content";
-import { I_CAN_VIDEOS } from "@/lib/mocks/kids-content";
 
-export function ICanListClient() {
+interface ICanListClientProps {
+  /** Server komponentida API dan olinadi (`getSectionContent("iCanDoIt", ...)`). */
+  items: BaseContentItem[];
+}
+
+export function ICanListClient({ items }: ICanListClientProps) {
   const router = useRouter();
 
   const handleAction = (item: BaseContentItem) => {
@@ -14,10 +18,7 @@ export function ICanListClient() {
 
   return (
     <div className="text-left select-none">
-      <ContentList
-        items={I_CAN_VIDEOS}
-        onActionClick={handleAction}
-      />
+      <ContentList items={items} onActionClick={handleAction} />
     </div>
   );
 }

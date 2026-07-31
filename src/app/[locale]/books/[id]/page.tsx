@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
-import { BOOKS } from "@/lib/mocks/kids-content";
+import { getReadable } from "@/lib/api/content";
 import { BookReaderClientWrapper } from "./BookReaderClientWrapper";
 
 interface BookReaderProps {
@@ -13,7 +13,7 @@ export default async function BookReaderPage({ params }: BookReaderProps) {
   setRequestLocale(locale);
   const t = await getTranslations("sections");
 
-  const book = BOOKS.find((b) => b.id === id);
+  const book = await getReadable(id, locale, "book");
   if (!book) notFound();
 
   return (

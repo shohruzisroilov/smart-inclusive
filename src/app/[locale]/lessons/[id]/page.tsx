@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
-import { LESSON_VIDEOS } from "@/lib/mocks/kids-content";
+import { getSectionItem } from "@/lib/api/content";
 import { KidsVideoClientWrapper } from "@/components/kids/KidsVideoClientWrapper";
 
 interface LessonVideoProps {
@@ -13,8 +13,9 @@ export default async function LessonVideoPage({ params }: LessonVideoProps) {
   setRequestLocale(locale);
   const t = await getTranslations("sections");
 
-  const video = LESSON_VIDEOS.find((v) => v.id === id);
-  if (!video) notFound();
+  const video = await getSectionItem("lessons", id, locale);
+  // Video havolasi (`youtube_url`) bo'lmasa ko'rsatadigan narsa yo'q.
+  if (!video?.videoUrl) notFound();
 
   return (
     <Container className="py-12 text-left max-w-2xl">
@@ -24,7 +25,10 @@ export default async function LessonVideoPage({ params }: LessonVideoProps) {
         <p className="mt-2 text-sm text-fg-muted">{video.description}</p>
       </div>
 
-      <KidsVideoClientWrapper video={video} backHref="/lessons" />
+      <KidsVideoClientWrapper
+        video={{ title: video.title, videoUrl: video.videoUrl }}
+        backHref="/lessons"
+      />
     </Container>
   );
 }
