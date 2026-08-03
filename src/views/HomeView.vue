@@ -108,13 +108,45 @@ onMounted(async () => {
             <span>Smart Inclusive Platformasi</span>
           </div>
 
-          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-display leading-tight tracking-tight text-white">
-            {{ t(slides[currentSlide].title) }}
-          </h1>
+          <!--
+            Sarlavha va tavsifga QAT'IY joy ajratiladi, shunda karusel
+            aylanganda hero balandligi sakramaydi. Slaydlar matni har xil
+            uzunlikda: "Men hammasini qila olaman!" — 1 qator,
+            "Smart Inclusive platformasiga xush kelibsiz!" — 2 qator.
 
-          <p class="text-lg sm:text-xl text-white/80 leading-relaxed max-w-2xl font-light">
-            {{ t(slides[currentSlide].desc) }}
-          </p>
+            Telefonda 3 qator zaxiralanadi: eng uzun sarlavha 30px shriftda
+            ikki qatorga sig'maydi va `line-clamp-2` uning oxirini kesib
+            tashlardi. Balandlik baribir barqaror — u faqat slayd
+            almashganda emas, breakpoint o'zgargandagina o'zgaradi.
+
+            `px` emas, aynan `lh` (qator balandligi) ishlatiladi: foydalanuvchi
+            shriftni 200% gacha kattalashtirganda zaxira ham u bilan o'sadi.
+
+            Matn zaxira ichida VERTIKAL MARKAZLASHTIRILADI (`flex items-center`).
+            Aks holda qisqa sarlavha tepaga yopishib, ostida bir qatorlik bo'sh
+            «teshik» qolardi; markazlashtirilganda bo'shliq tepa va pastga teng
+            bo'linib, oddiy oraliqdek ko'rinadi.
+          -->
+          <!--
+            DIQQAT: o'lcham va `leading` klasslari O'RAMDA turishi shart.
+            `lh` birligi elementning O'Z shrift metrikasiga tayanadi — agar
+            o'ram bazaviy 16px ni meros olsa, `2lh` haqiqiy sarlavha qatoridan
+            ancha kichik chiqadi va zaxira umuman ishlamaydi. Sarlavha bu
+            qiymatlarni merosga oladi.
+          -->
+          <div
+            class="text-3xl sm:text-4xl lg:text-5xl leading-tight min-h-[3lh] sm:min-h-[2lh] flex items-center"
+          >
+            <h1 class="font-extrabold font-display tracking-tight text-white line-clamp-3 sm:line-clamp-2">
+              {{ t(slides[currentSlide].title) }}
+            </h1>
+          </div>
+
+          <div class="text-lg sm:text-xl leading-relaxed min-h-[2lh] flex items-center max-w-2xl">
+            <p class="text-white/80 font-light line-clamp-2">
+              {{ t(slides[currentSlide].desc) }}
+            </p>
+          </div>
 
           <div class="pt-4 flex flex-wrap items-center gap-4">
             <button
