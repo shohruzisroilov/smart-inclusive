@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
   Sparkles,
@@ -13,11 +13,19 @@ import {
   ChevronRight,
 } from '@lucide/vue'
 import { useVolunteerModalStore } from '@/stores/useVolunteerModalStore'
+import { useSettingsStore } from '@/stores/useSettingsStore'
 import { fetchPlatformStats } from '@/lib/api/services'
 import type { PlatformStatDto } from '@/lib/api/types'
 
 const { t } = useI18n()
 const modalStore = useVolunteerModalStore()
+const settings = useSettingsStore()
+
+/**
+ * Harakat kamaytirilgan bo'lsa fon videosi umuman yuklanmaydi — 16 MB fayl
+ * ham tejaladi. Bunday holatda hero ortidagi gradient ko'rinib turadi.
+ */
+const showHeroVideo = computed(() => settings.reducedMotion !== true)
 
 const currentSlide = ref(0)
 const stats = ref<PlatformStatDto[]>([])
@@ -65,6 +73,34 @@ onMounted(async () => {
   <div class="space-y-16 pb-20">
     <!-- Hero Carousel -->
     <section class="relative overflow-hidden bg-gradient-to-br from-[#10141a] via-[#1b2027] to-[#154e5a] text-white py-16 sm:py-24">
+      <!--
+        Fon videosi. Gradient uning ostida qoladi — video yuklangunicha va
+        `reducedMotion` yoqilganda o'sha ko'rinadi.
+
+        `muted` SHART: ovozli videoni brauzer avtomatik ijro etmaydi.
+        `playsinline` — iOS'da butun ekranga sakramasligi uchun.
+        `aria-hidden` — bu bezak, matn ustidagi kontent bilan takrorlanmaydi.
+      -->
+      <video
+        v-if="showHeroVideo"
+        class="absolute inset-0 w-full h-full object-cover"
+        src="/videos/valyontorlar.mp4"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-hidden="true"
+        tabindex="-1"
+      />
+
+      <!-- Matn kontrasti uchun qoraytirgich (WCAG 1.4.3) -->
+      <div
+        v-if="showHeroVideo"
+        class="absolute inset-0 bg-gradient-to-r from-[#0b0f14]/90 via-[#0b0f14]/70 to-[#0b0f14]/40"
+        aria-hidden="true"
+      />
+
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-3xl space-y-6">
           <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-amber-300 text-xs font-bold uppercase tracking-wider border border-white/10">
