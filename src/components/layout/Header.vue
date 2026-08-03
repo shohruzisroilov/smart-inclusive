@@ -17,6 +17,7 @@ const mobileMenuOpen = ref(false)
 const kidsDropdownOpen = ref(false)
 const parentsDropdownOpen = ref(false)
 const langDropdownOpen = ref(false)
+const moreDropdownOpen = ref(false)
 
 function switchLanguage(lang: Locale) {
   locale.value = lang
@@ -35,20 +36,25 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
 
 <template>
   <header class="sticky top-0 z-50 bg-[var(--surface)]/90 backdrop-blur-md border-b border-[var(--border-default)] transition-all">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+    <!--
+      Header konteyneri sahifa kontentidan (`max-w-7xl` = 1280px) KENGROQ.
+      1280px ga logotip + 6 nav elementi + 4 boshqaruv sig'maydi: flex ularni
+      siqadi va ikki so'zli yozuvlar ikki qatorga bo'linib ketadi.
+    -->
+    <div class="max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4">
       <!-- Logo -->
-      <router-link :to="getRoute('home')" class="flex items-center gap-3 group cursor-pointer">
+      <router-link :to="getRoute('home')" class="flex items-center gap-3 group cursor-pointer shrink-0">
         <img src="/logo.png" alt="Smart Inclusive" class="h-10 w-auto object-contain transition-transform group-hover:scale-105" />
-        <span class="font-extrabold text-xl text-[var(--fg)] tracking-tight font-display hidden sm:inline-block">
+        <span class="font-extrabold text-xl text-[var(--fg)] tracking-tight font-display whitespace-nowrap hidden 2xl:inline-block">
           Smart <span class="text-[var(--brand)]">Inclusive</span>
         </span>
       </router-link>
 
       <!-- Desktop Navigation -->
-      <nav class="hidden lg:flex items-center gap-1">
+      <nav class="hidden lg:flex items-center gap-0.5">
         <router-link
           :to="getRoute('home')"
-          class="px-3.5 py-2 rounded-xl text-sm font-semibold text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors"
+          class="px-3 py-2 rounded-xl text-sm font-semibold whitespace-nowrap text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors"
           active-class="!text-[var(--brand)] !bg-[var(--brand-subtle)] font-bold"
         >
           {{ t('nav.home') }}
@@ -58,7 +64,7 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
         <div class="relative" @mouseleave="kidsDropdownOpen = false">
           <button
             type="button"
-            class="px-3.5 py-2 rounded-xl text-sm font-semibold text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors flex items-center gap-1.5 cursor-pointer"
+            class="px-3 py-2 rounded-xl text-sm font-semibold whitespace-nowrap text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors flex items-center gap-1.5 cursor-pointer"
             @mouseenter="kidsDropdownOpen = true"
             @click="kidsDropdownOpen = !kidsDropdownOpen"
           >
@@ -94,7 +100,7 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
         <div class="relative" @mouseleave="parentsDropdownOpen = false">
           <button
             type="button"
-            class="px-3.5 py-2 rounded-xl text-sm font-semibold text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors flex items-center gap-1.5 cursor-pointer"
+            class="px-3 py-2 rounded-xl text-sm font-semibold whitespace-nowrap text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors flex items-center gap-1.5 cursor-pointer"
             @mouseenter="parentsDropdownOpen = true"
             @click="parentsDropdownOpen = !parentsDropdownOpen"
           >
@@ -124,17 +130,25 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
           </div>
         </div>
 
+        <!--
+          Nav ikki bosqichda yig'iladi — sig'magani "Ko'proq" ga tushadi:
+            1024-1279  : Ko'ngillilar + Loyiha haqida + Murojaat -> Ko'proq
+            1280-1535  : Loyiha haqida + Murojaat -> Ko'proq
+            1536+      : hammasi to'g'ridan-to'g'ri, Ko'proq yashirinadi
+
+          Aks holda elementlar yonma-yon sig'may, flex ularni siqadi va
+          yozuvlar ikki qatorga bo'linib ketadi.
+        -->
         <router-link
           :to="getRoute('volunteers')"
-          class="px-3.5 py-2 rounded-xl text-sm font-semibold text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors"
+          class="hidden xl:block px-3 py-2 rounded-xl text-sm font-semibold whitespace-nowrap text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors"
           active-class="!text-[var(--brand)] !bg-[var(--brand-subtle)] font-bold"
         >
           {{ t('nav.volunteers') }}
         </router-link>
-
         <router-link
           :to="getRoute('about-project')"
-          class="px-3.5 py-2 rounded-xl text-sm font-semibold text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors"
+          class="hidden 2xl:block px-3 py-2 rounded-xl text-sm font-semibold whitespace-nowrap text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors"
           active-class="!text-[var(--brand)] !bg-[var(--brand-subtle)] font-bold"
         >
           {{ t('nav.aboutProject') }}
@@ -142,15 +156,62 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
 
         <router-link
           :to="getRoute('contact')"
-          class="px-3.5 py-2 rounded-xl text-sm font-semibold text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors"
+          class="hidden 2xl:block px-3 py-2 rounded-xl text-sm font-semibold whitespace-nowrap text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors"
           active-class="!text-[var(--brand)] !bg-[var(--brand-subtle)] font-bold"
         >
           {{ t('nav.contact') }}
         </router-link>
+
+        <!-- "Ko'proq" — faqat 2xl dan pastda -->
+        <div class="relative 2xl:hidden" @mouseleave="moreDropdownOpen = false">
+          <button
+            type="button"
+            :aria-expanded="moreDropdownOpen"
+            class="px-3 py-2 rounded-xl text-sm font-semibold whitespace-nowrap text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors flex items-center gap-1.5 cursor-pointer"
+            @mouseenter="moreDropdownOpen = true"
+            @click="moreDropdownOpen = !moreDropdownOpen"
+          >
+            <span>{{ t('header.more') }}</span>
+            <ChevronDown
+              class="w-4 h-4 transition-transform"
+              :class="{ 'rotate-180': moreDropdownOpen }"
+              aria-hidden="true"
+            />
+          </button>
+          <div
+            v-if="moreDropdownOpen"
+            class="absolute top-full right-0 w-56 p-2 rounded-2xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl animate-in fade-in slide-in-from-top-2 duration-150"
+          >
+            <router-link
+              :to="getRoute('volunteers')"
+              class="block xl:hidden px-3.5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[var(--surface-subtle)] hover:text-[var(--brand)] transition-colors"
+              active-class="text-[var(--brand)] font-bold"
+              @click="moreDropdownOpen = false"
+            >
+              {{ t('nav.volunteers') }}
+            </router-link>
+            <router-link
+              :to="getRoute('about-project')"
+              class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[var(--surface-subtle)] hover:text-[var(--brand)] transition-colors"
+              active-class="text-[var(--brand)] font-bold"
+              @click="moreDropdownOpen = false"
+            >
+              {{ t('nav.aboutProject') }}
+            </router-link>
+            <router-link
+              :to="getRoute('contact')"
+              class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[var(--surface-subtle)] hover:text-[var(--brand)] transition-colors"
+              active-class="text-[var(--brand)] font-bold"
+              @click="moreDropdownOpen = false"
+            >
+              {{ t('nav.contact') }}
+            </router-link>
+          </div>
+        </div>
       </nav>
 
       <!-- Right Controls -->
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2 shrink-0">
         <!-- Accessibility & Theme -->
         <ThemeToggle />
         <AccessibilityPanel />
@@ -159,7 +220,7 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
         <div class="relative">
           <button
             type="button"
-            class="px-3 py-2 rounded-xl border border-[var(--border-default)] hover:bg-[var(--surface-subtle)] text-sm font-semibold flex items-center gap-1.5 cursor-pointer uppercase"
+            class="px-3 py-2 rounded-xl border border-[var(--border-default)] hover:bg-[var(--surface-subtle)] text-sm font-semibold whitespace-nowrap flex items-center gap-1.5 cursor-pointer uppercase"
             @click="langDropdownOpen = !langDropdownOpen"
           >
             <Globe class="w-4 h-4 text-[var(--brand)]" />
@@ -199,7 +260,7 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
         <!-- Become Volunteer CTA Button -->
         <button
           type="button"
-          class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] hover:opacity-95 text-white font-bold text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
+          class="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] hover:opacity-95 text-white font-bold text-sm whitespace-nowrap shadow-md hover:shadow-lg transition-all cursor-pointer"
           @click="modalStore.openModal()"
         >
           <HeartHandshake class="w-4 h-4 text-amber-300" />
