@@ -6,6 +6,7 @@ import { ArrowLeft } from '@lucide/vue'
 import TestWizard from '@/components/wizards/TestWizard.vue'
 import { getVocabularyTest } from '@/lib/api/tests'
 import type { TestDto } from '@/lib/api/types'
+import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -32,9 +33,7 @@ onMounted(async () => {
       <span>{{ t('common.back') }}</span>
     </router-link>
 
-    <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">
-      {{ t('common.loading') }}
-    </div>
+    <SkeletonArticle v-if="loading" :media="false" />
 
     <TestWizard v-else-if="testData" :test="testData" variant="vocabulary" :back-to="backTo" />
 

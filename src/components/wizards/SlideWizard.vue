@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft, ArrowRight, RotateCcw, CheckCircle2 } from '@lucide/vue'
 import { fetchWizardSlides } from '@/lib/api/services'
+import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
 import type { SlideDto } from '@/lib/api/types'
 
 const props = defineProps<{
@@ -43,9 +44,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">
-    {{ t('common.loading') }}
-  </div>
+  <SkeletonArticle v-if="loading" :lines="4" />
 
   <div
     v-else-if="slides.length === 0"

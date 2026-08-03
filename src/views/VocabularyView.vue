@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { BookOpen, ArrowRight } from '@lucide/vue'
 import { fetchVocabularyTopics } from '@/lib/api/services'
 import type { VocabularyTopicDto } from '@/lib/api/types'
+import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
 
 const { t } = useI18n()
 const topics = ref<VocabularyTopicDto[]>([])
@@ -30,9 +31,7 @@ onMounted(async () => {
       </p>
     </div>
 
-    <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">
-      {{ t('common.loading') }}
-    </div>
+    <SkeletonCardGrid v-if="loading" />
 
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <router-link

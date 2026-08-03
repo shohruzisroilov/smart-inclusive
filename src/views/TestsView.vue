@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { Award, ArrowRight } from '@lucide/vue'
 import { getKidsTests } from '@/lib/api/tests'
 import type { TestDto } from '@/lib/api/types'
+import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
 
 const { t } = useI18n()
 const tests = ref<TestDto[]>([])
@@ -26,7 +27,7 @@ onMounted(async () => {
       <p class="text-white/90 max-w-xl text-sm leading-relaxed font-light">{{ t('sections.testsSubtitle') }}</p>
     </div>
 
-    <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">{{ t('common.loading') }}</div>
+    <SkeletonCardGrid v-if="loading" />
 
     <div v-else-if="tests.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <router-link

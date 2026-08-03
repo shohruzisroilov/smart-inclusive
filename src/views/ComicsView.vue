@@ -5,6 +5,7 @@ import { BookOpen, ArrowRight } from '@lucide/vue'
 import { fetchContentItems } from '@/lib/api/services'
 import type { ContentItemDto } from '@/lib/api/types'
 import { CONTENT_TYPE_KOMIKS } from '@/lib/api/constants'
+import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
 
 const { t } = useI18n()
 const comics = ref<ContentItemDto[]>([])
@@ -26,9 +27,7 @@ onMounted(async () => {
       </p>
     </div>
 
-    <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">
-      {{ t('common.loading') }}
-    </div>
+    <SkeletonCardGrid v-if="loading" />
 
     <div v-else-if="comics.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <router-link

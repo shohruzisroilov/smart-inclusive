@@ -6,6 +6,7 @@ import { fetchContentItems } from '@/lib/api/services'
 import { localizedTitle } from '@/lib/api/content'
 import type { ContentItemDto } from '@/lib/api/types'
 import { CONTENT_CATEGORY_OTA_ONALAR_VIDEO } from '@/lib/api/constants'
+import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
 
 const { t, locale } = useI18n()
 const items = ref<ContentItemDto[]>([])
@@ -30,7 +31,7 @@ onMounted(async () => {
       <p class="text-white/90 max-w-xl text-sm leading-relaxed font-light">{{ t('sections.parentsVideosSubtitle') }}</p>
     </div>
 
-    <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">{{ t('common.loading') }}</div>
+    <SkeletonCardGrid v-if="loading" />
 
     <div v-else-if="items.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <router-link

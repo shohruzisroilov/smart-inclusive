@@ -6,6 +6,7 @@ import { ArrowLeft, Volume2, ChevronLeft, ChevronRight, Award } from '@lucide/vu
 import { fetchVocabularyTopicById } from '@/lib/api/services'
 import { getTopicIdsWithTest } from '@/lib/api/tests'
 import type { VocabularyTopicDto } from '@/lib/api/types'
+import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -43,9 +44,7 @@ onMounted(async () => {
       <span>{{ t('vocab.backToTopics') }}</span>
     </router-link>
 
-    <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">
-      {{ t('common.loading') }}
-    </div>
+    <SkeletonArticle v-if="loading" :lines="3" />
 
     <div v-else-if="topic" class="space-y-8">
       <div class="text-center space-y-2">

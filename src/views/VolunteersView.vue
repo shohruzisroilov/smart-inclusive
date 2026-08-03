@@ -5,6 +5,7 @@ import { HeartHandshake, Users, MapPin, ArrowRight, Sparkles } from '@lucide/vue
 import { useVolunteerModalStore } from '@/stores/useVolunteerModalStore'
 import { fetchVolunteerCases } from '@/lib/api/services'
 import type { VolunteerCaseDto } from '@/lib/api/types'
+import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
 
 const { t } = useI18n()
 const modalStore = useVolunteerModalStore()
@@ -56,9 +57,7 @@ onMounted(async () => {
         </p>
       </div>
 
-      <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">
-        {{ t('common.loading') }}
-      </div>
+      <SkeletonCardGrid v-if="loading" />
 
       <div v-else-if="cases.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <router-link

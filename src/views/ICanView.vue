@@ -5,6 +5,7 @@ import { Sparkles, ArrowRight, Play } from '@lucide/vue'
 import { fetchContentItems } from '@/lib/api/services'
 import type { ContentItemDto } from '@/lib/api/types'
 import { CONTENT_CATEGORY_MEN_QILA_OLAMAN } from '@/lib/api/constants'
+import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
 
 const { t } = useI18n()
 const items = ref<ContentItemDto[]>([])
@@ -28,7 +29,7 @@ onMounted(async () => {
       <p class="text-white/90 max-w-xl text-sm leading-relaxed font-light">{{ t('sections.iCanSubtitle') }}</p>
     </div>
 
-    <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">{{ t('common.loading') }}</div>
+    <SkeletonCardGrid v-if="loading" />
 
     <div v-else-if="items.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <router-link v-for="item in items" :key="item.id" :to="`/i-can-do-it/${item.id}`" class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-amber-500 hover:shadow-xl transition-all space-y-4">

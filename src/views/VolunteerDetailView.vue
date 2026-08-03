@@ -6,6 +6,7 @@ import { ArrowLeft, MapPin, HeartHandshake, Users } from '@lucide/vue'
 import { fetchVolunteerCaseById } from '@/lib/api/services'
 import type { VolunteerCaseDto } from '@/lib/api/types'
 import { useVolunteerModalStore } from '@/stores/useVolunteerModalStore'
+import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -30,9 +31,7 @@ onMounted(async () => {
       <span>{{ t('volunteersPage.backToList') }}</span>
     </router-link>
 
-    <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">
-      {{ t('common.loading') }}
-    </div>
+    <SkeletonArticle v-if="loading" />
 
     <div v-else-if="volunteerCase" class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl space-y-6">
       <div v-if="volunteerCase.mediaUrl" class="h-80 rounded-2xl overflow-hidden bg-[var(--surface-subtle)]">

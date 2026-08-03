@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { ArrowLeft, ChevronLeft, ChevronRight, Volume2 } from '@lucide/vue'
 import { fetchBookPages, fetchContentItemById } from '@/lib/api/services'
 import type { BookPageDto, ContentItemDto } from '@/lib/api/types'
+import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -43,9 +44,7 @@ onMounted(async () => {
       </div>
     </div>
 
-    <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">
-      {{ t('common.loading') }}
-    </div>
+    <SkeletonArticle v-if="loading" :lines="3" />
 
     <div v-else-if="pages.length > 0" class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-2xl space-y-6">
       <div class="h-96 rounded-2xl bg-[var(--surface-subtle)] overflow-hidden flex items-center justify-center p-4">

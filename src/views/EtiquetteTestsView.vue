@@ -5,6 +5,7 @@ import { ArrowLeft, Award, ArrowRight } from '@lucide/vue'
 import { getTestsForCategories } from '@/lib/api/tests'
 import { CONTENT_CATEGORY_ETIKET } from '@/lib/api/constants'
 import type { TestDto } from '@/lib/api/types'
+import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
 
 const { t } = useI18n()
 const tests = ref<TestDto[]>([])
@@ -43,9 +44,7 @@ onMounted(async () => {
       </p>
     </div>
 
-    <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">
-      {{ t('common.loading') }}
-    </div>
+    <SkeletonCardGrid v-if="loading" />
 
     <div
       v-else-if="tests.length > 0"

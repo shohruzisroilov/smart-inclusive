@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { ArrowLeft, BookOpen, Play } from '@lucide/vue'
 import { fetchContentItemById } from '@/lib/api/services'
 import type { ContentItemDto } from '@/lib/api/types'
+import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -28,9 +29,7 @@ onMounted(async () => {
       <span>{{ t('reader.backToLibrary') }}</span>
     </router-link>
 
-    <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">
-      {{ t('common.loading') }}
-    </div>
+    <SkeletonArticle v-if="loading" :lines="4" />
 
     <div v-else-if="book" class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl space-y-6">
       <div v-if="book.coverImageUrl" class="h-80 rounded-2xl overflow-hidden bg-[var(--surface-subtle)] flex items-center justify-center p-6">

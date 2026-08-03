@@ -7,6 +7,7 @@ import ReadAloud from '@/components/ui/ReadAloud.vue'
 import { fetchContentItemById } from '@/lib/api/services'
 import { localizedTitle } from '@/lib/api/content'
 import type { ContentItemDto } from '@/lib/api/types'
+import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
 
 /**
  * «Ota-onalar uchun» bo'limidagi bitta yozuv sahifasi.
@@ -50,9 +51,7 @@ onMounted(async () => {
       <span>{{ t('common.back') }}</span>
     </router-link>
 
-    <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">
-      {{ t('common.loading') }}
-    </div>
+    <SkeletonArticle v-if="loading" :lines="6" />
 
     <article
       v-else-if="item"
