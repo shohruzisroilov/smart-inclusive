@@ -1,5 +1,4 @@
-import { cache } from "react";
-import { apiGet, apiPost, safeItem, safeList, DEFAULT_REVALIDATE } from "./client";
+import { apiGet, apiPost } from './http'
 import type {
   BookPageDto,
   ComicPageDto,
@@ -13,226 +12,142 @@ import type {
   VocabularyTopicDto,
   VolunteerApplicationDto,
   VolunteerCaseDto,
-} from "./types";
+} from './types'
 import {
   CONTACT_REQUEST_STATUS_NEW,
   STATE_ACTIVE,
   VOLUNTEER_APPLICATION_STATUS_NEW,
-} from "./constants";
+} from './constants'
 
-/**
- * Backend uchlarining tipli o'ramchilari.
- *
- * MUHIM — backendning ro'yxat filtrlari juda tor: `ContentItemFilterParams` da
- * faqat `search`/`page`/`pageSize`/`sortBy` bor, `typeId`/`categoryId`/
- * `audienceId` bo'yicha filtr YO'Q. Shu sababli sayt bo'limlari ro'yxatni bitta
- * katta sahifa qilib olib, kerakli kategoriyani TypeScript tomonda ajratadi
- * (`content.ts` ga qarang). Kontent hajmi o'sganda backendga filtr qo'shilishi
- * kerak — quyidagi `LIST_PAGE_SIZE` shunda kamaytiriladi.
- */
-export const LIST_PAGE_SIZE = 200;
+export const LIST_PAGE_SIZE = 200
 
-/**
- * `react.cache` — bitta render davomida bir xil so'rov takrorlanmasligi uchun.
- * Next `POST` javoblarini keshlamagani sababli bu ayniqsa muhim: sahifa va
- * uning `generateMetadata` si bir xil ro'yxatni so'rasa, bekendga bitta so'rov
- * ketadi.
- */
+async function safeApiCall<T>(promise: Promise<T>, fallback: T): Promise<T> {
+  try {
+    return await promise
+  } catch (error) {
+    console.warn('[api failure]', error)
+    return fallback
+  }
+}
 
 // ---------------------------------------------------------------------------
 // ContentItem
 // ---------------------------------------------------------------------------
 
-export const fetchContentItems = cache(async (): Promise<ContentItemDto[]> => {
-  const result = await safeItem(
-    apiPost<PaginatedResult<ContentItemDto>>(
-      "/ContentItem/GetList",
-      { page: 1, pageSize: LIST_PAGE_SIZE, sortBy: "DESC" },
-      { revalidate: DEFAULT_REVALIDATE, tags: ["content"] },
-    ),
-    "ContentItem/GetList",
-  );
-  return result?.rows ?? [];
-});
+export async function fetchContentItems(): Promise<ContentItemDto[]> {
+  const result = await safeApiCall(
+    apiPost<PaginatedResult<ContentItemDto>>('/ContentItem/GetList', {
+      page: 1,
+      pageSize: LIST_PAGE_SIZE,
+      sortBy: 'DESC',
+    }),
+    null,
+  )
+  return result?.rows ?? []
+}
 
-export const fetchContentItem = cache(async (id: number): Promise<ContentItemDto | null> => {
-  return safeItem(
-    apiGet<ContentItemDto>(`/ContentItem/Get/${id}`, { tags: ["content"] }),
-    `ContentItem/Get/${id}`,
-  );
-});
+export async function fetchContentItemById(id: number): Promise<ContentItemDto | null> {
+  return safeApiCall(apiGet<ContentItemDto>(`/ContentItem/Get/${id}`), null)
+}
 
-// ---------------------------------------------------------------------------
-// BookPage / ComicPage
-// ---------------------------------------------------------------------------
+export async function fetchBookPages(contentItemId: number): Promise<BookPageDto[]> {
+  const list = await safeApiCall(apiGet<BookPageDto[]>(`/BookPage/GetList/${contentItemId}`), [])
+  return Array.isArray(list) ? list : []
+}
 
-/**
- * Sahifa uchlarida `contentItemId` bo'yicha filtr YO'Q (`BookPageFilterParams`
- * bo'sh), shuning uchun hammasi olinib, kerakli kitobniki ajratiladi.
- */
-export const fetchBookPages = cache(async (): Promise<BookPageDto[]> => {
-  const result = await safeItem(
-    apiPost<PaginatedResult<BookPageDto>>(
-      "/BookPage/GetList",
-      { page: 1, pageSize: LIST_PAGE_SIZE, sortBy: "ASC" },
-      { tags: ["content"] },
-    ),
-    "BookPage/GetList",
-  );
-  return result?.rows ?? [];
-});
-
-/**
- * DIQQAT: `ComicPageController` da `[AllowAnonymous]` YO'Q — `BookPage` dan
- * farqli o'laroq, bu uch tizimga kirishni talab qiladi va saytdan 401 qaytaradi.
- * `safeItem` tufayli sahifa qulamaydi, lekin komiks sahifalari BO'SH keladi.
- * Backendda `GetList`/`Get` ochilishi kerak.
- */
-export const fetchComicPages = cache(async (): Promise<ComicPageDto[]> => {
-  const result = await safeItem(
-    apiPost<PaginatedResult<ComicPageDto>>(
-      "/ComicPage/GetList",
-      { page: 1, pageSize: LIST_PAGE_SIZE, sortBy: "ASC" },
-      { tags: ["content"] },
-    ),
-    "ComicPage/GetList (ochiq emas — backendda [AllowAnonymous] kerak)",
-  );
-  return result?.rows ?? [];
-});
+export async function fetchComicPages(contentItemId: number): Promise<ComicPageDto[]> {
+  const list = await safeApiCall(apiGet<ComicPageDto[]>(`/ComicPage/GetList/${contentItemId}`), [])
+  return Array.isArray(list) ? list : []
+}
 
 // ---------------------------------------------------------------------------
-// Test
+// PlatformStat & Slides
 // ---------------------------------------------------------------------------
 
-export const fetchTests = cache(async (languageId?: number): Promise<TestDto[]> => {
-  const result = await safeItem(
-    apiPost<PaginatedResult<TestDto>>(
-      "/Test/GetList",
-      { page: 1, pageSize: LIST_PAGE_SIZE, sortBy: "ASC", languageId: languageId ?? null },
-      { tags: ["tests"] },
-    ),
-    "Test/GetList",
-  );
-  return result?.rows ?? [];
-});
+export async function fetchPlatformStats(): Promise<PlatformStatDto[]> {
+  const result = await safeApiCall(
+    apiPost<PaginatedResult<PlatformStatDto>>('/PlatformStat/GetList', {
+      page: 1,
+      pageSize: 50,
+    }),
+    null,
+  )
+  return result?.rows ?? []
+}
 
-export const fetchTest = cache(async (id: number): Promise<TestDto | null> => {
-  return safeItem(apiGet<TestDto>(`/Test/Get/${id}`, { tags: ["tests"] }), `Test/Get/${id}`);
-});
-
-// ---------------------------------------------------------------------------
-// VocabularyTopic
-// ---------------------------------------------------------------------------
-
-export const fetchVocabularyTopics = cache(
-  async (languageId?: number): Promise<VocabularyTopicDto[]> => {
-    const result = await safeItem(
-      apiPost<PaginatedResult<VocabularyTopicDto>>(
-        "/VocabularyTopic/GetList",
-        { page: 1, pageSize: LIST_PAGE_SIZE, sortBy: "ASC", languageId: languageId ?? null },
-        { tags: ["vocabulary"] },
-      ),
-      "VocabularyTopic/GetList",
-    );
-    return result?.rows ?? [];
-  },
-);
-
-export const fetchVocabularyTopic = cache(
-  async (id: number): Promise<VocabularyTopicDto | null> => {
-    return safeItem(
-      apiGet<VocabularyTopicDto>(`/VocabularyTopic/Get/${id}`, { tags: ["vocabulary"] }),
-      `VocabularyTopic/Get/${id}`,
-    );
-  },
-);
+export async function fetchWizardSlides(scenarioId: number): Promise<SlideDto[]> {
+  const list = await safeApiCall(apiGet<SlideDto[]>(`/WizardSlide/GetList/${scenarioId}`), [])
+  return Array.isArray(list) ? list : []
+}
 
 // ---------------------------------------------------------------------------
-// Slide
+// Vocabulary
 // ---------------------------------------------------------------------------
 
-/**
- * DIQQAT: `SlideController` da ham `[AllowAnonymous]` YO'Q. Onboarding vizardi,
- * platforma taqdimoti va «Loyiha haqida» slaydlari shu uchdan keladi, ya'ni
- * backend ochilmaguncha bu uchta sahifa bo'sh bo'ladi.
- */
-export const fetchSlides = cache(
-  async (scenarioId: number, languageId: number): Promise<SlideDto[]> => {
-    const result = await safeItem(
-      apiPost<PaginatedResult<SlideDto>>(
-        "/Slide/GetList",
-        { page: 1, pageSize: LIST_PAGE_SIZE, sortBy: "ASC", scenarioId, languageId },
-        { tags: ["slides"] },
-      ),
-      `Slide/GetList scenario=${scenarioId} (ochiq emas — backendda [AllowAnonymous] kerak)`,
-    );
-    return result?.rows ?? [];
-  },
-);
+export async function fetchVocabularyTopics(): Promise<VocabularyTopicDto[]> {
+  const result = await safeApiCall(
+    apiPost<PaginatedResult<VocabularyTopicDto>>('/VocabularyTopic/GetList', {
+      page: 1,
+      pageSize: 100,
+    }),
+    null,
+  )
+  return result?.rows ?? []
+}
+
+export async function fetchVocabularyTopicById(id: number): Promise<VocabularyTopicDto | null> {
+  return safeApiCall(apiGet<VocabularyTopicDto>(`/VocabularyTopic/Get/${id}`), null)
+}
 
 // ---------------------------------------------------------------------------
-// VolunteerCase
+// Volunteers
 // ---------------------------------------------------------------------------
 
-export const fetchVolunteerCases = cache(async (): Promise<VolunteerCaseDto[]> => {
-  const result = await safeItem(
-    apiPost<PaginatedResult<VolunteerCaseDto>>(
-      "/VolunteerCase/GetList",
-      { page: 1, pageSize: LIST_PAGE_SIZE, sortBy: "ASC" },
-      { tags: ["volunteers"] },
-    ),
-    "VolunteerCase/GetList",
-  );
-  return result?.rows ?? [];
-});
+export async function fetchVolunteerCases(): Promise<VolunteerCaseDto[]> {
+  const result = await safeApiCall(
+    apiPost<PaginatedResult<VolunteerCaseDto>>('/VolunteerCase/GetList', {
+      page: 1,
+      pageSize: 100,
+    }),
+    null,
+  )
+  return result?.rows ?? []
+}
 
-export const fetchVolunteerCase = cache(async (id: number): Promise<VolunteerCaseDto | null> => {
-  return safeItem(
-    apiGet<VolunteerCaseDto>(`/VolunteerCase/Get/${id}`, { tags: ["volunteers"] }),
-    `VolunteerCase/Get/${id}`,
-  );
-});
+export async function fetchVolunteerCaseById(id: number): Promise<VolunteerCaseDto | null> {
+  return safeApiCall(apiGet<VolunteerCaseDto>(`/VolunteerCase/Get/${id}`), null)
+}
 
 // ---------------------------------------------------------------------------
-// PlatformStat
+// Tests
 // ---------------------------------------------------------------------------
 
-export const fetchPlatformStats = cache(async (): Promise<PlatformStatDto[]> => {
-  const result = await safeItem(
-    apiPost<PaginatedResult<PlatformStatDto>>(
-      "/PlatformStat/GetList",
-      { page: 1, pageSize: LIST_PAGE_SIZE, sortBy: "ASC" },
-      { tags: ["stats"] },
-    ),
-    "PlatformStat/GetList",
-  );
-  return result?.rows ?? [];
-});
+export async function fetchTests(): Promise<TestDto[]> {
+  const result = await safeApiCall(
+    apiPost<PaginatedResult<TestDto>>('/Test/GetList', {
+      page: 1,
+      pageSize: 100,
+    }),
+    null,
+  )
+  return result?.rows ?? []
+}
+
+export async function fetchTestById(id: number): Promise<TestDto | null> {
+  return safeApiCall(apiGet<TestDto>(`/Test/Get/${id}`), null)
+}
 
 // ---------------------------------------------------------------------------
-// SelectList — formalarga kerak bo'lgan ochiq ro'yxatlar
+// SelectList (Regions)
 // ---------------------------------------------------------------------------
 
-/** Faqat `[AllowAnonymous]` bo'lgan ro'yxatlar sayt uchun ishlatiladi. */
-export const fetchSelectList = cache(
-  async (name: string, pathParam?: number): Promise<SelectListItemDto[]> => {
-    const path =
-      pathParam === undefined
-        ? `/SelectList/${name}SelectList`
-        : `/SelectList/${name}SelectList/${pathParam}`;
-
-    return safeList(
-      apiGet<SelectListItemDto[]>(path, { revalidate: 3600, tags: ["select-lists"] }),
-      path,
-    );
-  },
-);
-
-/** Ko'ngilli arizasi formasidagi viloyat tanlagichi uchun. `1` — O'zbekiston. */
-export const fetchRegions = cache((countryId = 1) => fetchSelectList("Region", countryId));
+export async function fetchRegions(): Promise<SelectListItemDto[]> {
+  const list = await safeApiCall(apiGet<SelectListItemDto[]>('/SelectList/Region'), [])
+  return Array.isArray(list) ? list : []
+}
 
 // ---------------------------------------------------------------------------
-// Formalar (POST) — server action'lardan chaqiriladi
+// Write Endpoints
 // ---------------------------------------------------------------------------
 
 export interface ContactRequestInput {
@@ -241,12 +156,6 @@ export interface ContactRequestInput {
   message: string;
 }
 
-/**
- * `ContactRequestController.Create` — `[AllowAnonymous]`.
- *
- * DTO'ning nullable BO'LMAGAN maydonlari (`statusId`, `stateId`) to'ldirib
- * yuboriladi: bo'sh ketsa backend 400 beradi. `id` — 0 (yangi yozuv).
- */
 export async function createContactRequest(input: ContactRequestInput): Promise<number> {
   const dto: ContactRequestDto = {
     id: 0,
@@ -256,21 +165,20 @@ export async function createContactRequest(input: ContactRequestInput): Promise<
     responseNote: null,
     statusId: CONTACT_REQUEST_STATUS_NEW,
     stateId: STATE_ACTIVE,
-  };
+  }
 
-  return apiPost<number>("/ContactRequest/Create", dto, { revalidate: 0 });
+  return apiPost<number>('/ContactRequest/Create', dto)
 }
 
 export interface VolunteerApplicationInput {
   fullName: string;
   phone: string;
+  regionId: number;
   email?: string | null;
   age?: number | null;
   message?: string | null;
-  regionId: number;
 }
 
-/** `VolunteerApplicationController.Create` — `[AllowAnonymous]`. */
 export async function createVolunteerApplication(
   input: VolunteerApplicationInput,
 ): Promise<number> {
@@ -285,7 +193,7 @@ export async function createVolunteerApplication(
     regionId: input.regionId,
     statusId: VOLUNTEER_APPLICATION_STATUS_NEW,
     stateId: STATE_ACTIVE,
-  };
+  }
 
-  return apiPost<number>("/VolunteerApplication/Create", dto, { revalidate: 0 });
+  return apiPost<number>('/VolunteerApplication/Create', dto)
 }
