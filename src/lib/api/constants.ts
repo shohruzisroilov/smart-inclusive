@@ -12,6 +12,13 @@
 export const STATE_ACTIVE = 1;
 export const STATE_PASSIVE = 2;
 
+/**
+ * `info_country` (`0002 COUNTRY REGION DISTRICT.sql`).
+ *
+ * `SelectList/RegionSelectList/{countryId}` majburiy yo'l parametri talab qiladi.
+ */
+export const COUNTRY_UZBEKISTAN = 1;
+
 /** `enum_language` — `LanguageIdConst`. */
 export const LANGUAGE_UZ = 1;
 export const LANGUAGE_RU = 2;

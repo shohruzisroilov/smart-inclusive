@@ -15,11 +15,19 @@ import type {
 } from './types'
 import {
   CONTACT_REQUEST_STATUS_NEW,
+  COUNTRY_UZBEKISTAN,
   STATE_ACTIVE,
   VOLUNTEER_APPLICATION_STATUS_NEW,
 } from './constants'
+import { normalizeMedia } from './files'
 
 export const LIST_PAGE_SIZE = 200
+
+/**
+ * Kitob/komiks sahifalari uchun alohida, kattaroq limit — bekend `contentItemId`
+ * bo'yicha filtrlay olmagani uchun butun ro'yxat olinadi.
+ */
+export const PAGE_LIST_SIZE = 1000
 
 async function safeApiCall<T>(promise: Promise<T>, fallback: T): Promise<T> {
   try {
@@ -28,6 +36,31 @@ async function safeApiCall<T>(promise: Promise<T>, fallback: T): Promise<T> {
     console.warn('[api failure]', error)
     return fallback
   }
+}
+
+/**
+ * Media maydonlarini yozuvlar ro'yxatida normalizatsiya qiladi.
+ * Sabab va tafsilotlar — `files.ts`.
+ */
+function normalizeList<T>(items: T[]): T[] {
+  return items.map((item) => normalizeMedia(item))
+}
+
+/** Lug'at mavzusi ichidagi so'zlarning rasm/audio maydonlari ham yo'l saqlaydi. */
+function normalizeTopic(topic: VocabularyTopicDto | null): VocabularyTopicDto | null {
+  if (!topic) return null
+  topic.vocabularyWords = normalizeList(topic.vocabularyWords ?? [])
+  return topic
+}
+
+/** Savol va javob variantlarining rasmlari ham yo'l saqlaydi. */
+function normalizeTest(test: TestDto | null): TestDto | null {
+  if (!test) return null
+  for (const question of test.qustions ?? []) {
+    normalizeMedia(question)
+    question.answerOptions = normalizeList(question.answerOptions ?? [])
+  }
+  return test
 }
 
 // ---------------------------------------------------------------------------
@@ -43,21 +76,54 @@ export async function fetchContentItems(): Promise<ContentItemDto[]> {
     }),
     null,
   )
-  return result?.rows ?? []
+  return normalizeList(result?.rows ?? [])
 }
 
 export async function fetchContentItemById(id: number): Promise<ContentItemDto | null> {
-  return safeApiCall(apiGet<ContentItemDto>(`/ContentItem/Get/${id}`), null)
+  return normalizeMedia(await safeApiCall(apiGet<ContentItemDto>(`/ContentItem/Get/${id}`), null))
 }
 
+/**
+ * DIQQAT — `BookPageFilterParams` va `ComicPageFilterParams` da `contentItemId`
+ * maydoni YO'Q (`Search` faqat sarlavha va matn bo'yicha qidiradi), shuning
+ * uchun bekend sahifalarni kontent bo'yicha filtrlab bera olmaydi. Ro'yxat
+ * to'liq olinadi va shu yerda ajratiladi.
+ */
 export async function fetchBookPages(contentItemId: number): Promise<BookPageDto[]> {
-  const list = await safeApiCall(apiGet<BookPageDto[]>(`/BookPage/GetList/${contentItemId}`), [])
-  return Array.isArray(list) ? list : []
+  const result = await safeApiCall(
+    apiPost<PaginatedResult<BookPageDto>>('/BookPage/GetList', {
+      page: 1,
+      pageSize: PAGE_LIST_SIZE,
+      sortBy: 'ASC',
+    }),
+    null,
+  )
+  return normalizeList(
+    (result?.rows ?? [])
+      .filter((page) => page.contentItemId === contentItemId)
+      .sort((a, b) => a.pageNumber - b.pageNumber),
+  )
 }
 
+/**
+ * `ComicPageController` da `[AllowAnonymous]` YO'Q — jonli API bu so'rovga 401
+ * qaytaradi va komiks sahifalari bo'sh chiqadi. Bekendga `[AllowAnonymous]`
+ * qo'shilishi kerak (`BookPage` va `ContentItem` da bor).
+ */
 export async function fetchComicPages(contentItemId: number): Promise<ComicPageDto[]> {
-  const list = await safeApiCall(apiGet<ComicPageDto[]>(`/ComicPage/GetList/${contentItemId}`), [])
-  return Array.isArray(list) ? list : []
+  const result = await safeApiCall(
+    apiPost<PaginatedResult<ComicPageDto>>('/ComicPage/GetList', {
+      page: 1,
+      pageSize: PAGE_LIST_SIZE,
+      sortBy: 'ASC',
+    }),
+    null,
+  )
+  return normalizeList(
+    (result?.rows ?? [])
+      .filter((page) => page.contentItemId === contentItemId)
+      .sort((a, b) => a.pageNumber - b.pageNumber),
+  )
 }
 
 // ---------------------------------------------------------------------------
@@ -75,9 +141,24 @@ export async function fetchPlatformStats(): Promise<PlatformStatDto[]> {
   return result?.rows ?? []
 }
 
+/**
+ * DIQQAT — `WizardSlide` degan kontroller bekendda YO'Q; to'g'ri uch `/Slide`.
+ * `SlideFilterParams` da `ScenarioId` bor, ya'ni filtr server tomonda ishlaydi.
+ *
+ * Lekin `SlideController` da `[AllowAnonymous]` YO'Q — jonli API 401 qaytaradi
+ * va vizard slaydlari bo'sh chiqadi. Bekendga `[AllowAnonymous]` kerak.
+ */
 export async function fetchWizardSlides(scenarioId: number): Promise<SlideDto[]> {
-  const list = await safeApiCall(apiGet<SlideDto[]>(`/WizardSlide/GetList/${scenarioId}`), [])
-  return Array.isArray(list) ? list : []
+  const result = await safeApiCall(
+    apiPost<PaginatedResult<SlideDto>>('/Slide/GetList', {
+      page: 1,
+      pageSize: LIST_PAGE_SIZE,
+      sortBy: 'ASC',
+      scenarioId,
+    }),
+    null,
+  )
+  return normalizeList((result?.rows ?? []).filter((slide) => slide.stateId === STATE_ACTIVE))
 }
 
 // ---------------------------------------------------------------------------
@@ -92,11 +173,13 @@ export async function fetchVocabularyTopics(): Promise<VocabularyTopicDto[]> {
     }),
     null,
   )
-  return result?.rows ?? []
+  return (result?.rows ?? []).map((topic) => normalizeTopic(topic)!)
 }
 
 export async function fetchVocabularyTopicById(id: number): Promise<VocabularyTopicDto | null> {
-  return safeApiCall(apiGet<VocabularyTopicDto>(`/VocabularyTopic/Get/${id}`), null)
+  return normalizeTopic(
+    await safeApiCall(apiGet<VocabularyTopicDto>(`/VocabularyTopic/Get/${id}`), null),
+  )
 }
 
 // ---------------------------------------------------------------------------
@@ -111,11 +194,11 @@ export async function fetchVolunteerCases(): Promise<VolunteerCaseDto[]> {
     }),
     null,
   )
-  return result?.rows ?? []
+  return normalizeList(result?.rows ?? [])
 }
 
 export async function fetchVolunteerCaseById(id: number): Promise<VolunteerCaseDto | null> {
-  return safeApiCall(apiGet<VolunteerCaseDto>(`/VolunteerCase/Get/${id}`), null)
+  return normalizeMedia(await safeApiCall(apiGet<VolunteerCaseDto>(`/VolunteerCase/Get/${id}`), null))
 }
 
 // ---------------------------------------------------------------------------
@@ -130,19 +213,28 @@ export async function fetchTests(): Promise<TestDto[]> {
     }),
     null,
   )
-  return result?.rows ?? []
+  return (result?.rows ?? []).map((test) => normalizeTest(test)!)
 }
 
 export async function fetchTestById(id: number): Promise<TestDto | null> {
-  return safeApiCall(apiGet<TestDto>(`/Test/Get/${id}`), null)
+  return normalizeTest(await safeApiCall(apiGet<TestDto>(`/Test/Get/${id}`), null))
 }
 
 // ---------------------------------------------------------------------------
 // SelectList (Regions)
 // ---------------------------------------------------------------------------
 
-export async function fetchRegions(): Promise<SelectListItemDto[]> {
-  const list = await safeApiCall(apiGet<SelectListItemDto[]>('/SelectList/Region'), [])
+/**
+ * DIQQAT — to'g'ri uch `/SelectList/RegionSelectList/{countryId}`, `/SelectList/Region`
+ * emas. `countryId` majburiy yo'l parametri.
+ */
+export async function fetchRegions(
+  countryId: number = COUNTRY_UZBEKISTAN,
+): Promise<SelectListItemDto[]> {
+  const list = await safeApiCall(
+    apiGet<SelectListItemDto[]>(`/SelectList/RegionSelectList/${countryId}`),
+    [],
+  )
   return Array.isArray(list) ? list : []
 }
 
