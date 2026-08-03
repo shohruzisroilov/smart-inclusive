@@ -3,7 +3,6 @@ import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft, Calendar, User, FileDown } from '@lucide/vue'
-import ReadAloud from '@/components/ui/ReadAloud.vue'
 import { fetchContentItemById } from '@/lib/api/services'
 import { localizedTitle } from '@/lib/api/content'
 import type { ContentItemDto } from '@/lib/api/types'
@@ -92,9 +91,7 @@ onMounted(async () => {
         </div>
       </header>
 
-      <ReadAloud v-if="item.description || item.fullText" target-id="article-body" />
-
-      <div id="article-body" class="space-y-5">
+      <div class="space-y-5">
         <p
           v-if="item.description"
           class="text-base text-[var(--fg-muted)] leading-relaxed font-light"

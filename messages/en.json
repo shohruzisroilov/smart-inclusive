@@ -72,9 +72,6 @@
     "dyslexiaMode": "Dyslexia Mode (Special Font)",
     "fontScale": "Text Size",
     "reducedMotion": "Reduce Motion",
-    "readAloud": "Read Aloud (Listen)",
-    "readAloudStop": "Stop Reading",
-    "readAloudPlay": "Listen to text",
     "screenReaderInfo": "Screen Reader compatibility is enabled. You can fully navigate the website using the keyboard (Tab, Enter)."
   },
   "common": {

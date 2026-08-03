@@ -72,9 +72,6 @@
     "dyslexiaMode": "Disleksiya rejimi (maxsus shrift)",
     "fontScale": "Matn o'lchami",
     "reducedMotion": "Harakatlarni kamaytirish",
-    "readAloud": "Ovozli o'qish (Eshitish)",
-    "readAloudStop": "Ovozni to'xtatish",
-    "readAloudPlay": "Matnni eshitish",
     "screenReaderInfo": "Sayt ekran o'quvchi (Screen Reader) dasturlariga moslangan va klaviatura (Tab, Enter) orqali to'liq boshqariladi."
   },
   "common": {
