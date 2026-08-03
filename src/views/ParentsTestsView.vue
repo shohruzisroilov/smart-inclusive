@@ -5,6 +5,7 @@ import { ArrowLeft, ClipboardCheck, ArrowRight } from '@lucide/vue'
 import { getParentsTests } from '@/lib/api/tests'
 import type { TestDto } from '@/lib/api/types'
 import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
+import PageHero from '@/components/ui/PageHero.vue'
 
 const { t } = useI18n()
 const tests = ref<TestDto[]>([])
@@ -26,22 +27,13 @@ onMounted(async () => {
       <span>{{ t('common.back') }}</span>
     </router-link>
 
-    <div
-      class="bg-gradient-to-r from-emerald-600 to-teal-600 p-8 sm:p-12 rounded-3xl text-white shadow-xl space-y-3"
-    >
-      <div
-        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-emerald-100 text-xs font-bold uppercase tracking-wider"
-      >
-        <ClipboardCheck class="w-4 h-4" aria-hidden="true" />
-        <span>{{ t('sections.parentsTestEyebrow') }}</span>
-      </div>
-      <h1 class="text-3xl sm:text-4xl font-extrabold font-display">
-        {{ t('sections.parentsTestsTitle') }}
-      </h1>
-      <p class="text-white/90 max-w-xl text-sm leading-relaxed font-light">
-        {{ t('sections.parentsTestsSubtitle') }}
-      </p>
-    </div>
+    <PageHero
+      accent="parents"
+      :title="t('sections.parentsTestsTitle')"
+      :subtitle="t('sections.parentsTestsSubtitle')"
+      :eyebrow="t('sections.parentsTestEyebrow')"
+      :icon="ClipboardCheck"
+    />
 
     <SkeletonCardGrid v-if="loading" />
 

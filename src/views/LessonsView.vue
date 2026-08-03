@@ -6,6 +6,7 @@ import { fetchContentItems } from '@/lib/api/services'
 import type { ContentItemDto } from '@/lib/api/types'
 import { CONTENT_CATEGORY_DARSLAR } from '@/lib/api/constants'
 import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
+import PageHero from '@/components/ui/PageHero.vue'
 
 const { t } = useI18n()
 const items = ref<ContentItemDto[]>([])
@@ -20,14 +21,11 @@ onMounted(async () => {
 
 <template>
   <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-    <div class="bg-gradient-to-r from-[#135f70] to-[#1b93a6] p-8 sm:p-12 rounded-3xl text-white shadow-xl space-y-3">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-amber-300 text-xs font-bold uppercase tracking-wider">
-        <GraduationCap class="w-4 h-4" />
-        <span>{{ t('sections.lessonsTitle') }}</span>
-      </div>
-      <h1 class="text-3xl sm:text-4xl font-extrabold font-display">{{ t('sections.lessonsTitle') }}</h1>
-      <p class="text-white/80 max-w-xl text-sm leading-relaxed font-light">{{ t('sections.lessonsSubtitle') }}</p>
-    </div>
+    <PageHero
+      accent="lessons"
+      :title="t('sections.lessonsTitle')"
+      :subtitle="t('sections.lessonsSubtitle')"
+    />
 
     <SkeletonCardGrid v-if="loading" />
 

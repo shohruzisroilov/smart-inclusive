@@ -5,6 +5,7 @@ import { Award, ArrowRight } from '@lucide/vue'
 import { getKidsTests } from '@/lib/api/tests'
 import type { TestDto } from '@/lib/api/types'
 import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
+import PageHero from '@/components/ui/PageHero.vue'
 
 const { t } = useI18n()
 const tests = ref<TestDto[]>([])
@@ -18,14 +19,11 @@ onMounted(async () => {
 
 <template>
   <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-8 sm:p-12 rounded-3xl text-white shadow-xl space-y-3">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-purple-200 text-xs font-bold uppercase tracking-wider">
-        <Award class="w-4 h-4" />
-        <span>{{ t('sections.testsTitle') }}</span>
-      </div>
-      <h1 class="text-3xl sm:text-4xl font-extrabold font-display">{{ t('sections.testsTitle') }}</h1>
-      <p class="text-white/90 max-w-xl text-sm leading-relaxed font-light">{{ t('sections.testsSubtitle') }}</p>
-    </div>
+    <PageHero
+      accent="tests"
+      :title="t('sections.testsTitle')"
+      :subtitle="t('sections.testsSubtitle')"
+    />
 
     <SkeletonCardGrid v-if="loading" />
 

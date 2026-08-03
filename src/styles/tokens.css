@@ -319,3 +319,79 @@
   transition-duration: 0.01ms !important;
   scroll-behavior: auto !important;
 }
+
+/* ========================================================================
+   BO'LIM AKSENTLARI
+
+   Sayt bo'limlari rang bilan ajratiladi — bolalar uchun bu bezak emas,
+   yo'l topish vositasi (qaysi bo'limdaligini rangdan biladi).
+
+   Ilgari bu ranglar 14 ta sahifada QO'LDA yozilgan edi va bir-biriga
+   siljib ketgandi: `purple-600 -> pink-600` va `purple-500 -> pink-600`
+   kabi tasodifiy juftliklar, jami 11 xil gradient.
+
+   Muhimi — eskilarining ko'pi KONTRASTDAN YIQILARDI: oq matn `amber-500`
+   ustida 2.15:1, `teal-500` ustida 2.49:1 (WCAG talabi: mayda matn 4.5:1).
+   Quyidagilar chuqurroq olingan, har birining ENG YORUG' uchida ham oq
+   matn 4.5:1 dan o'tadi (5.02 - 7.90 oralig'ida).
+   ======================================================================== */
+:root {
+  --accent-vocabulary-from: #0F766E;
+  --accent-vocabulary-to: #115E59;
+
+  --accent-etiquette-from: #B45309;
+  --accent-etiquette-to: #92400E;
+
+  --accent-ican-from: #BE123C;
+  --accent-ican-to: #9F1239;
+
+  --accent-lessons-from: #4338CA;
+  --accent-lessons-to: #3730A3;
+
+  --accent-books-from: #047857;
+  --accent-books-to: #065F46;
+
+  --accent-comics-from: #6D28D9;
+  --accent-comics-to: #5B21B6;
+
+  --accent-tests-from: #7E22CE;
+  --accent-tests-to: #6B21A8;
+
+  --accent-parents-from: #C2410C;
+  --accent-parents-to: #9A3412;
+
+  --accent-volunteers-from: #0F766E;
+  --accent-volunteers-to: #134E4A;
+
+  /* Aksent ustidagi matn. Yuqori kontrast rejimida fon oqargani uchun bu
+     qora rangga o'tadi — aks holda oq fonda oq matn qolib ketardi. */
+  --accent-fg: #ffffff;
+  --accent-chip: rgb(255 255 255 / 0.2);
+}
+
+/* Yuqori kontrast rejimida rang bilan ajratish o'rniga bir xil qora fon —
+   bu rejimni tanlagan foydalanuvchiga rang emas, kontrast muhim. */
+:root[data-theme="high-contrast"],
+:root[data-theme="monochrome"] {
+  --accent-vocabulary-from: var(--surface-inverse);
+  --accent-vocabulary-to: var(--surface-inverse);
+  --accent-etiquette-from: var(--surface-inverse);
+  --accent-etiquette-to: var(--surface-inverse);
+  --accent-ican-from: var(--surface-inverse);
+  --accent-ican-to: var(--surface-inverse);
+  --accent-lessons-from: var(--surface-inverse);
+  --accent-lessons-to: var(--surface-inverse);
+  --accent-books-from: var(--surface-inverse);
+  --accent-books-to: var(--surface-inverse);
+  --accent-comics-from: var(--surface-inverse);
+  --accent-comics-to: var(--surface-inverse);
+  --accent-tests-from: var(--surface-inverse);
+  --accent-tests-to: var(--surface-inverse);
+  --accent-parents-from: var(--surface-inverse);
+  --accent-parents-to: var(--surface-inverse);
+  --accent-volunteers-from: var(--surface-inverse);
+  --accent-volunteers-to: var(--surface-inverse);
+
+  --accent-fg: var(--fg-inverse);
+  --accent-chip: rgb(0 0 0 / 0.12);
+}

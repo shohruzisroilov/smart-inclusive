@@ -6,6 +6,7 @@ import { fetchContentItems } from '@/lib/api/services'
 import type { ContentItemDto } from '@/lib/api/types'
 import { CONTENT_TYPE_KOMIKS } from '@/lib/api/constants'
 import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
+import PageHero from '@/components/ui/PageHero.vue'
 
 const { t } = useI18n()
 const comics = ref<ContentItemDto[]>([])
@@ -20,12 +21,11 @@ onMounted(async () => {
 
 <template>
   <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-    <div class="bg-gradient-to-r from-[#135f70] to-[#1b93a6] p-8 sm:p-12 rounded-3xl text-white shadow-xl space-y-3">
-      <h1 class="text-3xl sm:text-4xl font-extrabold font-display">Komikslar</h1>
-      <p class="text-white/80 max-w-xl text-sm leading-relaxed font-light">
-        Bolalar uchun qiziqarli rasmli komikslar va hikoyalar.
-      </p>
-    </div>
+    <PageHero
+      accent="comics"
+      :title="t('sections.comicsTitle')"
+      :subtitle="t('sections.comicsSubtitle')"
+    />
 
     <SkeletonCardGrid v-if="loading" />
 
@@ -45,7 +45,7 @@ onMounted(async () => {
           <p class="text-xs text-[var(--fg-muted)] mt-1 line-clamp-2">{{ c.description }}</p>
         </div>
         <div class="pt-2 flex items-center justify-between text-xs font-bold text-[var(--brand)]">
-          <span>O'qish</span>
+          <span>{{ t('sections.comicsRead') }}</span>
           <ArrowRight class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </div>
       </router-link>

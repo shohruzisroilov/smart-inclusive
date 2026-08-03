@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { GraduationCap, BookOpen, Video, ShieldCheck, Home, FileText, ArrowRight } from '@lucide/vue'
+import PageHero from '@/components/ui/PageHero.vue'
 
 const { t } = useI18n()
 
@@ -39,18 +40,13 @@ const cards = [
 <template>
   <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
     <!-- Hero Banner -->
-    <div class="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 p-8 sm:p-12 rounded-3xl text-white shadow-xl space-y-3">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-amber-100 text-xs font-bold uppercase tracking-wider">
-        <GraduationCap class="w-4 h-4" />
-        <span>{{ t('sections.parentsEyebrow') }}</span>
-      </div>
-      <h1 class="text-3xl sm:text-4xl font-extrabold font-display leading-tight">
-        {{ t('sections.parentsHubTitle') }}
-      </h1>
-      <p class="text-white/90 max-w-xl text-sm leading-relaxed font-light">
-        {{ t('sections.parentsHubSubtitle') }}
-      </p>
-    </div>
+    <PageHero
+      accent="parents"
+      :title="t('sections.parentsHubTitle')"
+      :subtitle="t('sections.parentsHubSubtitle')"
+      :eyebrow="t('sections.parentsEyebrow')"
+      :icon="GraduationCap"
+    />
 
     <!-- Cards Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

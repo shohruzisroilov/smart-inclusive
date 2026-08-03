@@ -6,6 +6,7 @@ import { getTestsForCategories } from '@/lib/api/tests'
 import { CONTENT_CATEGORY_ETIKET } from '@/lib/api/constants'
 import type { TestDto } from '@/lib/api/types'
 import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
+import PageHero from '@/components/ui/PageHero.vue'
 
 const { t } = useI18n()
 const tests = ref<TestDto[]>([])
@@ -27,22 +28,13 @@ onMounted(async () => {
       <span>{{ t('common.back') }}</span>
     </router-link>
 
-    <div
-      class="bg-gradient-to-r from-amber-500 to-orange-600 p-8 sm:p-12 rounded-3xl text-white shadow-xl space-y-3"
-    >
-      <div
-        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-amber-100 text-xs font-bold uppercase tracking-wider"
-      >
-        <Award class="w-4 h-4" aria-hidden="true" />
-        <span>{{ t('sections.etiquetteTestsEyebrow') }}</span>
-      </div>
-      <h1 class="text-3xl sm:text-4xl font-extrabold font-display">
-        {{ t('sections.etiquetteTestsTitle') }}
-      </h1>
-      <p class="text-white/90 max-w-xl text-sm leading-relaxed font-light">
-        {{ t('sections.etiquetteTestsSubtitle') }}
-      </p>
-    </div>
+    <PageHero
+      accent="etiquette"
+      :title="t('sections.etiquetteTestsTitle')"
+      :subtitle="t('sections.etiquetteTestsSubtitle')"
+      :eyebrow="t('sections.etiquetteTestsEyebrow')"
+      :icon="Award"
+    />
 
     <SkeletonCardGrid v-if="loading" />
 

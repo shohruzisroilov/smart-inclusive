@@ -7,6 +7,7 @@ import { localizedTitle } from '@/lib/api/content'
 import type { ContentItemDto } from '@/lib/api/types'
 import { CONTENT_CATEGORY_UYDA_TALIM } from '@/lib/api/constants'
 import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
+import PageHero from '@/components/ui/PageHero.vue'
 
 const { t, locale } = useI18n()
 const items = ref<ContentItemDto[]>([])
@@ -26,10 +27,11 @@ onMounted(async () => {
       <span>Orqaga</span>
     </router-link>
 
-    <div class="bg-gradient-to-r from-purple-600 to-pink-600 p-8 sm:p-12 rounded-3xl text-white shadow-xl space-y-3">
-      <h1 class="text-3xl sm:text-4xl font-extrabold font-display">{{ t('sections.homeEdTitle') }}</h1>
-      <p class="text-white/90 max-w-xl text-sm leading-relaxed font-light">{{ t('sections.homeEdSubtitle') }}</p>
-    </div>
+    <PageHero
+      accent="parents"
+      :title="t('sections.homeEdTitle')"
+      :subtitle="t('sections.homeEdSubtitle')"
+    />
 
     <SkeletonCardGrid v-if="loading" />
 

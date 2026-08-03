@@ -289,7 +289,10 @@
     "hubPresentation": "Презентация платформы",
     "hubPresentationDesc": "Идея и цели проекта Smart Inclusive",
     "hubHomeEd": "Домашнее обучение",
-    "hubHomeEdDesc": "Уроки, которые можно выполнять с ребёнком дома"
+    "hubHomeEdDesc": "Уроки, которые можно выполнять с ребёнком дома",
+    "comicsTitle": "Комиксы",
+    "comicsSubtitle": "Увлекательные комиксы и истории в картинках для детей.",
+    "comicsRead": "Читать"
   },
   "vocab": {
     "title": "Темы словаря",

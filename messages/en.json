@@ -289,7 +289,10 @@
     "hubPresentation": "Platform presentation",
     "hubPresentationDesc": "The idea and goals of the Smart Inclusive project",
     "hubHomeEd": "Home education",
-    "hubHomeEdDesc": "Lessons you can do with your child at home"
+    "hubHomeEdDesc": "Lessons you can do with your child at home",
+    "comicsTitle": "Comics",
+    "comicsSubtitle": "Engaging picture comics and stories for children.",
+    "comicsRead": "Read"
   },
   "vocab": {
     "title": "Dictionary topics",

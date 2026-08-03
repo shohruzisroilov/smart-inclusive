@@ -289,7 +289,10 @@
     "hubPresentation": "Platforma taqdimoti",
     "hubPresentationDesc": "Smart Inclusive loyihasining gʻoyasi va maqsadlari",
     "hubHomeEd": "Uyda taʼlim",
-    "hubHomeEdDesc": "Farzandingiz bilan uyda bajarishingiz mumkin boʻlgan darslar"
+    "hubHomeEdDesc": "Farzandingiz bilan uyda bajarishingiz mumkin boʻlgan darslar",
+    "comicsTitle": "Komikslar",
+    "comicsSubtitle": "Bolalar uchun qiziqarli rasmli komikslar va hikoyalar.",
+    "comicsRead": "O'qish"
   },
   "vocab": {
     "title": "Lugʻat mavzulari",

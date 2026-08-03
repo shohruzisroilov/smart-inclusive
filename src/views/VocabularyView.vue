@@ -5,6 +5,7 @@ import { BookOpen, ArrowRight } from '@lucide/vue'
 import { fetchVocabularyTopics } from '@/lib/api/services'
 import type { VocabularyTopicDto } from '@/lib/api/types'
 import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
+import PageHero from '@/components/ui/PageHero.vue'
 
 const { t } = useI18n()
 const topics = ref<VocabularyTopicDto[]>([])
@@ -18,18 +19,11 @@ onMounted(async () => {
 
 <template>
   <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-    <div class="bg-gradient-to-r from-[#135f70] to-[#1b93a6] p-8 sm:p-12 rounded-3xl text-white shadow-xl space-y-3">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-amber-300 text-xs font-bold uppercase tracking-wider">
-        <BookOpen class="w-4 h-4" />
-        <span>{{ t('nav.kidsItems.dictionary') }}</span>
-      </div>
-      <h1 class="text-3xl sm:text-4xl font-extrabold font-display">
-        {{ t('vocab.title') }}
-      </h1>
-      <p class="text-white/80 max-w-xl text-sm leading-relaxed font-light">
-        {{ t('vocab.subtitle') }}
-      </p>
-    </div>
+    <PageHero
+      accent="vocabulary"
+      :title="t('vocab.title')"
+      :subtitle="t('vocab.subtitle')"
+    />
 
     <SkeletonCardGrid v-if="loading" />
 
@@ -48,8 +42,17 @@ onMounted(async () => {
           <h3 class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-[var(--brand)] transition-colors">
             {{ topic.title }}
           </h3>
-          <p class="text-xs text-[var(--fg-muted)] mt-1">
-            {{ topic.vocabularyWords?.length || 0 }} {{ t('vocab.cardDesc') }}
+          <!--
+            So'z soni va tavsif ALOHIDA qatorlarda. Ilgari ikkalasi bitta
+            qatorga ulanib, «1 Ushbu to'plam orqali…» degan ma'nosiz matn
+            chiqardi. `wordsCount` kaliti («{count} ta so'z») shu uchun bor
+            edi, lekin ishlatilmagan.
+          -->
+          <p class="text-xs font-semibold text-[var(--brand)] mt-1">
+            {{ t('vocab.wordsCount', { count: topic.vocabularyWords?.length || 0 }) }}
+          </p>
+          <p class="text-xs text-[var(--fg-muted)] mt-1.5 line-clamp-2">
+            {{ t('vocab.cardDesc') }}
           </p>
         </div>
 
