@@ -43,7 +43,9 @@
     "children": "Children using it",
     "lessons": "Ready lessons",
     "volunteers": "Active volunteers",
-    "regions": "Regions covered"
+    "regions": "Regions covered",
+    "copied": "Copied",
+    "copyHint": "Click to copy"
   },
   "footer": {
     "sections": "Sections",
@@ -164,7 +166,8 @@
     "goToTest": "Go to test",
     "prev": "Back",
     "next": "Next",
-    "emptyPages": "Pages for this content have not been uploaded yet."
+    "emptyPages": "Pages for this content have not been uploaded yet.",
+    "readToEnd": "Read to the end"
   },
   "player": {
     "back": "Back",
@@ -176,7 +179,14 @@
     "timeline": "Video time",
     "unsupported": "Your browser does not support the player.",
     "unavailable": "Video not available yet",
-    "transcript": "Text transcript"
+    "transcript": "Text transcript",
+    "watchToEnd": "Watch to the end",
+    "markWatched": "Mark as watched",
+    "watched": "Watched",
+    "speed": "Speed",
+    "speedSlow": "Slow",
+    "speedNormal": "Normal",
+    "speedFast": "Fast"
   },
   "home": {
     "carouselLabel": "Home page highlights",
@@ -230,7 +240,10 @@
   },
   "mascot": {
     "show": "Show the helper",
-    "hide": "Hide the helper"
+    "hide": "Hide the helper",
+    "label": "Mini mascot",
+    "collapse": "Collapse",
+    "expand": "Expand"
   },
   "trustLine": {
     "label": "Trust line:",

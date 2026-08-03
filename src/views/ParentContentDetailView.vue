@@ -8,6 +8,9 @@ import { fetchContentItemById } from '@/lib/api/services'
 import { localizedTitle } from '@/lib/api/content'
 import type { ContentItemDto } from '@/lib/api/types'
 import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
+import VideoPlayer from '@/components/ui/VideoPlayer.vue'
+import { getTestForContentItem } from '@/lib/api/tests'
+import type { TestDto } from '@/lib/api/types'
 
 /**
  * «Ota-onalar uchun» bo'limidagi bitta yozuv sahifasi.
@@ -22,6 +25,7 @@ const { t, locale } = useI18n()
 
 const item = ref<ContentItemDto | null>(null)
 const loading = ref(true)
+const linkedTest = ref<TestDto | null>(null)
 
 const backTo = computed(() => (route.meta.backTo as string) ?? '/for-parents')
 const title = computed(() => (item.value ? localizedTitle(item.value, locale.value) : ''))
@@ -36,7 +40,12 @@ function formatDate(iso: string) {
 
 onMounted(async () => {
   const id = Number(route.params.id)
-  if (Number.isInteger(id)) item.value = await fetchContentItemById(id)
+  if (Number.isInteger(id)) {
+    ;[item.value, linkedTest.value] = await Promise.all([
+      fetchContentItemById(id),
+      getTestForContentItem(id),
+    ])
+  }
   loading.value = false
 })
 </script>
@@ -57,15 +66,7 @@ onMounted(async () => {
       v-else-if="item"
       class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl space-y-6"
     >
-      <div v-if="item.youtubeUrl" class="rounded-2xl overflow-hidden bg-black aspect-video">
-        <iframe
-          :src="item.youtubeUrl"
-          :title="title"
-          class="w-full h-full"
-          frameborder="0"
-          allowfullscreen
-        />
-      </div>
+      <VideoPlayer v-if="item.youtubeUrl" :item="item" :linked-test="linkedTest" />
 
       <img
         v-else-if="item.coverImageUrl"

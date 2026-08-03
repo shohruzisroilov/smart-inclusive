@@ -61,6 +61,24 @@ export async function getTestsForCategories(categoryIds: readonly number[]): Pro
     .filter((test) => test.contentItemId != null && contentItemIds.has(test.contentItemId))
 }
 
+/**
+ * Materialga (kitob/komiks/dars) biriktirilgan test — `info_test.content_item_id`.
+ *
+ * Reader va pleyerdagi «Testga o'tish» tugmasi shu yerdan biladi: test bo'lmasa
+ * tugma umuman ko'rsatilmaydi (TZ 10.4).
+ */
+export async function getTestForContentItem(contentItemId: number): Promise<TestDto | null> {
+  if (!Number.isInteger(contentItemId)) return null
+
+  const tests = await fetchTests()
+  return (
+    tests
+      .filter(isPublic)
+      .filter(hasQuestions)
+      .find((test) => test.contentItemId === contentItemId) ?? null
+  )
+}
+
 /** Lug'at mavzusiga bog'langan test — `info_test.vocabulary_topic_id`. */
 export async function getVocabularyTest(topicId: number): Promise<TestDto | null> {
   if (!Number.isInteger(topicId)) return null
@@ -89,4 +107,22 @@ export async function getTopicIdsWithTest(): Promise<Set<number>> {
       .map((test) => test.vocabularyTopicId)
       .filter((id): id is number => id != null),
   )
+}
+
+/**
+ * `contentItemId` -> test xaritasi.
+ *
+ * Ro'yxat sahifalari uchun: har bir kartochkada «Test bor» belgisi va
+ * «Topshirilgan» statusi shu xaritadan hisoblanadi (TZ 5.1). Har bir
+ * kartochka uchun alohida so'rov yubormaslik uchun bitta chaqiruvda olinadi.
+ */
+export async function getTestsByContentItem(): Promise<Map<number, TestDto>> {
+  const tests = await fetchTests()
+  const map = new Map<number, TestDto>()
+  for (const test of tests.filter(isPublic).filter(hasQuestions)) {
+    if (test.contentItemId != null && !map.has(test.contentItemId)) {
+      map.set(test.contentItemId, test)
+    }
+  }
+  return map
 }

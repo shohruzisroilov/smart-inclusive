@@ -43,7 +43,9 @@
     "children": "Bola foydalanmoqda",
     "lessons": "Tayyor dars",
     "volunteers": "Faol ko'ngilli",
-    "regions": "Qamrab olingan hudud"
+    "regions": "Qamrab olingan hudud",
+    "copied": "Nusxalandi",
+    "copyHint": "Bosing — nusxalanadi"
   },
   "footer": {
     "sections": "Bo'limlar",
@@ -164,7 +166,8 @@
     "goToTest": "Testga o'tish",
     "prev": "Orqaga",
     "next": "Keyingi",
-    "emptyPages": "Bu kontent uchun sahifalar hali yuklanmagan."
+    "emptyPages": "Bu kontent uchun sahifalar hali yuklanmagan.",
+    "readToEnd": "Oxirigacha o'qing"
   },
   "player": {
     "back": "Orqaga",
@@ -176,7 +179,14 @@
     "timeline": "Video vaqti",
     "unsupported": "Bizning pleyer brauzeringizda qo'llab-quvvatlanmadi.",
     "unavailable": "Video hozircha yo'q",
-    "transcript": "Matnli bayoni"
+    "transcript": "Matnli bayoni",
+    "watchToEnd": "Oxirigacha ko'ring",
+    "markWatched": "Ko'rilgan deb belgilash",
+    "watched": "Ko'rilgan",
+    "speed": "Tezlik",
+    "speedSlow": "Sekin",
+    "speedNormal": "Oddiy",
+    "speedFast": "Tez"
   },
   "home": {
     "carouselLabel": "Bosh sahifa yangiliklari",
@@ -230,7 +240,10 @@
   },
   "mascot": {
     "show": "Yordamchini ko'rsatish",
-    "hide": "Yordamchini yashirish"
+    "hide": "Yordamchini yashirish",
+    "label": "Mini-personaj",
+    "collapse": "Yig'ish",
+    "expand": "Ochish"
   },
   "trustLine": {
     "label": "Ishonch telefoni:",
