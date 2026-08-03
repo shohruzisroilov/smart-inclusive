@@ -7,6 +7,41 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Smart Inclusive — Inklyuziv ta'lim platformasi</title>
+    <!--
+      Bloklovchi skript — Vue yuklanishidan va birinchi bo'yashdan OLDIN ishlaydi.
+
+      MUAMMO: sozlamalar localStorage'da. Agar ularni Vue ichida qo'llasak,
+      foydalanuvchi avval OQ sahifani ko'radi, keyin u qorong'iga "sakraydi"
+      (FOUC). YECHIM: sinxron ishlaydigan kichik skript.
+
+      Format `useSettingsStore` yozadigan `{ version, state }` bilan bir xil.
+      Har qanday xato jimgina yutiladi — sozlama qo'llanmasa ham sahifa ochiladi.
+    -->
+    <script>
+      (function () {
+        try {
+          var root = document.documentElement
+          var raw = localStorage.getItem('si:settings')
+          var s = {}
+          if (raw) {
+            var p = JSON.parse(raw)
+            s = (p && p.state) || {}
+          }
+
+          var theme = s.theme || 'light'
+          if (theme === 'system') {
+            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          }
+          root.setAttribute('data-theme', theme)
+
+          if (typeof s.fontScale === 'number' && s.fontScale !== 1) {
+            root.style.setProperty('--font-scale', String(s.fontScale))
+          }
+          if (s.reducedMotion === true) root.setAttribute('data-reduced-motion', 'true')
+          if (s.dyslexicFont === true) root.setAttribute('data-dyslexic', 'true')
+        } catch (e) {}
+      })()
+    </script>
   </head>
   <body>
     <div id="app"></div>

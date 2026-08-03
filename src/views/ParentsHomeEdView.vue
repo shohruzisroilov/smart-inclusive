@@ -3,10 +3,11 @@ import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft } from '@lucide/vue'
 import { fetchContentItems } from '@/lib/api/services'
+import { localizedTitle } from '@/lib/api/content'
 import type { ContentItemDto } from '@/lib/api/types'
 import { CONTENT_CATEGORY_UYDA_TALIM } from '@/lib/api/constants'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const items = ref<ContentItemDto[]>([])
 const loading = ref(true)
 
@@ -32,13 +33,28 @@ onMounted(async () => {
     <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">{{ t('common.loading') }}</div>
 
     <div v-else-if="items.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div v-for="item in items" :key="item.id" class="p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-sm space-y-3">
+      <router-link
+        v-for="item in items"
+        :key="item.id"
+        :to="`/for-parents/home-education/${item.id}`"
+        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-sm hover:border-purple-500 hover:shadow-xl transition-all space-y-3"
+      >
         <div v-if="item.coverImageUrl" class="h-40 rounded-2xl overflow-hidden">
-          <img :src="item.coverImageUrl" :alt="item.titleUz" class="w-full h-full object-cover" />
+          <img
+            :src="item.coverImageUrl"
+            :alt="localizedTitle(item, locale)"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform"
+          />
         </div>
-        <h3 class="text-xl font-bold text-[var(--fg)] font-display">{{ item.titleUz }}</h3>
-        <p class="text-xs text-[var(--fg-muted)] leading-relaxed">{{ item.description }}</p>
-      </div>
+        <h3
+          class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-purple-600 transition-colors"
+        >
+          {{ localizedTitle(item, locale) }}
+        </h3>
+        <p class="text-xs text-[var(--fg-muted)] leading-relaxed line-clamp-3">
+          {{ item.description }}
+        </p>
+      </router-link>
     </div>
 
     <div v-else class="text-center py-16 text-[var(--fg-muted)] bg-[var(--surface-subtle)] rounded-3xl border border-[var(--border-default)]">

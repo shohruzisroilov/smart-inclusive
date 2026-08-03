@@ -4,20 +4,18 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft } from '@lucide/vue'
 import TestWizard from '@/components/wizards/TestWizard.vue'
-import { getVocabularyTest } from '@/lib/api/tests'
+import { fetchTestById } from '@/lib/api/services'
 import type { TestDto } from '@/lib/api/types'
 
 const route = useRoute()
 const { t } = useI18n()
 
-const topicId = Number(route.params.topicId)
-const backTo = `/vocabulary/${route.params.topicId}`
-
 const testData = ref<TestDto | null>(null)
 const loading = ref(true)
 
 onMounted(async () => {
-  if (Number.isInteger(topicId)) testData.value = await getVocabularyTest(topicId)
+  const id = Number(route.params.id)
+  if (Number.isInteger(id)) testData.value = await fetchTestById(id)
   loading.value = false
 })
 </script>
@@ -25,7 +23,7 @@ onMounted(async () => {
 <template>
   <div class="py-12 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
     <router-link
-      :to="backTo"
+      to="/for-parents/tests"
       class="inline-flex items-center gap-2 text-sm font-bold text-[var(--brand)] hover:underline"
     >
       <ArrowLeft class="w-4 h-4" aria-hidden="true" />
@@ -36,16 +34,13 @@ onMounted(async () => {
       {{ t('common.loading') }}
     </div>
 
-    <TestWizard v-else-if="testData" :test="testData" variant="vocabulary" :back-to="backTo" />
+    <TestWizard v-else-if="testData" :test="testData" back-to="/for-parents/tests" />
 
     <div
       v-else
-      class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl text-center space-y-3"
+      class="text-center py-16 text-[var(--fg-muted)] bg-[var(--surface-subtle)] rounded-3xl border border-[var(--border-default)]"
     >
-      <h1 class="text-2xl font-extrabold text-[var(--fg)] font-display">
-        {{ t('vocab.testEyebrow') }}
-      </h1>
-      <p class="text-sm text-[var(--fg-muted)]">{{ t('content.list.emptyTitle') }}</p>
+      {{ t('content.list.emptyTitle') }}
     </div>
   </div>
 </template>

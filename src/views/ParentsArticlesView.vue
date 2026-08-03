@@ -3,10 +3,11 @@ import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft, FileText, ArrowRight } from '@lucide/vue'
 import { fetchContentItems } from '@/lib/api/services'
+import { localizedTitle } from '@/lib/api/content'
 import type { ContentItemDto } from '@/lib/api/types'
 import { CONTENT_CATEGORY_PSIXOLOGIYA, CONTENT_CATEGORY_TALIM } from '@/lib/api/constants'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const articles = ref<ContentItemDto[]>([])
 const loading = ref(true)
 
@@ -34,13 +35,38 @@ onMounted(async () => {
     <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">{{ t('common.loading') }}</div>
 
     <div v-else-if="articles.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div v-for="a in articles" :key="a.id" class="p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-sm space-y-3">
+      <router-link
+        v-for="a in articles"
+        :key="a.id"
+        :to="`/for-parents/articles/${a.id}`"
+        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-sm hover:border-emerald-500 hover:shadow-xl transition-all space-y-3"
+      >
         <div v-if="a.coverImageUrl" class="h-40 rounded-2xl overflow-hidden">
-          <img :src="a.coverImageUrl" :alt="a.titleUz" class="w-full h-full object-cover" />
+          <img
+            :src="a.coverImageUrl"
+            :alt="localizedTitle(a, locale)"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform"
+          />
         </div>
-        <h3 class="text-xl font-bold text-[var(--fg)] font-display">{{ a.titleUz }}</h3>
-        <p class="text-xs text-[var(--fg-muted)] leading-relaxed">{{ a.description }}</p>
-      </div>
+        <div v-else class="h-40 rounded-2xl bg-emerald-500/10 flex items-center justify-center">
+          <FileText class="w-10 h-10 text-emerald-600" aria-hidden="true" />
+        </div>
+        <h3
+          class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-emerald-600 transition-colors"
+        >
+          {{ localizedTitle(a, locale) }}
+        </h3>
+        <p class="text-xs text-[var(--fg-muted)] leading-relaxed line-clamp-3">
+          {{ a.description }}
+        </p>
+        <div class="pt-1 flex items-center justify-between text-xs font-bold text-emerald-600">
+          <span>{{ t('volunteersPage.readMore') }}</span>
+          <ArrowRight
+            class="w-4 h-4 group-hover:translate-x-1 transition-transform"
+            aria-hidden="true"
+          />
+        </div>
+      </router-link>
     </div>
 
     <div v-else class="text-center py-16 text-[var(--fg-muted)] bg-[var(--surface-subtle)] rounded-3xl border border-[var(--border-default)]">

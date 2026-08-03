@@ -2,8 +2,9 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, Volume2, ChevronLeft, ChevronRight } from '@lucide/vue'
+import { ArrowLeft, Volume2, ChevronLeft, ChevronRight, Award } from '@lucide/vue'
 import { fetchVocabularyTopicById } from '@/lib/api/services'
+import { getTopicIdsWithTest } from '@/lib/api/tests'
 import type { VocabularyTopicDto } from '@/lib/api/types'
 
 const route = useRoute()
@@ -12,6 +13,8 @@ const { t } = useI18n()
 const topic = ref<VocabularyTopicDto | null>(null)
 const currentIndex = ref(0)
 const loading = ref(true)
+/** Test tugmasi faqat shu mavzuga test biriktirilgan bo'lsa ko'rinadi. */
+const hasTest = ref(false)
 
 function playAudio(url?: string | null) {
   if (!url) return
@@ -20,9 +23,14 @@ function playAudio(url?: string | null) {
 }
 
 onMounted(async () => {
-  const id = parseInt(route.params.topicId as string, 10)
-  if (id) {
-    topic.value = await fetchVocabularyTopicById(id)
+  const id = Number(route.params.topicId)
+  if (Number.isInteger(id)) {
+    const [topicData, topicIdsWithTest] = await Promise.all([
+      fetchVocabularyTopicById(id),
+      getTopicIdsWithTest(),
+    ])
+    topic.value = topicData
+    hasTest.value = topicIdsWithTest.has(id)
   }
   loading.value = false
 })
@@ -97,6 +105,17 @@ onMounted(async () => {
             <ChevronRight class="w-4 h-4 inline ml-1" />
           </button>
         </div>
+      </div>
+
+      <!-- Mavzuga biriktirilgan test -->
+      <div v-if="hasTest" class="text-center">
+        <router-link
+          :to="`/vocabulary/${route.params.topicId}/test`"
+          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold shadow-lg hover:opacity-90 transition-all"
+        >
+          <Award class="w-5 h-5" aria-hidden="true" />
+          <span>{{ t('vocab.startTest') }}</span>
+        </router-link>
       </div>
     </div>
   </div>

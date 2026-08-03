@@ -175,7 +175,8 @@
     "fullscreen": "Butun ekranga kattalashtirish",
     "timeline": "Video vaqti",
     "unsupported": "Bizning pleyer brauzeringizda qo'llab-quvvatlanmadi.",
-    "unavailable": "Video hozircha yo'q"
+    "unavailable": "Video hozircha yo'q",
+    "transcript": "Matnli bayoni"
   },
   "home": {
     "carouselLabel": "Bosh sahifa yangiliklari",

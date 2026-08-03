@@ -1,18 +1,89 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft } from '@lucide/vue'
+import { ArrowLeft, Award, ArrowRight } from '@lucide/vue'
+import { getTestsForCategories } from '@/lib/api/tests'
+import { CONTENT_CATEGORY_ETIKET } from '@/lib/api/constants'
+import type { TestDto } from '@/lib/api/types'
+
 const { t } = useI18n()
+const tests = ref<TestDto[]>([])
+const loading = ref(true)
+
+onMounted(async () => {
+  tests.value = await getTestsForCategories([CONTENT_CATEGORY_ETIKET])
+  loading.value = false
+})
 </script>
 
 <template>
-  <div class="py-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-    <router-link to="/etiquette" class="inline-flex items-center gap-2 text-sm font-bold text-amber-600 hover:underline">
-      <ArrowLeft class="w-4 h-4" />
-      <span>Orqaga</span>
+  <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <router-link
+      to="/etiquette"
+      class="inline-flex items-center gap-2 text-sm font-bold text-amber-600 hover:underline"
+    >
+      <ArrowLeft class="w-4 h-4" aria-hidden="true" />
+      <span>{{ t('common.back') }}</span>
     </router-link>
-    <div class="p-8 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl text-center space-y-4">
-      <h1 class="text-3xl font-extrabold text-[var(--fg)] font-display">{{ t('sections.situationalTests') }}</h1>
-      <p class="text-sm text-[var(--fg-muted)]">Testlar tez fursatda yuklanadi.</p>
+
+    <div
+      class="bg-gradient-to-r from-amber-500 to-orange-600 p-8 sm:p-12 rounded-3xl text-white shadow-xl space-y-3"
+    >
+      <div
+        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-amber-100 text-xs font-bold uppercase tracking-wider"
+      >
+        <Award class="w-4 h-4" aria-hidden="true" />
+        <span>{{ t('sections.etiquetteTestsEyebrow') }}</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold font-display">
+        {{ t('sections.etiquetteTestsTitle') }}
+      </h1>
+      <p class="text-white/90 max-w-xl text-sm leading-relaxed font-light">
+        {{ t('sections.etiquetteTestsSubtitle') }}
+      </p>
+    </div>
+
+    <div v-if="loading" class="text-center py-20 text-[var(--fg-muted)]">
+      {{ t('common.loading') }}
+    </div>
+
+    <div
+      v-else-if="tests.length > 0"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
+      <router-link
+        v-for="test in tests"
+        :key="test.id"
+        :to="`/tests/${test.id}`"
+        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-amber-500 hover:shadow-xl transition-all space-y-4"
+      >
+        <div
+          class="h-40 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-600"
+        >
+          <Award class="w-12 h-12" aria-hidden="true" />
+        </div>
+        <div>
+          <h3
+            class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-amber-600 transition-colors"
+          >
+            {{ test.title }}
+          </h3>
+          <p class="text-xs text-[var(--fg-muted)] mt-1">
+            {{ test.qustions?.length || 0 }} {{ t('sections.questions') }}
+          </p>
+        </div>
+        <div class="pt-2 flex items-center justify-between text-xs font-bold text-amber-600">
+          <span>{{ t('test.retake') }}</span>
+          <ArrowRight class="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+        </div>
+      </router-link>
+    </div>
+
+    <div
+      v-else
+      class="text-center py-16 text-[var(--fg-muted)] bg-[var(--surface-subtle)] rounded-3xl border border-[var(--border-default)]"
+    >
+      {{ t('content.list.emptyTitle') }}
     </div>
   </div>
 </template>

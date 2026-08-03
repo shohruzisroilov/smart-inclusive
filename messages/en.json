@@ -175,7 +175,8 @@
     "fullscreen": "Fullscreen",
     "timeline": "Video time",
     "unsupported": "Your browser does not support the player.",
-    "unavailable": "Video not available yet"
+    "unavailable": "Video not available yet",
+    "transcript": "Text transcript"
   },
   "home": {
     "carouselLabel": "Home page highlights",

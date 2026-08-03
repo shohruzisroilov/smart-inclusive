@@ -139,9 +139,21 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/ParentsArticlesView.vue'),
       },
       {
+        path: 'for-parents/articles/:id',
+        name: 'for-parents-articles-detail',
+        component: () => import('@/views/ParentContentDetailView.vue'),
+        meta: { backTo: '/for-parents/articles' },
+      },
+      {
         path: 'for-parents/videos',
         name: 'for-parents-videos',
         component: () => import('@/views/ParentsVideosView.vue'),
+      },
+      {
+        path: 'for-parents/videos/:id',
+        name: 'for-parents-videos-detail',
+        component: () => import('@/views/ParentContentDetailView.vue'),
+        meta: { backTo: '/for-parents/videos' },
       },
       {
         path: 'for-parents/legal',
@@ -149,9 +161,21 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/ParentsLegalView.vue'),
       },
       {
+        path: 'for-parents/legal/:id',
+        name: 'for-parents-legal-detail',
+        component: () => import('@/views/ParentContentDetailView.vue'),
+        meta: { backTo: '/for-parents/legal' },
+      },
+      {
         path: 'for-parents/home-education',
         name: 'for-parents-home-education',
         component: () => import('@/views/ParentsHomeEdView.vue'),
+      },
+      {
+        path: 'for-parents/home-education/:id',
+        name: 'for-parents-home-education-detail',
+        component: () => import('@/views/ParentContentDetailView.vue'),
+        meta: { backTo: '/for-parents/home-education' },
       },
       {
         path: 'for-parents/onboarding',
@@ -167,6 +191,11 @@ const routes: RouteRecordRaw[] = [
         path: 'for-parents/tests',
         name: 'for-parents-tests',
         component: () => import('@/views/ParentsTestsView.vue'),
+      },
+      {
+        path: 'for-parents/tests/:id',
+        name: 'for-parents-tests-detail',
+        component: () => import('@/views/ParentTestDetailView.vue'),
       },
       // Volunteers
       {

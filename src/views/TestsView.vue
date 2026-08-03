@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Award, ArrowRight } from '@lucide/vue'
-import { fetchTests } from '@/lib/api/services'
+import { getKidsTests } from '@/lib/api/tests'
 import type { TestDto } from '@/lib/api/types'
 
 const { t } = useI18n()
@@ -10,7 +10,7 @@ const tests = ref<TestDto[]>([])
 const loading = ref(true)
 
 onMounted(async () => {
-  tests.value = await fetchTests()
+  tests.value = await getKidsTests()
   loading.value = false
 })
 </script>

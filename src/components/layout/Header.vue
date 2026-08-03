@@ -4,6 +4,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { HeartHandshake, Menu, X, ChevronDown, Globe } from '@lucide/vue'
 import { useVolunteerModalStore } from '@/stores/useVolunteerModalStore'
+import ThemeToggle from '@/components/settings/ThemeToggle.vue'
+import AccessibilityPanel from '@/components/settings/AccessibilityPanel.vue'
 import { defaultLocale, type Locale } from '@/i18n'
 
 const route = useRoute()
@@ -149,6 +151,10 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
 
       <!-- Right Controls -->
       <div class="flex items-center gap-3">
+        <!-- Accessibility & Theme -->
+        <ThemeToggle />
+        <AccessibilityPanel />
+
         <!-- Language Switcher -->
         <div class="relative">
           <button
@@ -231,6 +237,11 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
           {{ t('nav.contact') }}
         </router-link>
       </nav>
+
+      <div class="pt-4 border-t border-[var(--border-default)] space-y-1">
+        <ThemeToggle variant="list" />
+        <AccessibilityPanel variant="list" />
+      </div>
 
       <div class="pt-4 border-t border-[var(--border-default)]">
         <button
