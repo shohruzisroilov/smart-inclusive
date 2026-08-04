@@ -2,14 +2,14 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, Award, Check } from '@lucide/vue'
+import { ArrowLeft, Award } from '@lucide/vue'
 import { fetchContentItemById } from '@/lib/api/services'
 import { localizedTitle } from '@/lib/api/content'
 import { getTestForContentItem } from '@/lib/api/tests'
 import { useProgressStore } from '@/stores/useProgressStore'
 import type { ContentItemDto, TestDto } from '@/lib/api/types'
 import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
-import PdfReader from '@/components/ui/PdfReader.vue'
+import PagedPdfReader from '@/components/ui/PagedPdfReader.vue'
 
 /**
  * Komiks sahifasi.
@@ -29,7 +29,8 @@ const loading = ref(true)
 
 const contentItemId = computed(() => Number(route.params.id))
 const title = computed(() => (comic.value ? localizedTitle(comic.value, locale.value) : ''))
-const isRead = computed(() => progress.isViewed(contentItemId.value))
+/** O'quvchi oxirgi sahifaga yetganini shu bayroq orqali bildiradi (TZ 10.4). */
+const atEnd = ref(false)
 
 onMounted(async () => {
   const id = contentItemId.value
@@ -76,7 +77,13 @@ onMounted(async () => {
         <p v-if="comic.author" class="text-sm text-[var(--fg-muted)]">{{ comic.author }}</p>
       </div>
 
-      <PdfReader v-if="comic.pdfFileUrl" :url="comic.pdfFileUrl" :title="title" />
+      <PagedPdfReader
+        v-if="comic.pdfFileUrl"
+        :url="comic.pdfFileUrl"
+        :title="title"
+        :content-item-id="contentItemId"
+        @update:at-end="atEnd = $event"
+      />
 
       <p
         v-else
@@ -85,25 +92,6 @@ onMounted(async () => {
         {{ t('reader.emptyPages') }}
       </p>
 
-      <div
-        v-if="comic.pdfFileUrl"
-        class="flex flex-wrap items-center gap-3 pt-2 border-t border-[var(--border-default)]"
-      >
-        <button
-          type="button"
-          :disabled="isRead"
-          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-bold transition-colors"
-          :class="
-            isRead
-              ? 'bg-emerald-500/10 text-emerald-700 cursor-default'
-              : 'bg-[var(--brand-subtle)] text-[var(--brand)] hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)] cursor-pointer'
-          "
-          @click="progress.markViewed(contentItemId)"
-        >
-          <Check class="w-4 h-4" aria-hidden="true" />
-          <span>{{ isRead ? t('reader.markedRead') : t('reader.markRead') }}</span>
-        </button>
-      </div>
 
       <!-- TZ 10.4: test bo'lmasa tugma umuman chiqmaydi -->
       <div
@@ -111,10 +99,10 @@ onMounted(async () => {
         class="pt-4 border-t border-[var(--border-default)] text-center space-y-2"
       >
         <p class="text-sm text-[var(--fg-muted)]">
-          {{ isRead ? t('reader.testPrompt') : t('reader.readToEnd') }}
+          {{ atEnd ? t('reader.testPrompt') : t('reader.readToEnd') }}
         </p>
         <router-link
-          v-if="isRead"
+          v-if="atEnd"
           :to="`/tests/${linkedTest.id}`"
           class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold shadow-lg hover:opacity-90 transition-all"
         >

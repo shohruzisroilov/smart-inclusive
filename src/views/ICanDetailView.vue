@@ -9,7 +9,7 @@ import { getTestForContentItem } from '@/lib/api/tests'
 import type { ContentItemDto, TestDto } from '@/lib/api/types'
 import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
 import VideoPlayer from '@/components/ui/VideoPlayer.vue'
-import PdfReader from '@/components/ui/PdfReader.vue'
+import PagedPdfReader from '@/components/ui/PagedPdfReader.vue'
 
 const route = useRoute()
 const { t, locale } = useI18n()
@@ -65,10 +65,11 @@ onMounted(async () => {
         {{ item.fullText }}
       </div>
 
-      <PdfReader
+      <PagedPdfReader
         v-if="item.pdfFileUrl"
         :url="item.pdfFileUrl"
         :title="localizedTitle(item, locale)"
+        :content-item-id="item.id"
       />
 
       <!-- Video bo'lsa test tugmasi `VideoPlayer` ichida ko'rilganidan keyin ochiladi -->

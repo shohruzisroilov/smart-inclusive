@@ -10,7 +10,7 @@ import PageHero from '@/components/ui/PageHero.vue'
 import ContentListFilters from '@/components/ui/ContentListFilters.vue'
 import { getTestsByContentItem } from '@/lib/api/tests'
 import { useContentFilters } from '@/composables/useContentFilters'
-import { localizedTitle } from '@/lib/api/content'
+import { formatApiDate, localizedTitle } from '@/lib/api/content'
 
 const { t, locale } = useI18n()
 const items = ref<ContentItemDto[]>([])
@@ -69,6 +69,9 @@ onMounted(async () => {
           <div>
             <h3 class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-amber-600 transition-colors">{{ localizedTitle(item, locale) }}</h3>
             <p class="text-xs text-[var(--fg-muted)] mt-1 line-clamp-2">{{ item.description }}</p>
+            <p v-if="item.publishedDate" class="text-xs text-[var(--fg-subtle)] mt-1.5">
+              <time :datetime="item.publishedDate">{{ formatApiDate(item.publishedDate, locale) }}</time>
+            </p>
           </div>
           <div class="flex flex-wrap items-center gap-2">
             <span

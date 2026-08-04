@@ -1,11 +1,32 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { GraduationCap, BookOpen, Video, ShieldCheck, Home, FileText, ArrowRight } from '@lucide/vue'
+import {
+  GraduationCap,
+  Video,
+  ShieldCheck,
+  Home,
+  FileText,
+  ClipboardCheck,
+  ArrowRight,
+} from '@lucide/vue'
 import PageHero from '@/components/ui/PageHero.vue'
 
 const { t } = useI18n()
 
+/*
+ * TZ 6 da hab yetti plitkadan iborat. «O'qitish vizardi» va «Platforma
+ * taqdimoti» bu yerda YO'Q: ular `Slide/GetList` ga tayanardi, bekend esa unga
+ * 401 qaytaradi (`services.ts` dagi izoh) — mavjud bo'lmagan sahifaga plitka
+ * qo'yish foydalanuvchini bo'sh ekranga olib borardi.
+ */
 const cards = [
+  {
+    title: 'sections.hubTests',
+    desc: 'sections.hubTestsDesc',
+    icon: ClipboardCheck,
+    link: '/for-parents/tests',
+    color: 'from-rose-500 to-pink-600',
+  },
   {
     title: 'sections.hubLegal',
     desc: 'sections.hubLegalDesc',

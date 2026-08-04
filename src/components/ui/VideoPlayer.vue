@@ -1,20 +1,27 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Play, FileText, Check, Award, Gauge } from '@lucide/vue'
+import { Play, Pause, FileText, Check, Award, Gauge } from '@lucide/vue'
 import { useProgressStore } from '@/stores/useProgressStore'
+import {
+  extractVideoId,
+  loadYouTubeApi,
+  YT_STATE_ENDED,
+  YT_STATE_PLAYING,
+  type YouTubePlayer,
+} from '@/lib/youtube'
 import type { ContentItemDto, TestDto } from '@/lib/api/types'
 
 /**
  * Videodars pleyeri (TZ 10.3).
  *
- * Video YouTube'da — o'z boshqaruvi bilan, shuning uchun pauza/ijro bu yerda
- * takrorlanmaydi. Tezlik esa iframe URL'iga uzatiladi.
+ * YouTube IFrame API orqali boshqariladi (TZ 13.1): shu tufayli pauza/ijro va
+ * tezlik pereklyuchateli ijroni UZMASDAN ishlaydi. Avval tezlik URL parametri
+ * bilan berilar va iframe'ni qayta yuklardi — bola videoni boshidan ko'rishga
+ * majbur bo'lardi.
  *
- * DIQQAT: tezlik `?` parametri bilan berilgani uchun uni o'zgartirish
- * iframe'ni QAYTA yuklaydi (`key` orqali). YouTube IFrame API'siz boshqa yo'l
- * yo'q; foydalanuvchi uchun bu videoni boshidan boshlash degani, shuning uchun
- * tezlik tugmalari pleyer OSTIDA, tasodifan bosilmaydigan joyda turadi.
+ * API yuklanmasa (tarmoq bloklangan bo'lsa) pleyer oddiy `<iframe>` ga
+ * qaytadi: video baribir ko'riladi, faqat tashqi tugmalarsiz.
  */
 const props = defineProps<{
   item: ContentItemDto
@@ -32,14 +39,65 @@ const SPEEDS = [
 
 const speed = ref(1)
 const showTranscript = ref(false)
+const isPlaying = ref(false)
+/** API ishlamasa oddiy embed'ga qaytamiz. */
+const apiFailed = ref(false)
 
 const isWatched = computed(() => progress.isViewed(props.item.id))
 
-/** `?rel=0` va tezlik parametri qo'shiladi; mavjud query saqlanadi. */
-const embedUrl = computed(() => {
-  if (!props.item.youtubeUrl) return null
-  const sep = props.item.youtubeUrl.includes('?') ? '&' : '?'
-  return `${props.item.youtubeUrl}${sep}rel=0`
+const videoId = computed(() => extractVideoId(props.item.youtubeUrl))
+
+/** Zaxira embed — faqat API yuklanmagan holatda ishlatiladi. */
+const fallbackUrl = computed(() =>
+  videoId.value ? `https://www.youtube.com/embed/${videoId.value}?rel=0` : null,
+)
+
+const host = ref<HTMLElement | null>(null)
+let player: YouTubePlayer | null = null
+
+async function mountPlayer(el: HTMLElement, id: string) {
+  try {
+    const api = await loadYouTubeApi()
+    player = new api.Player(el, {
+      videoId: id,
+      playerVars: { rel: 0, playsinline: 1 },
+      events: {
+        onStateChange: ({ data }) => {
+          isPlaying.value = data === YT_STATE_PLAYING
+          // Oxirigacha ko'rilgani «ko'rildi» degani (TZ 10.3, 10.4).
+          if (data === YT_STATE_ENDED) progress.markViewed(props.item.id)
+        },
+      },
+    })
+  } catch {
+    apiFailed.value = true
+  }
+}
+
+/**
+ * Pleyer transkript rejimidan qaytganda konteyner qayta yaratiladi, shuning
+ * uchun ulanish `host` o'zgarishini kuzatadi — `onMounted` yetarli emas.
+ */
+watch(
+  [host, videoId],
+  ([el, id]) => {
+    if (player || !el || !id || apiFailed.value) return
+    void mountPlayer(el, id)
+  },
+  { immediate: true, flush: 'post' },
+)
+
+watch(speed, (rate) => player?.setPlaybackRate(rate))
+
+function togglePlay() {
+  if (!player) return
+  if (isPlaying.value) player.pauseVideo()
+  else player.playVideo()
+}
+
+onBeforeUnmount(() => {
+  player?.destroy()
+  player = null
 })
 </script>
 
@@ -50,16 +108,21 @@ const embedUrl = computed(() => {
       v-if="!showTranscript"
       class="rounded-2xl overflow-hidden bg-black aspect-video border border-[var(--border-default)]"
     >
+      <!-- API pleyerni shu elementning O'RNIGA qo'yadi, shuning uchun o'ram kerak -->
+      <div v-if="videoId && !apiFailed" class="w-full h-full">
+        <div ref="host" class="w-full h-full" />
+      </div>
+
       <iframe
-        v-if="embedUrl"
-        :key="speed"
-        :src="embedUrl"
+        v-else-if="fallbackUrl"
+        :src="fallbackUrl"
         :title="item.titleUz"
         class="w-full h-full"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
         allowfullscreen
       />
+
       <div v-else class="w-full h-full flex items-center justify-center text-white/70 text-sm">
         {{ t('player.unavailable') }}
       </div>
@@ -75,6 +138,18 @@ const embedUrl = computed(() => {
     </div>
 
     <div class="flex flex-wrap items-center gap-3">
+      <!-- Pauza / ijro (TZ 10.3) — faqat API pleyeri ishlaganda -->
+      <button
+        v-if="videoId && !apiFailed && !showTranscript"
+        type="button"
+        :aria-pressed="isPlaying"
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[var(--brand-subtle)] text-[var(--brand)] text-sm font-bold hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)] transition-colors cursor-pointer"
+        @click="togglePlay"
+      >
+        <component :is="isPlaying ? Pause : Play" class="w-4 h-4" aria-hidden="true" />
+        <span>{{ isPlaying ? t('player.pause') : t('player.play') }}</span>
+      </button>
+
       <!-- Matn rejimi faqat transkript bo'lsa taklif qilinadi -->
       <button
         v-if="item.transcriptText"
@@ -88,7 +163,7 @@ const embedUrl = computed(() => {
 
       <!-- Tezlik (TZ 10.3) -->
       <div
-        v-if="embedUrl"
+        v-if="videoId && !apiFailed"
         class="inline-flex items-center gap-1 rounded-full border border-[var(--border-default)] p-0.5"
         role="group"
         :aria-label="t('player.speed')"

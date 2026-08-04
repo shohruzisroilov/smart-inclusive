@@ -59,6 +59,18 @@ function saveSettings(state: AppSettings): void {
   }
 }
 
+/**
+ * Rang ko'rligi rejimi — TZ 13.5 bo'yicha ALOHIDA kalitda (`si_colorblind_mode`),
+ * umumiy sozlamalar obyektida emas.
+ */
+function loadColorblind(): boolean {
+  try {
+    return window.localStorage.getItem(STORAGE_KEYS.colorblindMode) === 'true'
+  } catch {
+    return false
+  }
+}
+
 export const useSettingsStore = defineStore('settings', () => {
   const initial = loadSettings()
 
@@ -66,6 +78,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const fontScale = ref<FontScale>(initial.fontScale)
   const reducedMotion = ref<boolean | null>(initial.reducedMotion)
   const dyslexicFont = ref<boolean>(initial.dyslexicFont)
+  const colorblind = ref<boolean>(loadColorblind())
 
   const darkMedia = window.matchMedia('(prefers-color-scheme: dark)')
 
@@ -92,7 +105,20 @@ export const useSettingsStore = defineStore('settings', () => {
 
     if (dyslexicFont.value) root.setAttribute('data-dyslexic', 'true')
     else root.removeAttribute('data-dyslexic')
+
+    // Mavzudan mustaqil qatlam — `tokens.css` dagi 5-bo'limga qarang.
+    if (colorblind.value) root.setAttribute('data-colorblind', 'true')
+    else root.removeAttribute('data-colorblind')
   }
+
+  watch(colorblind, (on) => {
+    applyAll()
+    try {
+      window.localStorage.setItem(STORAGE_KEYS.colorblindMode, String(on))
+    } catch {
+      /* kvota to'lgan yoki private rejim — sozlama shu sessiyada ishlayveradi */
+    }
+  })
 
   watch([theme, fontScale, reducedMotion, dyslexicFont], () => {
     applyAll()
@@ -117,12 +143,17 @@ export const useSettingsStore = defineStore('settings', () => {
     theme.value = isDark() ? 'light' : 'dark'
   }
 
+  function toggleColorblind() {
+    colorblind.value = !colorblind.value
+  }
+
   function reset() {
     clearAllAppStorage()
     theme.value = DEFAULT_SETTINGS.theme
     fontScale.value = DEFAULT_SETTINGS.fontScale
     reducedMotion.value = DEFAULT_SETTINGS.reducedMotion
     dyslexicFont.value = DEFAULT_SETTINGS.dyslexicFont
+    colorblind.value = false
   }
 
   // Anti-FOUC skript sahifa ochilishida allaqachon qo'llagan, lekin u
@@ -134,8 +165,10 @@ export const useSettingsStore = defineStore('settings', () => {
     fontScale,
     reducedMotion,
     dyslexicFont,
+    colorblind,
     isDark,
     toggleTheme,
+    toggleColorblind,
     reset,
   }
 })

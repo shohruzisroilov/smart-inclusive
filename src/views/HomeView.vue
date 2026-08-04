@@ -11,10 +11,14 @@ import {
   GraduationCap,
   ChevronLeft,
   ChevronRight,
+  Smile,
+  Languages,
+  Award,
 } from '@lucide/vue'
 import { useVolunteerModalStore } from '@/stores/useVolunteerModalStore'
 import { useSettingsStore } from '@/stores/useSettingsStore'
 import { fetchPlatformStats } from '@/lib/api/services'
+import CountUp from '@/components/ui/CountUp.vue'
 import type { PlatformStatDto } from '@/lib/api/types'
 
 const { t } = useI18n()
@@ -52,6 +56,99 @@ const slides = [
     action: 'volunteer',
     link: undefined as string | undefined,
     bg: 'from-[#154e5a] to-[#14768a]',
+  },
+]
+
+/**
+ * Bo'limlar to'ri — TZ 4, blok 4 aynan SAKKIZ karta so'raydi.
+ *
+ * Ko'ngillilar bu ro'yxatda ataylab yo'q: unga alohida chaqiriq bloki
+ * ajratilgan (TZ 4, blok 5), ya'ni to'rda takrorlanishi ortiqcha bo'lardi.
+ *
+ * Ranglar to'liq sinf nomlari bilan yozilgan — Tailwind sinflarni kodni
+ * o'qib topadi, `from-${color}-500` kabi yig'ma satrlarni ko'rmaydi va
+ * bunday sinflar bandlga umuman tushmaydi.
+ */
+const navCards = [
+  {
+    link: '/etiquette',
+    icon: Smile,
+    title: 'sections.etiquetteTitle',
+    desc: 'home.navEtiquetteDesc',
+    surface: 'bg-gradient-to-br from-amber-500/10 to-amber-500/5 border-amber-500/20 hover:border-amber-500/50',
+    badge: 'bg-amber-500',
+    hoverText: 'group-hover:text-amber-600',
+    accentText: 'text-amber-600',
+  },
+  {
+    link: '/i-can-do-it',
+    icon: Sparkles,
+    title: 'sections.iCanTitle',
+    desc: 'home.navICanDesc',
+    surface: 'bg-gradient-to-br from-orange-500/10 to-orange-500/5 border-orange-500/20 hover:border-orange-500/50',
+    badge: 'bg-orange-500',
+    hoverText: 'group-hover:text-orange-600',
+    accentText: 'text-orange-600',
+  },
+  {
+    link: '/lessons',
+    icon: GraduationCap,
+    title: 'sections.lessonsTitle',
+    desc: 'home.navLessonsDesc',
+    surface: 'bg-gradient-to-br from-teal-500/10 to-teal-500/5 border-teal-500/20 hover:border-teal-500/50',
+    badge: 'bg-teal-500',
+    hoverText: 'group-hover:text-teal-600',
+    accentText: 'text-teal-600',
+  },
+  {
+    link: '/books',
+    icon: BookOpen,
+    title: 'sections.booksTitle',
+    desc: 'home.navBooksDesc',
+    surface: 'bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border-emerald-500/20 hover:border-emerald-500/50',
+    badge: 'bg-emerald-500',
+    hoverText: 'group-hover:text-emerald-600',
+    accentText: 'text-emerald-600',
+  },
+  {
+    link: '/vocabulary',
+    icon: Languages,
+    title: 'home.navDictionary',
+    desc: 'home.navDictionaryDesc',
+    surface: 'bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 border-cyan-500/20 hover:border-cyan-500/50',
+    badge: 'bg-cyan-500',
+    hoverText: 'group-hover:text-cyan-600',
+    accentText: 'text-cyan-600',
+  },
+  {
+    link: '/tests',
+    icon: Award,
+    title: 'sections.testsTitle',
+    desc: 'home.navTestsDesc',
+    surface: 'bg-gradient-to-br from-purple-500/10 to-purple-500/5 border-purple-500/20 hover:border-purple-500/50',
+    badge: 'bg-purple-500',
+    hoverText: 'group-hover:text-purple-600',
+    accentText: 'text-purple-600',
+  },
+  {
+    link: '/for-parents',
+    icon: Users,
+    title: 'home.navParents',
+    desc: 'home.navParentsDesc',
+    surface: 'bg-gradient-to-br from-blue-500/10 to-blue-500/5 border-blue-500/20 hover:border-blue-500/50',
+    badge: 'bg-blue-500',
+    hoverText: 'group-hover:text-blue-600',
+    accentText: 'text-blue-600',
+  },
+  {
+    link: '/contact',
+    icon: MessageSquare,
+    title: 'home.navContact',
+    desc: 'home.navContactDesc',
+    surface: 'bg-gradient-to-br from-rose-500/10 to-rose-500/5 border-rose-500/20 hover:border-rose-500/50',
+    badge: 'bg-rose-500',
+    hoverText: 'group-hover:text-rose-600',
+    accentText: 'text-rose-600',
   },
 ]
 
@@ -211,92 +308,35 @@ onBeforeUnmount(() => {
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Dictionary Card -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <router-link
-          to="/vocabulary"
-          class="group p-6 rounded-3xl bg-gradient-to-br from-teal-500/10 to-teal-500/5 border border-teal-500/20 hover:border-teal-500/50 hover:shadow-xl transition-all space-y-4"
+          v-for="card in navCards"
+          :key="card.link"
+          :to="card.link"
+          class="group p-6 rounded-3xl border hover:shadow-xl transition-all space-y-4"
+          :class="card.surface"
         >
-          <div class="w-14 h-14 rounded-2xl bg-teal-500 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-            <BookOpen class="w-7 h-7" />
+          <div
+            class="w-14 h-14 rounded-2xl text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"
+            :class="card.badge"
+          >
+            <component :is="card.icon" class="w-7 h-7" aria-hidden="true" />
           </div>
           <div>
-            <h3 class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-teal-600 transition-colors">
-              {{ t('home.navDictionary') }}
+            <h3
+              class="text-xl font-bold text-[var(--fg)] font-display transition-colors"
+              :class="card.hoverText"
+            >
+              {{ t(card.title) }}
             </h3>
-            <p class="text-xs text-[var(--fg-muted)] mt-1">
-              {{ t('home.navDictionaryDesc') }}
-            </p>
+            <p class="text-xs text-[var(--fg-muted)] mt-1">{{ t(card.desc) }}</p>
           </div>
-          <div class="pt-2 flex items-center text-xs font-bold text-teal-600 group-hover:translate-x-1 transition-transform">
+          <div
+            class="pt-2 flex items-center text-xs font-bold group-hover:translate-x-1 transition-transform"
+            :class="card.accentText"
+          >
             <span>{{ t('sections.more') }}</span>
-            <ArrowRight class="w-4 h-4 ml-1" />
-          </div>
-        </router-link>
-
-        <!-- Parents Card -->
-        <router-link
-          to="/for-parents"
-          class="group p-6 rounded-3xl bg-gradient-to-br from-amber-500/10 to-amber-500/5 border border-amber-500/20 hover:border-amber-500/50 hover:shadow-xl transition-all space-y-4"
-        >
-          <div class="w-14 h-14 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-            <GraduationCap class="w-7 h-7" />
-          </div>
-          <div>
-            <h3 class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-amber-600 transition-colors">
-              {{ t('home.navParents') }}
-            </h3>
-            <p class="text-xs text-[var(--fg-muted)] mt-1">
-              {{ t('home.navParentsDesc') }}
-            </p>
-          </div>
-          <div class="pt-2 flex items-center text-xs font-bold text-amber-600 group-hover:translate-x-1 transition-transform">
-            <span>{{ t('sections.more') }}</span>
-            <ArrowRight class="w-4 h-4 ml-1" />
-          </div>
-        </router-link>
-
-        <!-- Volunteers Card -->
-        <router-link
-          to="/volunteers"
-          class="group p-6 rounded-3xl bg-gradient-to-br from-blue-500/10 to-blue-500/5 border border-blue-500/20 hover:border-blue-500/50 hover:shadow-xl transition-all space-y-4"
-        >
-          <div class="w-14 h-14 rounded-2xl bg-blue-500 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-            <Users class="w-7 h-7" />
-          </div>
-          <div>
-            <h3 class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-blue-600 transition-colors">
-              {{ t('home.navVolunteers') }}
-            </h3>
-            <p class="text-xs text-[var(--fg-muted)] mt-1">
-              {{ t('home.navVolunteersDesc') }}
-            </p>
-          </div>
-          <div class="pt-2 flex items-center text-xs font-bold text-blue-600 group-hover:translate-x-1 transition-transform">
-            <span>{{ t('sections.more') }}</span>
-            <ArrowRight class="w-4 h-4 ml-1" />
-          </div>
-        </router-link>
-
-        <!-- Contact Card -->
-        <router-link
-          to="/contact"
-          class="group p-6 rounded-3xl bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20 hover:border-purple-500/50 hover:shadow-xl transition-all space-y-4"
-        >
-          <div class="w-14 h-14 rounded-2xl bg-purple-500 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-            <MessageSquare class="w-7 h-7" />
-          </div>
-          <div>
-            <h3 class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-purple-600 transition-colors">
-              {{ t('home.navContact') }}
-            </h3>
-            <p class="text-xs text-[var(--fg-muted)] mt-1">
-              {{ t('home.navContactDesc') }}
-            </p>
-          </div>
-          <div class="pt-2 flex items-center text-xs font-bold text-purple-600 group-hover:translate-x-1 transition-transform">
-            <span>{{ t('sections.more') }}</span>
-            <ArrowRight class="w-4 h-4 ml-1" />
+            <ArrowRight class="w-4 h-4 ml-1" aria-hidden="true" />
           </div>
         </router-link>
       </div>
@@ -325,7 +365,7 @@ onBeforeUnmount(() => {
             class="p-4 space-y-2"
           >
             <div class="text-3xl sm:text-4xl font-extrabold text-[var(--brand)] font-display">
-              {{ stat.value.toLocaleString() }}
+              <CountUp :value="stat.value" />
             </div>
             <div class="text-xs font-semibold text-[var(--fg-muted)] uppercase tracking-wider">
               {{ stat.label || stat.metricKey }}

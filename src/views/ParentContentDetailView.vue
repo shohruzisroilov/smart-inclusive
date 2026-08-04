@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft, Calendar, User, FileDown } from '@lucide/vue'
 import { fetchContentItemById } from '@/lib/api/services'
-import { localizedTitle } from '@/lib/api/content'
+import { formatApiDate, localizedTitle } from '@/lib/api/content'
 import type { ContentItemDto } from '@/lib/api/types'
 import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
 import VideoPlayer from '@/components/ui/VideoPlayer.vue'
@@ -28,14 +28,6 @@ const linkedTest = ref<TestDto | null>(null)
 
 const backTo = computed(() => (route.meta.backTo as string) ?? '/for-parents')
 const title = computed(() => (item.value ? localizedTitle(item.value, locale.value) : ''))
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString(locale.value, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
 
 onMounted(async () => {
   const id = Number(route.params.id)
@@ -86,7 +78,7 @@ onMounted(async () => {
           </span>
           <span v-if="item.publishedDate" class="inline-flex items-center gap-1.5">
             <Calendar class="w-3.5 h-3.5" aria-hidden="true" />
-            <time :datetime="item.publishedDate">{{ formatDate(item.publishedDate) }}</time>
+            <time :datetime="item.publishedDate">{{ formatApiDate(item.publishedDate, locale) }}</time>
           </span>
         </div>
       </header>

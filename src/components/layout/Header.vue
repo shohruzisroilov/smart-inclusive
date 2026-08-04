@@ -6,6 +6,7 @@ import { HeartHandshake, Menu, X, ChevronDown, Globe } from '@lucide/vue'
 import { useVolunteerModalStore } from '@/stores/useVolunteerModalStore'
 import ThemeToggle from '@/components/settings/ThemeToggle.vue'
 import AccessibilityPanel from '@/components/settings/AccessibilityPanel.vue'
+import ColorblindModeToggle from '@/components/settings/ColorblindModeToggle.vue'
 import { defaultLocale, type Locale } from '@/i18n'
 
 const route = useRoute()
@@ -127,6 +128,9 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
             <router-link :to="getRoute('for-parents-home-education')" class="block px-3.5 py-2 rounded-xl text-sm font-semibold hover:bg-[var(--surface-subtle)] hover:text-[var(--brand)] transition-colors">
               {{ t('nav.parentsItems.homeEducation') }}
             </router-link>
+            <router-link :to="getRoute('for-parents-tests')" class="block px-3.5 py-2 rounded-xl text-sm font-semibold hover:bg-[var(--surface-subtle)] hover:text-[var(--brand)] transition-colors">
+              {{ t('nav.parentsItems.tests') }}
+            </router-link>
           </div>
         </div>
 
@@ -198,6 +202,19 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
             >
               {{ t('nav.aboutProject') }}
             </router-link>
+            <!--
+              «Biz haqimizda» (TZ 3.2) faqat shu ro'yxatda: yuqori qatorga
+              yettinchi havola sig'maydi — kengligi yetmay yozuvlar ikki
+              qatorga bo'linib ketardi.
+            -->
+            <router-link
+              :to="getRoute('about-us')"
+              class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[var(--surface-subtle)] hover:text-[var(--brand)] transition-colors"
+              active-class="text-[var(--brand)] font-bold"
+              @click="moreDropdownOpen = false"
+            >
+              {{ t('nav.aboutUs') }}
+            </router-link>
             <router-link
               :to="getRoute('contact')"
               class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold hover:bg-[var(--surface-subtle)] hover:text-[var(--brand)] transition-colors"
@@ -214,6 +231,7 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
       <div class="flex items-center gap-2 shrink-0">
         <!-- Accessibility & Theme -->
         <ThemeToggle />
+        <ColorblindModeToggle />
         <AccessibilityPanel />
 
         <!-- Language Switcher -->
@@ -294,6 +312,9 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
         <router-link :to="getRoute('volunteers')" class="px-4 py-3 rounded-xl text-base font-semibold hover:bg-[var(--surface-subtle)]" @click="mobileMenuOpen = false">
           {{ t('nav.volunteers') }}
         </router-link>
+        <router-link :to="getRoute('about-us')" class="px-4 py-3 rounded-xl text-base font-semibold hover:bg-[var(--surface-subtle)]" @click="mobileMenuOpen = false">
+          {{ t('nav.aboutUs') }}
+        </router-link>
         <router-link :to="getRoute('contact')" class="px-4 py-3 rounded-xl text-base font-semibold hover:bg-[var(--surface-subtle)]" @click="mobileMenuOpen = false">
           {{ t('nav.contact') }}
         </router-link>
@@ -301,6 +322,7 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
 
       <div class="pt-4 border-t border-[var(--border-default)] space-y-1">
         <ThemeToggle variant="list" />
+        <ColorblindModeToggle variant="list" />
         <AccessibilityPanel variant="list" />
       </div>
 

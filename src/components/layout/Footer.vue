@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { HeartHandshake } from '@lucide/vue'
+import { HeartHandshake, Phone, Mail } from '@lucide/vue'
 import { useVolunteerModalStore } from '@/stores/useVolunteerModalStore'
+import { CONTACT_EMAIL, TRUST_PHONE, TRUST_PHONE_TEL } from '@/lib/constants/contact'
 
 const { t } = useI18n()
 const modalStore = useVolunteerModalStore()
@@ -11,9 +12,11 @@ const year = new Date().getFullYear()
 <template>
   <footer class="bg-[var(--surface-muted)] border-t border-[var(--border-default)] pt-12 pb-8 text-[var(--fg-muted)]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-[var(--border-default)]">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 pb-10 border-b border-[var(--border-default)]"
+      >
         <!-- Brand column -->
-        <div class="md:col-span-2 space-y-4">
+        <div class="sm:col-span-2 space-y-4">
           <div class="flex items-center gap-3">
             <img src="/logo.png" alt="Smart Inclusive" class="h-9 w-auto object-contain" />
             <span class="font-extrabold text-xl text-[var(--fg)] tracking-tight font-display">
@@ -91,9 +94,46 @@ const year = new Date().getFullYear()
               </router-link>
             </li>
             <li>
+              <router-link to="/about-us" class="hover:text-[var(--brand)] transition-colors">
+                {{ t('nav.aboutUs') }}
+              </router-link>
+            </li>
+            <li>
               <router-link to="/contact" class="hover:text-[var(--brand)] transition-colors">
                 {{ t('nav.contact') }}
               </router-link>
+            </li>
+          </ul>
+        </div>
+
+        <!--
+          Kontaktlar (TZ 3.3). Ishonch raqami header ustidagi panelda emas,
+          faqat shu yerda — panel foydalanuvchi so'roviga ko'ra olib tashlangan.
+          `tel:` va `mailto:` har qanday qurilmada ishlaydi, shuning uchun
+          nusxalash mantiqi bu yerda takrorlanmaydi.
+        -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold text-[var(--fg)] uppercase tracking-wider">
+            {{ t('footer.contacts') }}
+          </h3>
+          <ul class="space-y-2 text-sm">
+            <li>
+              <a
+                :href="TRUST_PHONE_TEL"
+                class="inline-flex items-center gap-2 hover:text-[var(--brand)] transition-colors"
+              >
+                <Phone class="w-4 h-4 shrink-0" aria-hidden="true" />
+                <span class="whitespace-nowrap">{{ TRUST_PHONE }}</span>
+              </a>
+            </li>
+            <li>
+              <a
+                :href="`mailto:${CONTACT_EMAIL}`"
+                class="inline-flex items-center gap-2 hover:text-[var(--brand)] transition-colors break-all"
+              >
+                <Mail class="w-4 h-4 shrink-0" aria-hidden="true" />
+                <span>{{ CONTACT_EMAIL }}</span>
+              </a>
             </li>
           </ul>
         </div>

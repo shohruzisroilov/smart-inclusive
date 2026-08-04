@@ -2,9 +2,9 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Award, Check } from '@lucide/vue'
+import { ArrowLeft, ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Award } from '@lucide/vue'
 import AudioPlayer from '@/components/ui/AudioPlayer.vue'
-import PdfReader from '@/components/ui/PdfReader.vue'
+import PagedPdfReader from '@/components/ui/PagedPdfReader.vue'
 import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
 import { fetchBookPages, fetchContentItemById } from '@/lib/api/services'
 import { localizedTitle } from '@/lib/api/content'
@@ -37,11 +37,14 @@ const title = computed(() => (book.value ? localizedTitle(book.value, locale.val
  */
 const pdfUrl = computed(() => (pages.value.length === 0 ? (book.value?.pdfFileUrl ?? null) : null))
 
-/** PDF rejimida oxirgi sahifani aniqlab bo'lmaydi, shuning uchun belgilash qo'lda. */
-const isRead = computed(() => progress.isViewed(contentItemId))
+/** PDF o'quvchisi oxirgi sahifaga yetganini shu bayroq orqali bildiradi. */
+const pdfAtEnd = ref(false)
 
-/** Test tugmasi ochiladigan shart: sahifali rejimda — oxirgi sahifa, PDF'da — belgilash. */
-const testUnlocked = computed(() => (pdfUrl.value ? isRead.value : isLastPage.value))
+/**
+ * TZ 10.4: test tugmasi faqat material OXIRIGACHA o'qilganda ochiladi —
+ * ikkala rejimda ham shart bir xil, farqi qaysi manbadan bilinishida.
+ */
+const testUnlocked = computed(() => (pdfUrl.value ? pdfAtEnd.value : isLastPage.value))
 
 /** Xatcho'p — sahifa RAQAMI saqlanadi, massiv indeksi emas (TZ 13.5). */
 const bookmarkedPage = computed(() => progress.getBookmark(contentItemId))
@@ -214,24 +217,12 @@ onMounted(async () => {
     >
       <h1 class="text-2xl font-extrabold text-[var(--fg)] font-display">{{ title }}</h1>
 
-      <PdfReader :url="pdfUrl" :title="title" />
-
-      <div class="flex flex-wrap items-center gap-3 pt-2 border-t border-[var(--border-default)]">
-        <button
-          type="button"
-          :disabled="isRead"
-          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-bold transition-colors"
-          :class="
-            isRead
-              ? 'bg-emerald-500/10 text-emerald-700 cursor-default'
-              : 'bg-[var(--brand-subtle)] text-[var(--brand)] hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)] cursor-pointer'
-          "
-          @click="progress.markViewed(contentItemId)"
-        >
-          <Check class="w-4 h-4" aria-hidden="true" />
-          <span>{{ isRead ? t('reader.markedRead') : t('reader.markRead') }}</span>
-        </button>
-      </div>
+      <PagedPdfReader
+        :url="pdfUrl"
+        :title="title"
+        :content-item-id="contentItemId"
+        @update:at-end="pdfAtEnd = $event"
+      />
 
       <div
         v-if="linkedTest"

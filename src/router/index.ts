@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
-import { i18n, type Locale } from '@/i18n'
+import { i18n, isLocale } from '@/i18n'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -215,11 +215,14 @@ const router = createRouter({
   },
 })
 
+/*
+ * Manzildagi til ustuvor: `/ru/books` havolasi saqlangan tildan qat'i nazar
+ * ruscha ochilishi kerak. Manzilda til bo'lmasa — `i18n` ishga tushganda
+ * localStorage'dan olgan qiymati o'z kuchida qoladi (TZ 2.1).
+ */
 router.beforeEach((to, _from, next) => {
-  const paramLocale = to.params.locale as string | undefined
-  if (paramLocale && ['uz', 'ru', 'en'].includes(paramLocale)) {
-    i18n.global.locale.value = paramLocale as Locale
-  }
+  const paramLocale = to.params.locale
+  if (isLocale(paramLocale)) i18n.global.locale.value = paramLocale
   next()
 })
 

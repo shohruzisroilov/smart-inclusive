@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { BookOpen, ArrowRight, CheckCircle2, Award } from '@lucide/vue'
 import { fetchContentItems } from '@/lib/api/services'
 import { getTestsByContentItem } from '@/lib/api/tests'
-import { localizedTitle } from '@/lib/api/content'
+import { formatApiDate, localizedTitle } from '@/lib/api/content'
 import type { ContentItemDto, TestDto } from '@/lib/api/types'
 import { CONTENT_TYPE_KITOB } from '@/lib/api/constants'
 import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
@@ -83,6 +83,9 @@ onMounted(async () => {
               {{ localizedTitle(book, locale) }}
             </h3>
             <p class="text-xs text-[var(--fg-muted)] mt-1 line-clamp-2">{{ book.description }}</p>
+            <p v-if="book.publishedDate" class="text-xs text-[var(--fg-subtle)] mt-1.5">
+              <time :datetime="book.publishedDate">{{ formatApiDate(book.publishedDate, locale) }}</time>
+            </p>
           </div>
 
           <div class="flex flex-wrap items-center gap-2">

@@ -49,7 +49,8 @@
     "contactUs": "Get in touch",
     "description": "Smart Inclusive is an open inclusive education platform for children, parents and volunteers. No sign-up required.",
     "rights": "All rights reserved.",
-    "accessibilityStatement": "Accessibility statement"
+    "accessibilityStatement": "Accessibility statement",
+    "contacts": "Contacts"
   },
   "a11y": {
     "skipToContent": "Skip to main content",
@@ -68,7 +69,10 @@
     "dyslexiaMode": "Dyslexia Mode (Special Font)",
     "fontScale": "Text Size",
     "reducedMotion": "Reduce Motion",
-    "screenReaderInfo": "Screen Reader compatibility is enabled. You can fully navigate the website using the keyboard (Tab, Enter)."
+    "screenReaderInfo": "Screen Reader compatibility is enabled. You can fully navigate the website using the keyboard (Tab, Enter).",
+    "colorblindMode": "Colourblind mode",
+    "on": "On",
+    "off": "Off"
   },
   "common": {
     "retry": "Try again",
@@ -165,7 +169,8 @@
     "downloadPdf": "Download",
     "pdfFrameTitle": "{title} — PDF view",
     "markRead": "Mark as read",
-    "markedRead": "Read"
+    "markedRead": "Read",
+    "pdfError": "The PDF could not be displayed. Download the file or open it in a new tab."
   },
   "player": {
     "back": "Back",
@@ -234,7 +239,12 @@
     "story2Desc": "How did the inclusive education platform make Madina's home learning easier?",
     "story3Region": "Fergana region",
     "story3Title": "New milestones with volunteers",
-    "story3Desc": "A video story about how volunteers from Fergana help children master their lessons."
+    "story3Desc": "A video story about how volunteers from Fergana help children master their lessons.",
+    "navEtiquetteDesc": "Comics about good manners and situational tests",
+    "navICanDesc": "Short videos about everyday skills",
+    "navLessonsDesc": "Lessons on colours, counting and letters",
+    "navBooksDesc": "Fairy tales and stories with pictures and audio",
+    "navTestsDesc": "Playful tasks that check what you have learned"
   },
   "mascot": {
     "show": "Show the helper",

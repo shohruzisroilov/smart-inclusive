@@ -1,5 +1,6 @@
 import { computed, ref, type Ref } from 'vue'
 import { useProgressStore } from '@/stores/useProgressStore'
+import { parseApiDate } from '@/lib/api/content'
 import type { ContentItemDto, TestDto } from '@/lib/api/types'
 import type {
   ProgressFilter,
@@ -49,8 +50,8 @@ export function useContentFilters(
     if (progressFilter.value === 'done') list = list.filter(isDone)
     else if (progressFilter.value === 'todo') list = list.filter((i) => !isDone(i))
 
-    const time = (i: ContentItemDto) =>
-      i.publishedDate ? new Date(i.publishedDate).getTime() : null
+    // Sana `kun.oy.yil` shaklida keladi — `parseApiDate` ga qarang.
+    const time = (i: ContentItemDto) => parseApiDate(i.publishedDate)?.getTime() ?? null
 
     list.sort((a, b) => {
       const ta = time(a)

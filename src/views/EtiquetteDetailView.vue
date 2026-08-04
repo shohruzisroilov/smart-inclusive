@@ -10,7 +10,7 @@ import { useProgressStore } from '@/stores/useProgressStore'
 import type { ContentItemDto, TestDto } from '@/lib/api/types'
 import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
 import VideoPlayer from '@/components/ui/VideoPlayer.vue'
-import PdfReader from '@/components/ui/PdfReader.vue'
+import PagedPdfReader from '@/components/ui/PagedPdfReader.vue'
 
 /**
  * Etiket bo'limidagi bitta material.
@@ -34,8 +34,26 @@ const contentItemId = computed(() => Number(route.params.id))
 const title = computed(() => (item.value ? localizedTitle(item.value, locale.value) : ''))
 const isRead = computed(() => progress.isViewed(contentItemId.value))
 
-/** Video o'z «ko'rilgan» tugmasini `VideoPlayer` ichida beradi, PDF esa yo'q. */
-const showReadButton = computed(() => Boolean(item.value?.pdfFileUrl || item.value?.fullText))
+/** PDF o'quvchisi oxirgi sahifaga yetganini shu bayroq orqali bildiradi. */
+const atEnd = ref(false)
+
+/**
+ * «O'qildi» tugmasi FAQAT matnli maqola uchun kerak.
+ *
+ * Video o'z tugmasini `VideoPlayer` ichida beradi, PDF'da esa oxirgi sahifaga
+ * yetilishining o'zi belgi bo'ladi (TZ 10.4) — u yerda qo'shimcha tugma
+ * foydalanuvchini ikki marta bir xil ishni qilishga majburlardi.
+ */
+const showReadButton = computed(() =>
+  Boolean(item.value?.fullText && !item.value?.pdfFileUrl && !item.value?.youtubeUrl),
+)
+
+/** Test tugmasi ochiladigan shart materialning turiga qarab hisoblanadi. */
+const testUnlocked = computed(() => {
+  if (item.value?.pdfFileUrl) return atEnd.value
+  if (item.value?.fullText) return isRead.value
+  return true
+})
 
 onMounted(async () => {
   const id = contentItemId.value
@@ -88,7 +106,13 @@ onMounted(async () => {
         {{ item.fullText }}
       </div>
 
-      <PdfReader v-if="item.pdfFileUrl" :url="item.pdfFileUrl" :title="title" />
+      <PagedPdfReader
+        v-if="item.pdfFileUrl"
+        :url="item.pdfFileUrl"
+        :title="title"
+        :content-item-id="contentItemId"
+        @update:at-end="atEnd = $event"
+      />
 
       <div v-if="showReadButton" class="flex flex-wrap items-center gap-3">
         <button
@@ -112,14 +136,25 @@ onMounted(async () => {
         v-if="linkedTest && !item.youtubeUrl"
         class="pt-4 border-t border-[var(--border-default)] text-center space-y-2"
       >
-        <p class="text-sm text-[var(--fg-muted)]">{{ t('reader.testPrompt') }}</p>
+        <p class="text-sm text-[var(--fg-muted)]">
+          {{ testUnlocked ? t('reader.testPrompt') : t('reader.readToEnd') }}
+        </p>
         <router-link
+          v-if="testUnlocked"
           :to="`/tests/${linkedTest.id}`"
           class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold shadow-lg hover:opacity-90 transition-all"
         >
           <Award class="w-5 h-5" aria-hidden="true" />
           <span>{{ t('reader.goToTest') }}</span>
         </router-link>
+        <span
+          v-else
+          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--surface-muted)] text-[var(--fg-subtle)] font-bold cursor-not-allowed"
+          aria-disabled="true"
+        >
+          <Award class="w-5 h-5" aria-hidden="true" />
+          <span>{{ t('reader.goToTest') }}</span>
+        </span>
       </div>
     </div>
 

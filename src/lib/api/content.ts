@@ -7,6 +7,38 @@ import type { ContentItemDto } from './types'
  * bittada — shuning uchun faqat sarlavha tilga qarab tanlanadi.
  */
 
+/**
+ * `publishedDate` ni `Date` ga o'giradi.
+ *
+ * DIQQAT: bekend `DateOnly` ni ISO'da emas, **`kun.oy.yil`** ko'rinishida
+ * beradi (`"04.08.2026"` — jonli API'da tekshirilgan). Bunday satrni to'g'ridan
+ * to'g'ri `new Date()` ga berish JIM XATO tug'diradi: brauzer uni amerikacha
+ * `oy/kun/yil` deb o'qib, 4-avgustni 8-aprelga aylantiradi. Shu sababli
+ * kunlar ro'yxatda noto'g'ri saralanardi va sahifada noto'g'ri sana chiqardi.
+ *
+ * ISO shakli ham qabul qilinadi — bekend keyinchalik formatni to'g'rilasa,
+ * bu funksiyani o'zgartirish shart bo'lmasin.
+ */
+export function parseApiDate(value: string | null | undefined): Date | null {
+  if (!value) return null
+
+  const dotted = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(value)
+  if (dotted) {
+    const [, day, month, year] = dotted
+    return new Date(Number(year), Number(month) - 1, Number(day))
+  }
+
+  const parsed = new Date(value)
+  return Number.isNaN(parsed.getTime()) ? null : parsed
+}
+
+/** Kartochka va material sahifasidagi sana (TZ 5.1). */
+export function formatApiDate(value: string | null | undefined, locale: string): string {
+  const date = parseApiDate(value)
+  if (!date) return ''
+  return date.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })
+}
+
 export function localizedTitle(item: ContentItemDto, locale: string): string {
   if (locale === 'ru') return item.titleRu || item.titleUz
   if (locale === 'en') return item.titleEn || item.titleUz
