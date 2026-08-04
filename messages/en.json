@@ -382,7 +382,7 @@
       "cityLabel": "City / District",
       "cityPlaceholder": "e.g. Tashkent, Chilanzar",
       "emailLabel": "Your email",
-      "emailPlaceholder": "e.g. madina@example.com",
+      "emailPlaceholder": "e.g. madina{'@'}example.com",
       "ageLabel": "Your age",
       "agePlaceholder": "e.g. 20",
       "reasonLabel": "Why do you want to volunteer?",

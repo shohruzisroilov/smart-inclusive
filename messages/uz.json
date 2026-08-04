@@ -382,7 +382,7 @@
       "cityLabel": "Shahar / Tuman",
       "cityPlaceholder": "Masalan, Toshkent, Chilonzor",
       "emailLabel": "Email manzilingiz",
-      "emailPlaceholder": "Masalan, madina@example.com",
+      "emailPlaceholder": "Masalan, madina{'@'}example.com",
       "ageLabel": "Yoshingiz",
       "agePlaceholder": "Masalan, 20",
       "reasonLabel": "Nega koʻngilli boʻlishni istaysiz?",

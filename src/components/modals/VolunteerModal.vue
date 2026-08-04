@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
   X,
@@ -18,13 +18,19 @@ import {
 import { useVolunteerModalStore } from '@/stores/useVolunteerModalStore'
 import { createVolunteerApplication } from '@/lib/api/services'
 import type { SelectListItemDto } from '@/lib/api/types'
+import SelectField from '@/components/ui/SelectField.vue'
 
-defineProps<{
+const props = defineProps<{
   regions: SelectListItemDto[]
 }>()
 
 const modalStore = useVolunteerModalStore()
 const { t } = useI18n()
+
+/** `SelectListItemDto` -> `SelectField` kutgan shakl. */
+const regionOptions = computed(() =>
+  props.regions.map((r) => ({ value: r.value, label: r.text })),
+)
 
 const formData = ref({
   fullName: '',
@@ -187,23 +193,16 @@ function handleClose() {
             </div>
 
             <!-- Region -->
-            <div class="space-y-1.5">
-              <label class="text-xs font-bold text-[var(--fg)] uppercase tracking-wider flex items-center gap-1.5">
-                <MapPin class="w-3.5 h-3.5 text-[var(--brand)]" />
-                {{ t('forms.volunteer.regionLabel') }} *
-              </label>
-              <select
-                v-model="formData.regionId"
-                class="w-full px-4 py-3 rounded-xl border border-[var(--border-default)] bg-[var(--surface-subtle)] focus:bg-[var(--surface)] focus:border-[var(--brand)] outline-none text-sm transition-all cursor-pointer"
-                :disabled="loading"
-              >
-                <option :value="0" disabled>{{ t('forms.volunteer.regionPlaceholder') }}</option>
-                <option v-for="r in regions" :key="r.value" :value="r.value">
-                  {{ r.text }}
-                </option>
-              </select>
-              <span v-if="errors.regionId" class="text-xs text-red-500 font-medium block">{{ errors.regionId }}</span>
-            </div>
+            <SelectField
+              v-model="formData.regionId"
+              :options="regionOptions"
+              :label="t('forms.volunteer.regionLabel')"
+              :placeholder="t('forms.volunteer.regionPlaceholder')"
+              :icon="MapPin"
+              :disabled="loading"
+              :error="errors.regionId"
+              required
+            />
 
             <!-- Age -->
             <div class="space-y-1.5">

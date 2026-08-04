@@ -382,7 +382,7 @@
       "cityLabel": "Город / Район",
       "cityPlaceholder": "Например, Ташкент, Чиланзар",
       "emailLabel": "Ваш email",
-      "emailPlaceholder": "Например, madina@example.com",
+      "emailPlaceholder": "Например, madina{'@'}example.com",
       "ageLabel": "Ваш возраст",
       "agePlaceholder": "Например, 20",
       "reasonLabel": "Почему вы хотите стать волонтёром?",
