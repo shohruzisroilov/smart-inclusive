@@ -3,9 +3,14 @@ import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft, FileText, ArrowRight } from '@lucide/vue'
 import { fetchContentItems } from '@/lib/api/services'
-import { localizedTitle } from '@/lib/api/content'
+import { inArticleCategory, localizedTitle } from '@/lib/api/content'
 import type { ContentItemDto } from '@/lib/api/types'
-import { CONTENT_CATEGORY_PSIXOLOGIYA, CONTENT_CATEGORY_TALIM } from '@/lib/api/constants'
+import {
+  ARTICLE_CATEGORY_PSIXOLOGIYA,
+  ARTICLE_CATEGORY_TALIM,
+  CONTENT_CATEGORY_PSIXOLOGIYA,
+  CONTENT_CATEGORY_TALIM,
+} from '@/lib/api/constants'
 import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
 import PageHero from '@/components/ui/PageHero.vue'
 
@@ -15,8 +20,11 @@ const loading = ref(true)
 
 onMounted(async () => {
   const all = await fetchContentItems()
+  // Ikkala turkumlash usuli ham qabul qilinadi — sababi `inArticleCategory` da.
   articles.value = all.filter(
-    (i) => i.categoryId === CONTENT_CATEGORY_PSIXOLOGIYA || i.categoryId === CONTENT_CATEGORY_TALIM
+    (i) =>
+      inArticleCategory(i, CONTENT_CATEGORY_PSIXOLOGIYA, ARTICLE_CATEGORY_PSIXOLOGIYA) ||
+      inArticleCategory(i, CONTENT_CATEGORY_TALIM, ARTICLE_CATEGORY_TALIM),
   )
   loading.value = false
 })
@@ -25,8 +33,8 @@ onMounted(async () => {
 <template>
   <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
     <router-link to="/for-parents" class="inline-flex items-center gap-2 text-sm font-bold text-[var(--brand)] hover:underline">
-      <ArrowLeft class="w-4 h-4" />
-      <span>Orqaga</span>
+      <ArrowLeft class="w-4 h-4" aria-hidden="true" />
+      <span>{{ t('common.back') }}</span>
     </router-link>
 
     <PageHero

@@ -60,16 +60,21 @@ export interface ContentItemDto {
 export type ContentItemFilterParams = RequestParameters;
 
 // ---------------------------------------------------------------------------
-// BookPage / ComicPage — kitob va komiks sahifalari
+// BookPage — kitobning skanerlangan sahifalari
 // ---------------------------------------------------------------------------
 
-/** `BookPageDto` va `ComicPageDto` faqat matn maydonining nomi bilan farq qiladi. */
-interface PageDtoBase {
+/**
+ * `ComicPageDto` bu yerda YO'Q: `ComicPageController` da `[AllowAnonymous]`
+ * bo'lmagani uchun sayt komiks sahifalarini hech qachon ololmaydi. Batafsil —
+ * `services.ts` dagi izoh.
+ */
+export interface BookPageDto {
   id: number;
   contentItemId: number;
   contentItemTitle?: string | null;
   pageNumber: number;
   imageUrl: string;
+  text?: string | null;
   audioUrlUz?: string | null;
   audioUrlRu?: string | null;
   audioUrlEn?: string | null;
@@ -83,16 +88,7 @@ interface PageDtoBase {
   state?: string | null;
 }
 
-export interface BookPageDto extends PageDtoBase {
-  text?: string | null;
-}
-
-export interface ComicPageDto extends PageDtoBase {
-  script?: string | null;
-}
-
 export type BookPageFilterParams = RequestParameters;
-export type ComicPageFilterParams = RequestParameters;
 
 // ---------------------------------------------------------------------------
 // Test
@@ -180,29 +176,6 @@ export interface VocabularyTopicDto {
 export interface VocabularyTopicFilterParams extends RequestParameters {
   languageId?: number | null;
   organizationId?: number | null;
-}
-
-// ---------------------------------------------------------------------------
-// Slide — vizard/taqdimot slaydlari
-// ---------------------------------------------------------------------------
-
-export interface SlideDto {
-  id: number;
-  scenarioId: number;
-  scenario?: string | null;
-  title: string;
-  content?: string | null;
-  imageUrl?: string | null;
-  languageId: number;
-  language?: string | null;
-  sortOrder: number;
-  stateId: number;
-  state?: string | null;
-}
-
-export interface SlideFilterParams extends RequestParameters {
-  scenarioId?: number | null;
-  languageId?: number | null;
 }
 
 // ---------------------------------------------------------------------------

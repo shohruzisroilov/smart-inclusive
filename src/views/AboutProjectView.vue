@@ -16,11 +16,11 @@ const modalStore = useVolunteerModalStore()
       </div>
 
       <h1 class="text-3xl sm:text-4xl font-extrabold text-[var(--fg)] font-display">
-        {{ t('slidePages.aboutTitle') }}
+        {{ t('aboutProject.title') }}
       </h1>
 
       <p class="text-base text-[var(--fg-muted)] leading-relaxed font-light">
-        {{ t('slidePages.aboutCompletionDesc') }}
+        {{ t('aboutProject.desc') }}
       </p>
 
       <div class="pt-4">

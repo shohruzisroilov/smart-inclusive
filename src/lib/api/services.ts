@@ -1,13 +1,11 @@
 import { apiGet, apiPost } from './http'
 import type {
   BookPageDto,
-  ComicPageDto,
   ContactRequestDto,
   ContentItemDto,
   PaginatedResult,
   PlatformStatDto,
   SelectListItemDto,
-  SlideDto,
   TestDto,
   VocabularyTopicDto,
   VolunteerApplicationDto,
@@ -15,6 +13,7 @@ import type {
 } from './types'
 import {
   CONTACT_REQUEST_STATUS_NEW,
+  CONTENT_STATUS_PUBLISHED,
   COUNTRY_UZBEKISTAN,
   STATE_ACTIVE,
   VOLUNTEER_APPLICATION_STATUS_NEW,
@@ -44,6 +43,27 @@ async function safeApiCall<T>(promise: Promise<T>, fallback: T): Promise<T> {
  */
 function normalizeList<T>(items: T[]): T[] {
   return items.map((item) => normalizeMedia(item))
+}
+
+/**
+ * Faqat yoqilgan yozuvlar. Bekend `GetList` javobida o'chirilgan (`stateId != 1`)
+ * yozuvlarni ham qaytaradi — adminkada ular "Passive" ko'rinadi va saytga
+ * chiqmasligi kerak.
+ */
+function activeOnly<T extends { stateId: number }>(items: T[]): T[] {
+  return items.filter((item) => item.stateId === STATE_ACTIVE)
+}
+
+/**
+ * Saytda kontent KO'RINISHINING yagona sharti (`constants.ts`, `enum_content_status`).
+ *
+ * Bekendda bunday filtr YO'Q — `ContentItemFilterParams` faqat `page/pageSize/search`
+ * beradi, ya'ni `GetList` qoralama va moderatsiya kutayotgan yozuvlarni ham
+ * qaytaradi. Ular shu yerda kesilmasa, adminkada hali tayyor bo'lmagan material
+ * saytda ochiq turadi.
+ */
+function isPublished(item: ContentItemDto): boolean {
+  return item.contentStatusId === CONTENT_STATUS_PUBLISHED && item.stateId === STATE_ACTIVE
 }
 
 /** Lug'at mavzusi ichidagi so'zlarning rasm/audio maydonlari ham yo'l saqlaydi. */
@@ -76,11 +96,18 @@ export async function fetchContentItems(): Promise<ContentItemDto[]> {
     }),
     null,
   )
-  return normalizeList(result?.rows ?? [])
+  return normalizeList((result?.rows ?? []).filter(isPublished))
 }
 
+/**
+ * Bitta yozuv. E'lon qilinmagan yozuv uchun `null` qaytadi — ro'yxatda
+ * ko'rinmaydigan material to'g'ridan-to'g'ri havola orqali ham ochilmasligi
+ * kerak, aks holda qoralama URL'i bilan tarqalib ketardi.
+ */
 export async function fetchContentItemById(id: number): Promise<ContentItemDto | null> {
-  return normalizeMedia(await safeApiCall(apiGet<ContentItemDto>(`/ContentItem/Get/${id}`), null))
+  const item = await safeApiCall(apiGet<ContentItemDto>(`/ContentItem/Get/${id}`), null)
+  if (!item || !isPublished(item)) return null
+  return normalizeMedia(item)
 }
 
 /**
@@ -99,37 +126,27 @@ export async function fetchBookPages(contentItemId: number): Promise<BookPageDto
     null,
   )
   return normalizeList(
-    (result?.rows ?? [])
+    activeOnly(result?.rows ?? [])
       .filter((page) => page.contentItemId === contentItemId)
       .sort((a, b) => a.pageNumber - b.pageNumber),
   )
 }
 
-/**
- * `ComicPageController` da `[AllowAnonymous]` YO'Q — jonli API bu so'rovga 401
- * qaytaradi va komiks sahifalari bo'sh chiqadi. Bekendga `[AllowAnonymous]`
- * qo'shilishi kerak (`BookPage` va `ContentItem` da bor).
+/*
+ * KOMIKS SAHIFALARI — bu yerda ataylab YO'Q.
+ *
+ * `ComicPageController` da `[AllowAnonymous]` yo'q, ya'ni `/ComicPage/GetList`
+ * saytga har doim 401 qaytaradi. Sahifama-sahifa komiks o'quvchisi shu sababli
+ * olib tashlandi; komikslar `pdfFileUrl` orqali o'qiladi (`PdfReader.vue`).
+ * Bekendga `[AllowAnonymous]` qo'shilsa, `fetchBookPages` ning aynan nusxasini
+ * qaytarish kifoya.
  */
-export async function fetchComicPages(contentItemId: number): Promise<ComicPageDto[]> {
-  const result = await safeApiCall(
-    apiPost<PaginatedResult<ComicPageDto>>('/ComicPage/GetList', {
-      page: 1,
-      pageSize: PAGE_LIST_SIZE,
-      sortBy: 'ASC',
-    }),
-    null,
-  )
-  return normalizeList(
-    (result?.rows ?? [])
-      .filter((page) => page.contentItemId === contentItemId)
-      .sort((a, b) => a.pageNumber - b.pageNumber),
-  )
-}
 
 // ---------------------------------------------------------------------------
-// PlatformStat & Slides
+// PlatformStat
 // ---------------------------------------------------------------------------
 
+/** Bosh sahifadagi «ishonch raqamlari». Bo'sh bo'lsa blok umuman chizilmaydi. */
 export async function fetchPlatformStats(): Promise<PlatformStatDto[]> {
   const result = await safeApiCall(
     apiPost<PaginatedResult<PlatformStatDto>>('/PlatformStat/GetList', {
@@ -138,27 +155,7 @@ export async function fetchPlatformStats(): Promise<PlatformStatDto[]> {
     }),
     null,
   )
-  return result?.rows ?? []
-}
-
-/**
- * DIQQAT — `WizardSlide` degan kontroller bekendda YO'Q; to'g'ri uch `/Slide`.
- * `SlideFilterParams` da `ScenarioId` bor, ya'ni filtr server tomonda ishlaydi.
- *
- * Lekin `SlideController` da `[AllowAnonymous]` YO'Q — jonli API 401 qaytaradi
- * va vizard slaydlari bo'sh chiqadi. Bekendga `[AllowAnonymous]` kerak.
- */
-export async function fetchWizardSlides(scenarioId: number): Promise<SlideDto[]> {
-  const result = await safeApiCall(
-    apiPost<PaginatedResult<SlideDto>>('/Slide/GetList', {
-      page: 1,
-      pageSize: LIST_PAGE_SIZE,
-      sortBy: 'ASC',
-      scenarioId,
-    }),
-    null,
-  )
-  return normalizeList((result?.rows ?? []).filter((slide) => slide.stateId === STATE_ACTIVE))
+  return activeOnly(result?.rows ?? [])
 }
 
 // ---------------------------------------------------------------------------
@@ -173,7 +170,7 @@ export async function fetchVocabularyTopics(): Promise<VocabularyTopicDto[]> {
     }),
     null,
   )
-  return (result?.rows ?? []).map((topic) => normalizeTopic(topic)!)
+  return activeOnly(result?.rows ?? []).map((topic) => normalizeTopic(topic)!)
 }
 
 export async function fetchVocabularyTopicById(id: number): Promise<VocabularyTopicDto | null> {
@@ -194,7 +191,7 @@ export async function fetchVolunteerCases(): Promise<VolunteerCaseDto[]> {
     }),
     null,
   )
-  return normalizeList(result?.rows ?? [])
+  return normalizeList(activeOnly(result?.rows ?? []).sort((a, b) => a.sortOrder - b.sortOrder))
 }
 
 export async function fetchVolunteerCaseById(id: number): Promise<VolunteerCaseDto | null> {

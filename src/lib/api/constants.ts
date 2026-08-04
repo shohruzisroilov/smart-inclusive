@@ -64,11 +64,6 @@ export const ARTICLE_CATEGORY_HUQUQIY = 3;
 export const TEST_TYPE_TEXT = 1;
 export const TEST_TYPE_IMAGE = 2;
 
-/** `enum_slide_scenario` (`023 CREATE TABLE info_slide.sql`). */
-export const SLIDE_SCENARIO_ONBOARDING = 1;
-export const SLIDE_SCENARIO_PRESENTATION = 2;
-export const SLIDE_SCENARIO_ABOUT_PROJECT = 3;
-
 /**
  * `enum_audio_generation_status` — `AudioGenerationStatusIdConst`.
  *

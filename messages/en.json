@@ -25,8 +25,6 @@
       "videoLessons": "Video lessons",
       "legalArticles": "Legal articles",
       "articles": "Platform articles",
-      "onboarding": "Onboarding",
-      "presentation": "Platform presentation",
       "homeEducation": "Learning at home"
     }
   },
@@ -162,7 +160,12 @@
     "prev": "Back",
     "next": "Next",
     "emptyPages": "Pages for this content have not been uploaded yet.",
-    "readToEnd": "Read to the end"
+    "readToEnd": "Read to the end",
+    "openPdf": "Open in a new tab",
+    "downloadPdf": "Download",
+    "pdfFrameTitle": "{title} — PDF view",
+    "markRead": "Mark as read",
+    "markedRead": "Read"
   },
   "player": {
     "back": "Back",
@@ -286,15 +289,15 @@
     "hubLegalDesc": "Your child's rights and guarantees to education",
     "hubArticles": "Platform articles",
     "hubArticlesDesc": "Tips for using the system conveniently and correctly",
-    "hubOnboarding": "Onboarding guide",
-    "hubOnboardingDesc": "A guide to creating a comfortable environment for your child",
-    "hubPresentation": "Platform presentation",
-    "hubPresentationDesc": "The idea and goals of the Smart Inclusive project",
     "hubHomeEd": "Home education",
     "hubHomeEdDesc": "Lessons you can do with your child at home",
     "comicsTitle": "Comics",
     "comicsSubtitle": "Engaging picture comics and stories for children.",
-    "comicsRead": "Read"
+    "comicsRead": "Read",
+    "learnMore": "Learn",
+    "watchLesson": "Watch lesson",
+    "watchVideo": "Watch",
+    "startTest": "Start test"
   },
   "vocab": {
     "title": "Dictionary topics",
@@ -314,30 +317,8 @@
     "testTitle": "{title} quiz",
     "next": "Next"
   },
-  "slides": {
-    "noSlides": "No slides available.",
-    "back": "Back",
-    "completionTitle": "Presentation finished!",
-    "completionDesc": "You've viewed all the slides in this section. Use the buttons below to view the presentation again or return to the lessons.",
-    "restart": "Go again",
-    "finish": "Done!",
-    "next": "Next",
-    "prev": "Back",
-    "close": "Close",
-    "slideCounter": "Slide {current} / {total}"
-  },
   "article": {
     "back": "Go back"
-  },
-  "slidePages": {
-    "onboardingTitle": "Parent onboarding guide",
-    "presentationTitle": "Platform presentation",
-    "aboutTitle": "About the project",
-    "aboutCompletionTitle": "Thank you for getting to know the Smart Inclusive project!",
-    "aboutCompletionDesc": "Our goal is to make education equally inclusive for every child. Join us — become a volunteer or help spread the word about the project.",
-    "becomeVolunteer": "Become a volunteer",
-    "home": "Home",
-    "empty": "No slides have been added for this section yet."
   },
   "forms": {
     "submitErrorTitle": "An error occurred while sending",
@@ -443,5 +424,14 @@
     "region": "Region",
     "emptyCases": "No stories have been added yet.",
     "emptyStats": "No statistics yet."
+  },
+  "aboutProject": {
+    "title": "About the project",
+    "desc": "Our goal is to make education equally inclusive for every child. Join us — become a volunteer or help spread the word about the project."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "desc": "The page you were looking for may have been moved or removed. Continue from the home page.",
+    "home": "Back to the home page"
   }
 }

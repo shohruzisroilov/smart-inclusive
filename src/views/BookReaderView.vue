@@ -2,16 +2,18 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Award } from '@lucide/vue'
+import { ArrowLeft, ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Award, Check } from '@lucide/vue'
 import AudioPlayer from '@/components/ui/AudioPlayer.vue'
+import PdfReader from '@/components/ui/PdfReader.vue'
 import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
 import { fetchBookPages, fetchContentItemById } from '@/lib/api/services'
+import { localizedTitle } from '@/lib/api/content'
 import { getTestForContentItem } from '@/lib/api/tests'
 import { useProgressStore } from '@/stores/useProgressStore'
 import type { BookPageDto, ContentItemDto, TestDto } from '@/lib/api/types'
 
 const route = useRoute()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const progress = useProgressStore()
 
 const contentItemId = Number(route.params.id)
@@ -23,6 +25,23 @@ const loading = ref(true)
 
 const page = computed(() => pages.value[currentPage.value])
 const isLastPage = computed(() => currentPage.value === pages.value.length - 1)
+const title = computed(() => (book.value ? localizedTitle(book.value, locale.value) : ''))
+
+/**
+ * Skanerlangan sahifalar bo'lmasa — PDF.
+ *
+ * Adminkada kitobga sahifa qo'shish IXTIYORIY: `ContentItem` ning o'zida
+ * `pdfFileUrl` bor va aksariyat kitoblar aynan shu ko'rinishda yuklangan.
+ * Sahifalar yo'q deb bo'sh ekran ko'rsatish — mavjud faylni bekor qilish
+ * demakdir, shuning uchun bu yerda PDF ko'ruvchisiga o'tiladi.
+ */
+const pdfUrl = computed(() => (pages.value.length === 0 ? (book.value?.pdfFileUrl ?? null) : null))
+
+/** PDF rejimida oxirgi sahifani aniqlab bo'lmaydi, shuning uchun belgilash qo'lda. */
+const isRead = computed(() => progress.isViewed(contentItemId))
+
+/** Test tugmasi ochiladigan shart: sahifali rejimda — oxirgi sahifa, PDF'da — belgilash. */
+const testUnlocked = computed(() => (pdfUrl.value ? isRead.value : isLastPage.value))
 
 /** Xatcho'p — sahifa RAQAMI saqlanadi, massiv indeksi emas (TZ 13.5). */
 const bookmarkedPage = computed(() => progress.getBookmark(contentItemId))
@@ -88,7 +107,7 @@ onMounted(async () => {
         <img
           v-if="page.imageUrl"
           :src="page.imageUrl"
-          :alt="`${book?.titleUz ?? ''} — ${page.pageNumber}`"
+          :alt="`${title} — ${page.pageNumber}`"
           class="max-h-full max-w-full object-contain"
         />
         <div v-else class="text-center text-[var(--fg-subtle)] text-sm">
@@ -171,6 +190,58 @@ onMounted(async () => {
         </p>
         <router-link
           v-if="isLastPage"
+          :to="`/tests/${linkedTest.id}`"
+          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold shadow-lg hover:opacity-90 transition-all"
+        >
+          <Award class="w-5 h-5" aria-hidden="true" />
+          <span>{{ t('reader.goToTest') }}</span>
+        </router-link>
+        <span
+          v-else
+          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--surface-muted)] text-[var(--fg-subtle)] font-bold cursor-not-allowed"
+          aria-disabled="true"
+        >
+          <Award class="w-5 h-5" aria-hidden="true" />
+          <span>{{ t('reader.goToTest') }}</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Sahifalari yo'q kitob — PDF ko'rinishida o'qiladi -->
+    <div
+      v-else-if="pdfUrl"
+      class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-2xl space-y-6"
+    >
+      <h1 class="text-2xl font-extrabold text-[var(--fg)] font-display">{{ title }}</h1>
+
+      <PdfReader :url="pdfUrl" :title="title" />
+
+      <div class="flex flex-wrap items-center gap-3 pt-2 border-t border-[var(--border-default)]">
+        <button
+          type="button"
+          :disabled="isRead"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-bold transition-colors"
+          :class="
+            isRead
+              ? 'bg-emerald-500/10 text-emerald-700 cursor-default'
+              : 'bg-[var(--brand-subtle)] text-[var(--brand)] hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)] cursor-pointer'
+          "
+          @click="progress.markViewed(contentItemId)"
+        >
+          <Check class="w-4 h-4" aria-hidden="true" />
+          <span>{{ isRead ? t('reader.markedRead') : t('reader.markRead') }}</span>
+        </button>
+      </div>
+
+      <div
+        v-if="linkedTest"
+        class="pt-4 border-t border-[var(--border-default)] text-center space-y-2"
+      >
+        <p class="text-sm text-[var(--fg-muted)]">
+          {{ testUnlocked ? t('reader.testPrompt') : t('reader.readToEnd') }}
+        </p>
+        <router-link
+          v-if="testUnlocked"
           :to="`/tests/${linkedTest.id}`"
           class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold shadow-lg hover:opacity-90 transition-all"
         >

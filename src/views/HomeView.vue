@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
   Sparkles,
@@ -63,9 +63,21 @@ function prevSlide() {
   currentSlide.value = (currentSlide.value - 1 + slides.length) % slides.length
 }
 
+/**
+ * Karusel avtomatik aylanadi, lekin harakat kamaytirilgan bo'lsa — yo'q
+ * (WCAG 2.2.2: 5 soniyadan uzoq avtomatik harakatni to'xtatib bo'lishi shart).
+ * Taymer sahifadan chiqishda albatta tozalanadi, aks holda u fon rejimida
+ * ishlab qolaverardi.
+ */
+let slideTimer: ReturnType<typeof setInterval> | undefined
+
 onMounted(async () => {
+  if (!settings.reducedMotion) slideTimer = setInterval(nextSlide, 6000)
   stats.value = await fetchPlatformStats()
-  setInterval(nextSlide, 6000)
+})
+
+onBeforeUnmount(() => {
+  if (slideTimer) clearInterval(slideTimer)
 })
 </script>
 
@@ -290,8 +302,12 @@ onMounted(async () => {
       </div>
     </section>
 
-    <!-- Platform Stats -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!--
+      Ishonch raqamlari — adminkadagi «Platforma statistikasi» jadvalidan.
+      Jadval bo'sh bo'lsa (hozir aynan shunday) BUTUN blok chizilmaydi: sarlavhasi
+      bor, lekin ichi bo'sh ramka soxta taassurot qoldiradi.
+    -->
+    <section v-if="stats.length > 0" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="p-8 sm:p-12 rounded-3xl bg-[var(--surface-muted)] border border-[var(--border-default)]">
         <div class="text-center max-w-xl mx-auto mb-8">
           <span class="text-xs font-bold uppercase tracking-wider text-[var(--brand)]">
@@ -303,21 +319,17 @@ onMounted(async () => {
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          <div class="p-4 space-y-2">
-            <div class="text-3xl sm:text-4xl font-extrabold text-[var(--brand)] font-display">1 200+</div>
-            <div class="text-xs font-semibold text-[var(--fg-muted)] uppercase tracking-wider">{{ t('trustBar.children') }}</div>
-          </div>
-          <div class="p-4 space-y-2">
-            <div class="text-3xl sm:text-4xl font-extrabold text-amber-500 font-display">450+</div>
-            <div class="text-xs font-semibold text-[var(--fg-muted)] uppercase tracking-wider">{{ t('trustBar.lessons') }}</div>
-          </div>
-          <div class="p-4 space-y-2">
-            <div class="text-3xl sm:text-4xl font-extrabold text-emerald-500 font-display">180+</div>
-            <div class="text-xs font-semibold text-[var(--fg-muted)] uppercase tracking-wider">{{ t('trustBar.volunteers') }}</div>
-          </div>
-          <div class="p-4 space-y-2">
-            <div class="text-3xl sm:text-4xl font-extrabold text-blue-500 font-display">14</div>
-            <div class="text-xs font-semibold text-[var(--fg-muted)] uppercase tracking-wider">{{ t('trustBar.regions') }}</div>
+          <div
+            v-for="stat in stats"
+            :key="stat.id"
+            class="p-4 space-y-2"
+          >
+            <div class="text-3xl sm:text-4xl font-extrabold text-[var(--brand)] font-display">
+              {{ stat.value.toLocaleString() }}
+            </div>
+            <div class="text-xs font-semibold text-[var(--fg-muted)] uppercase tracking-wider">
+              {{ stat.label || stat.metricKey }}
+            </div>
           </div>
         </div>
       </div>

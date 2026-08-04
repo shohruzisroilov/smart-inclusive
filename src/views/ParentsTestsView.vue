@@ -60,7 +60,7 @@ onMounted(async () => {
           </p>
         </div>
         <div class="pt-2 flex items-center justify-between text-xs font-bold text-emerald-600">
-          <span>{{ t('test.retake') }}</span>
+          <span>{{ t('sections.startTest') }}</span>
           <ArrowRight
             class="w-4 h-4 group-hover:translate-x-1 transition-transform"
             aria-hidden="true"

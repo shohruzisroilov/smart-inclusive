@@ -6,7 +6,6 @@ import { getKidsTests } from '@/lib/api/tests'
 import type { TestDto } from '@/lib/api/types'
 import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
 import PageHero from '@/components/ui/PageHero.vue'
-
 const { t } = useI18n()
 const tests = ref<TestDto[]>([])
 const loading = ref(true)
@@ -44,10 +43,18 @@ onMounted(async () => {
           </p>
         </div>
         <div class="pt-2 flex items-center justify-between text-xs font-bold text-purple-600">
-          <span>Topshirish</span>
+          <span>{{ t('sections.startTest') }}</span>
           <ArrowRight class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </div>
       </router-link>
+    </div>
+
+    <div
+      v-else
+      class="text-center py-16 space-y-2 text-[var(--fg-muted)] bg-[var(--surface-subtle)] rounded-3xl border border-[var(--border-default)]"
+    >
+      <p class="font-bold text-[var(--fg)]">{{ t('content.list.emptyTitle') }}</p>
+      <p class="text-sm">{{ t('content.list.emptyDesc') }}</p>
     </div>
   </div>
 </template>

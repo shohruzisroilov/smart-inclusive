@@ -98,11 +98,6 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/ComicDetailView.vue'),
       },
       {
-        path: 'comics/:id/read',
-        name: 'comics-read',
-        component: () => import('@/views/ComicReaderView.vue'),
-      },
-      {
         path: 'vocabulary',
         name: 'vocabulary',
         component: () => import('@/views/VocabularyView.vue'),
@@ -178,16 +173,6 @@ const routes: RouteRecordRaw[] = [
         meta: { backTo: '/for-parents/home-education' },
       },
       {
-        path: 'for-parents/onboarding',
-        name: 'for-parents-onboarding',
-        component: () => import('@/views/ParentsOnboardingView.vue'),
-      },
-      {
-        path: 'for-parents/presentation',
-        name: 'for-parents-presentation',
-        component: () => import('@/views/ParentsPresentationView.vue'),
-      },
-      {
         path: 'for-parents/tests',
         name: 'for-parents-tests',
         component: () => import('@/views/ParentsTestsView.vue'),
@@ -207,6 +192,16 @@ const routes: RouteRecordRaw[] = [
         path: 'volunteers/:caseId',
         name: 'volunteer-detail',
         component: () => import('@/views/VolunteerDetailView.vue'),
+      },
+      /*
+       * Ushlab qoluvchi yo'nalish — ENG OXIRIDA turishi shart, aks holda u
+       * o'zidan keyingi barcha manzillarni yutib yuboradi. Layout ichida
+       * turgani uchun 404 sahifasi ham header va footer bilan ochiladi.
+       */
+      {
+        path: ':pathMatch(.*)*',
+        name: 'not-found',
+        component: () => import('@/views/NotFoundView.vue'),
       },
     ],
   },

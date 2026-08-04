@@ -28,7 +28,7 @@ const regionOptions = computed(() => regions.value.map((r) => ({ value: r.value,
 const formData = ref({
   fullName: '',
   phone: '',
-  regionId: 0,
+  regionId: 0 as number,
   email: '',
   age: '',
   message: '',

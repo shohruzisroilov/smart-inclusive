@@ -25,8 +25,6 @@
       "videoLessons": "Videodarslar",
       "legalArticles": "Huquqiy yordam",
       "articles": "Maqolalar",
-      "onboarding": "Onboarding",
-      "presentation": "Platforma taqdimoti",
       "homeEducation": "Uyda ta'lim"
     }
   },
@@ -162,7 +160,12 @@
     "prev": "Orqaga",
     "next": "Keyingi",
     "emptyPages": "Bu kontent uchun sahifalar hali yuklanmagan.",
-    "readToEnd": "Oxirigacha o'qing"
+    "readToEnd": "Oxirigacha o'qing",
+    "openPdf": "Yangi oynada ochish",
+    "downloadPdf": "Yuklab olish",
+    "pdfFrameTitle": "{title} — PDF koʻrinishi",
+    "markRead": "Oʻqildi deb belgilash",
+    "markedRead": "Oʻqilgan"
   },
   "player": {
     "back": "Orqaga",
@@ -286,15 +289,15 @@
     "hubLegalDesc": "Bolangizning taʼlim olish huquqlari va kafolatlari",
     "hubArticles": "Platforma maqolalari",
     "hubArticlesDesc": "Tizimdan qulay va toʻgʻri foydalanish boʻyicha tavsiyalar",
-    "hubOnboarding": "Oʻqitish vizardi",
-    "hubOnboardingDesc": "Farzandingizga qulay muhit yaratish boʻyicha yoʻriqnoma",
-    "hubPresentation": "Platforma taqdimoti",
-    "hubPresentationDesc": "Smart Inclusive loyihasining gʻoyasi va maqsadlari",
     "hubHomeEd": "Uyda taʼlim",
     "hubHomeEdDesc": "Farzandingiz bilan uyda bajarishingiz mumkin boʻlgan darslar",
     "comicsTitle": "Komikslar",
     "comicsSubtitle": "Bolalar uchun qiziqarli rasmli komikslar va hikoyalar.",
-    "comicsRead": "O'qish"
+    "comicsRead": "O'qish",
+    "learnMore": "O'rganish",
+    "watchLesson": "Darsni ko'rish",
+    "watchVideo": "Tomosha qilish",
+    "startTest": "Testni boshlash"
   },
   "vocab": {
     "title": "Lugʻat mavzulari",
@@ -314,30 +317,8 @@
     "testTitle": "{title} sinovi",
     "next": "Keyingi"
   },
-  "slides": {
-    "noSlides": "Slaydlar mavjud emas.",
-    "back": "Qaytish",
-    "completionTitle": "Taqdimot yakunlandi!",
-    "completionDesc": "Siz ushbu boʻlimning barcha slaydlarini toʻliq koʻrib chiqdingiz. Quyidagi tugmalar orqali taqdimotni qayta koʻrishingiz yoki darslarga qaytishingiz mumkin.",
-    "restart": "Yana oʻtish",
-    "finish": "Tayyor!",
-    "next": "Keyingi",
-    "prev": "Orqaga",
-    "close": "Yopish",
-    "slideCounter": "{current} / {total} slayd"
-  },
   "article": {
     "back": "Ortga qaytish"
-  },
-  "slidePages": {
-    "onboardingTitle": "Ota-onalar oʻqitish vizardi",
-    "presentationTitle": "Platforma taqdimoti",
-    "aboutTitle": "Loyiha haqida taqdimot",
-    "aboutCompletionTitle": "Smart Inclusive loyihasi bilan tanishganingiz uchun tashakkur!",
-    "aboutCompletionDesc": "Bizning maqsadimiz har bir bola uchun taʼlim jarayonini teng darajada inklyuziv qilishdir. Bizga qoʻshiling — koʻngilli boʻling yoki loyihani keng targʻib qiling.",
-    "becomeVolunteer": "Koʻngilli boʻlish",
-    "home": "Bosh sahifa",
-    "empty": "Bu boʻlim uchun slaydlar hali qoʻshilmagan."
   },
   "forms": {
     "submitErrorTitle": "Yuborishda xatolik yuz berdi",
@@ -443,5 +424,14 @@
     "region": "Hudud",
     "emptyCases": "Hozircha hikoyalar qoʻshilmagan.",
     "emptyStats": "Statistika hali kiritilmagan."
+  },
+  "aboutProject": {
+    "title": "Loyiha haqida taqdimot",
+    "desc": "Bizning maqsadimiz har bir bola uchun taʼlim jarayonini teng darajada inklyuziv qilishdir. Bizga qoʻshiling — koʻngilli boʻling yoki loyihani keng targʻib qiling."
+  },
+  "notFound": {
+    "title": "Sahifa topilmadi",
+    "desc": "Siz izlagan sahifa koʻchirilgan yoki oʻchirilgan boʻlishi mumkin. Bosh sahifadan davom eting.",
+    "home": "Bosh sahifaga qaytish"
   }
 }
