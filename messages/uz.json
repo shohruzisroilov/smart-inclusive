@@ -70,8 +70,7 @@
     "reducedMotion": "Harakatlarni kamaytirish",
     "screenReaderInfo": "Sayt ekran o'quvchi (Screen Reader) dasturlariga moslangan va klaviatura (Tab, Enter) orqali to'liq boshqariladi.",
     "colorblindMode": "Rang koʻrligi rejimi",
-    "on": "Yoqilgan",
-    "off": "Oʻchirilgan"
+    "colorblindModeDesc": "Qizil va yashil oʻrniga koʻk va gʻishtrang — statuslar ikonka bilan ham belgilanadi."
   },
   "common": {
     "retry": "Qayta urinish",
