@@ -52,15 +52,9 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
       </router-link>
 
       <!-- Desktop Navigation -->
+      <!-- «Bosh sahifa» havolasi ataylab yo'q: logotipning o'zi shu vazifani
+           bajaradi va menyuda joy tor. -->
       <nav class="hidden lg:flex items-center gap-0.5">
-        <router-link
-          :to="getRoute('home')"
-          class="px-3 py-2 rounded-xl text-sm font-semibold whitespace-nowrap text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors"
-          active-class="!text-[var(--brand)] !bg-[var(--brand-subtle)] font-bold"
-        >
-          {{ t('nav.home') }}
-        </router-link>
-
         <!-- Kids Dropdown -->
         <div class="relative" @mouseleave="kidsDropdownOpen = false">
           <button
@@ -300,9 +294,6 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
     <!-- Mobile Drawer Navigation -->
     <div v-if="mobileMenuOpen" class="lg:hidden border-t border-[var(--border-default)] bg-[var(--surface)] px-4 py-6 space-y-4 animate-in slide-in-from-top duration-200">
       <nav class="flex flex-col space-y-2">
-        <router-link :to="getRoute('home')" class="px-4 py-3 rounded-xl text-base font-semibold hover:bg-[var(--surface-subtle)]" @click="mobileMenuOpen = false">
-          {{ t('nav.home') }}
-        </router-link>
         <router-link :to="getRoute('vocabulary')" class="px-4 py-3 rounded-xl text-base font-semibold hover:bg-[var(--surface-subtle)]" @click="mobileMenuOpen = false">
           {{ t('nav.kidsItems.dictionary') }}
         </router-link>
