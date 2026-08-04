@@ -43,9 +43,7 @@
     "children": "Children using it",
     "lessons": "Ready lessons",
     "volunteers": "Active volunteers",
-    "regions": "Regions covered",
-    "copied": "Copied",
-    "copyHint": "Click to copy"
+    "regions": "Regions covered"
   },
   "footer": {
     "sections": "Sections",
@@ -241,12 +239,6 @@
     "label": "Mini mascot",
     "collapse": "Collapse",
     "expand": "Expand"
-  },
-  "trustLine": {
-    "label": "Trust line:",
-    "copyHint": "{phone} — click to copy",
-    "callHint": "{phone} — call",
-    "copied": "Copied"
   },
   "sections": {
     "kidsEyebrow": "Kids section",

@@ -43,9 +43,7 @@
     "children": "Bola foydalanmoqda",
     "lessons": "Tayyor dars",
     "volunteers": "Faol ko'ngilli",
-    "regions": "Qamrab olingan hudud",
-    "copied": "Nusxalandi",
-    "copyHint": "Bosing — nusxalanadi"
+    "regions": "Qamrab olingan hudud"
   },
   "footer": {
     "sections": "Bo'limlar",
@@ -241,12 +239,6 @@
     "label": "Mini-personaj",
     "collapse": "Yig'ish",
     "expand": "Ochish"
-  },
-  "trustLine": {
-    "label": "Ishonch telefoni:",
-    "copyHint": "{phone} — nusxalash uchun bosing",
-    "callHint": "{phone} — qo'ng'iroq qilish",
-    "copied": "Nusxalandi"
   },
   "sections": {
     "kidsEyebrow": "Bolalar boʻlimi",
