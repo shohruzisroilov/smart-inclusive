@@ -14,14 +14,18 @@ import {
   Smile,
   Languages,
   Award,
+  Compass,
+  PlayCircle,
+  Baby,
 } from '@lucide/vue'
 import { useVolunteerModalStore } from '@/stores/useVolunteerModalStore'
 import { useSettingsStore } from '@/stores/useSettingsStore'
-import { fetchPlatformStats } from '@/lib/api/services'
+import { fetchContentItems, fetchPlatformStats } from '@/lib/api/services'
+import { localizedTitle, routeForContentItem, youtubeThumbnail } from '@/lib/api/content'
 import CountUp from '@/components/ui/CountUp.vue'
-import type { PlatformStatDto } from '@/lib/api/types'
+import type { ContentItemDto, PlatformStatDto } from '@/lib/api/types'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const modalStore = useVolunteerModalStore()
 const settings = useSettingsStore()
 
@@ -152,6 +156,47 @@ const navCards = [
   },
 ]
 
+/**
+ * «Qanday boshlash kerak» (uch qadam) va «Kimlar uchun» bloklari — sof statik.
+ * Bekenddan ma'lumot kelmaydi, shuning uchun ro'yxatlar shu yerda turadi;
+ * matnlar esa i18n'da, chunki uch tilda ko'rsatiladi.
+ */
+const steps = [
+  { icon: Compass, title: 'home.step1Title', desc: 'home.step1Desc' },
+  { icon: PlayCircle, title: 'home.step2Title', desc: 'home.step2Desc' },
+  { icon: Award, title: 'home.step3Title', desc: 'home.step3Desc' },
+]
+
+const audiences = [
+  {
+    icon: Baby,
+    title: 'home.forKidsTitle',
+    desc: 'home.forKidsDesc',
+    cta: 'home.forKidsCta',
+    link: '/etiquette',
+    accent: 'text-amber-600',
+    badge: 'bg-amber-500',
+  },
+  {
+    icon: Users,
+    title: 'home.forParentsTitle',
+    desc: 'home.forParentsDesc',
+    cta: 'home.forParentsCta',
+    link: '/for-parents',
+    accent: 'text-[var(--brand)]',
+    badge: 'bg-[var(--brand)]',
+  },
+  {
+    icon: HeartHandshake,
+    title: 'home.forVolunteersTitle',
+    desc: 'home.forVolunteersDesc',
+    cta: 'home.forVolunteersCta',
+    link: '/volunteers',
+    accent: 'text-emerald-600',
+    badge: 'bg-emerald-500',
+  },
+]
+
 function nextSlide() {
   currentSlide.value = (currentSlide.value + 1) % slides.length
 }
@@ -168,9 +213,23 @@ function prevSlide() {
  */
 let slideTimer: ReturnType<typeof setInterval> | undefined
 
+/**
+ * Videolar bloki (TZ 4, blok 3).
+ *
+ * TZ «turli tumanlardan videolar» deb yozadi, lekin `ContentItemDto` da hudud
+ * maydoni YO'Q — shuning uchun kartochkalarda hudud imzosi ko'rsatilmaydi.
+ * O'ylab topilgan hudud nomini yozish ma'lumotni soxtalashtirish bo'lardi;
+ * bekendga maydon qo'shilgach, imzo shu yerga bir qator bilan qo'shiladi.
+ */
+const videos = ref<ContentItemDto[]>([])
+
+const HOME_VIDEO_LIMIT = 3
+
 onMounted(async () => {
   if (!settings.reducedMotion) slideTimer = setInterval(nextSlide, 6000)
-  stats.value = await fetchPlatformStats()
+  const [statList, items] = await Promise.all([fetchPlatformStats(), fetchContentItems()])
+  stats.value = statList
+  videos.value = items.filter((item) => item.youtubeUrl).slice(0, HOME_VIDEO_LIMIT)
 })
 
 onBeforeUnmount(() => {
@@ -297,6 +356,130 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
+    <!-- Kimlar uchun — uchta yo'nalish, har biri o'z bo'limiga olib boradi -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
+        <h2 class="text-3xl font-extrabold text-[var(--fg)] font-display">
+          {{ t('home.audienceHeading') }}
+        </h2>
+        <p class="text-sm text-[var(--fg-muted)]">{{ t('home.audienceDesc') }}</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <router-link
+          v-for="a in audiences"
+          :key="a.link"
+          :to="a.link"
+          class="group p-7 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:shadow-xl hover:border-[var(--brand)] transition-all space-y-4"
+        >
+          <div
+            class="w-14 h-14 rounded-2xl text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"
+            :class="a.badge"
+          >
+            <component :is="a.icon" class="w-7 h-7" aria-hidden="true" />
+          </div>
+          <h3 class="text-xl font-bold text-[var(--fg)] font-display">{{ t(a.title) }}</h3>
+          <p class="text-sm text-[var(--fg-muted)] leading-relaxed">{{ t(a.desc) }}</p>
+          <div
+            class="pt-1 flex items-center text-sm font-bold group-hover:translate-x-1 transition-transform"
+            :class="a.accent"
+          >
+            <span>{{ t(a.cta) }}</span>
+            <ArrowRight class="w-4 h-4 ml-1" aria-hidden="true" />
+          </div>
+        </router-link>
+      </div>
+    </section>
+
+    <!--
+      Ishonch raqamlari — adminkadagi «Platforma statistikasi» jadvalidan.
+      Jadval bo'sh bo'lsa (hozir aynan shunday) BUTUN blok chizilmaydi: sarlavhasi
+      bor, lekin ichi bo'sh ramka soxta taassurot qoldiradi.
+    -->
+    <section v-if="stats.length > 0" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="p-8 sm:p-12 rounded-3xl bg-[var(--surface-muted)] border border-[var(--border-default)]">
+        <div class="text-center max-w-xl mx-auto mb-8">
+          <span class="text-xs font-bold uppercase tracking-wider text-[var(--brand)]">
+            {{ t('trustBar.title') }}
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-[var(--fg)] font-display mt-1">
+            {{ t('home.statsHeading') }}
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div
+            v-for="stat in stats"
+            :key="stat.id"
+            class="p-4 space-y-2"
+          >
+            <div class="text-3xl sm:text-4xl font-extrabold text-[var(--brand)] font-display">
+              <CountUp :value="stat.value" />
+            </div>
+            <div class="text-xs font-semibold text-[var(--fg-muted)] uppercase tracking-wider">
+              {{ stat.label || stat.metricKey }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--
+      Videolar (TZ 4, blok 3). Yozuvi bo'lmasa blok umuman chizilmaydi —
+      bo'sh sarlavha qoldirmaslik uchun.
+    -->
+    <section v-if="videos.length > 0" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+        <div class="space-y-2 max-w-2xl">
+          <h2 class="text-3xl font-extrabold text-[var(--fg)] font-display">
+            {{ t('home.videosHeading') }}
+          </h2>
+          <p class="text-sm text-[var(--fg-muted)]">{{ t('home.videosDesc') }}</p>
+        </div>
+        <router-link
+          to="/about-us"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[var(--border-default)] text-sm font-bold text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors"
+        >
+          <span>{{ t('home.videosAll') }}</span>
+          <ArrowRight class="w-4 h-4" aria-hidden="true" />
+        </router-link>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <router-link
+          v-for="video in videos"
+          :key="video.id"
+          :to="routeForContentItem(video)"
+          class="group rounded-3xl overflow-hidden bg-[var(--surface)] border border-[var(--border-default)] hover:border-[var(--brand)] hover:shadow-xl transition-all"
+        >
+          <div class="relative aspect-video bg-[var(--surface-subtle)] overflow-hidden">
+            <img
+              v-if="video.coverImageUrl || youtubeThumbnail(video.youtubeUrl)"
+              :src="video.coverImageUrl ?? youtubeThumbnail(video.youtubeUrl)!"
+              :alt="localizedTitle(video, locale)"
+              loading="lazy"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform"
+            />
+            <span
+              class="absolute inset-0 flex items-center justify-center bg-black/25 group-hover:bg-black/10 transition-colors"
+            >
+              <PlayCircle class="w-14 h-14 text-white drop-shadow" aria-hidden="true" />
+            </span>
+          </div>
+          <div class="p-5 space-y-1.5">
+            <h3
+              class="text-base font-bold text-[var(--fg)] font-display group-hover:text-[var(--brand)] transition-colors line-clamp-2"
+            >
+              {{ localizedTitle(video, locale) }}
+            </h3>
+            <p v-if="video.description" class="text-xs text-[var(--fg-muted)] line-clamp-2">
+              {{ video.description }}
+            </p>
+          </div>
+        </router-link>
+      </div>
+    </section>
+
     <!-- Navigation Hub Cards -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
@@ -342,36 +525,37 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
-    <!--
-      Ishonch raqamlari — adminkadagi «Platforma statistikasi» jadvalidan.
-      Jadval bo'sh bo'lsa (hozir aynan shunday) BUTUN blok chizilmaydi: sarlavhasi
-      bor, lekin ichi bo'sh ramka soxta taassurot qoldiradi.
-    -->
-    <section v-if="stats.length > 0" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="p-8 sm:p-12 rounded-3xl bg-[var(--surface-muted)] border border-[var(--border-default)]">
-        <div class="text-center max-w-xl mx-auto mb-8">
-          <span class="text-xs font-bold uppercase tracking-wider text-[var(--brand)]">
-            {{ t('trustBar.title') }}
-          </span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-[var(--fg)] font-display mt-1">
-            {{ t('home.statsHeading') }}
+    <!-- Qanday boshlash kerak — uch qadam -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div
+        class="p-8 sm:p-12 rounded-3xl bg-[var(--surface-muted)] border border-[var(--border-default)]"
+      >
+        <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
+          <h2 class="text-3xl font-extrabold text-[var(--fg)] font-display">
+            {{ t('home.stepsHeading') }}
           </h2>
+          <p class="text-sm text-[var(--fg-muted)]">{{ t('home.stepsDesc') }}</p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          <div
-            v-for="stat in stats"
-            :key="stat.id"
-            class="p-4 space-y-2"
-          >
-            <div class="text-3xl sm:text-4xl font-extrabold text-[var(--brand)] font-display">
-              <CountUp :value="stat.value" />
+        <ol class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <li v-for="(step, i) in steps" :key="step.title" class="text-center space-y-3">
+            <div class="relative w-16 h-16 mx-auto">
+              <div
+                class="w-16 h-16 rounded-2xl bg-[var(--surface)] border border-[var(--border-default)] flex items-center justify-center text-[var(--brand)]"
+              >
+                <component :is="step.icon" class="w-8 h-8" aria-hidden="true" />
+              </div>
+              <span
+                class="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-[var(--brand)] text-[var(--fg-on-brand)] text-sm font-extrabold flex items-center justify-center"
+                aria-hidden="true"
+              >
+                {{ i + 1 }}
+              </span>
             </div>
-            <div class="text-xs font-semibold text-[var(--fg-muted)] uppercase tracking-wider">
-              {{ stat.label || stat.metricKey }}
-            </div>
-          </div>
-        </div>
+            <h3 class="text-lg font-bold text-[var(--fg)] font-display">{{ t(step.title) }}</h3>
+            <p class="text-sm text-[var(--fg-muted)] leading-relaxed">{{ t(step.desc) }}</p>
+          </li>
+        </ol>
       </div>
     </section>
 

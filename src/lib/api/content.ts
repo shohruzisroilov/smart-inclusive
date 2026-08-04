@@ -1,4 +1,14 @@
 import type { ContentItemDto } from './types'
+import { extractVideoId } from '@/lib/youtube'
+import {
+  CONTENT_CATEGORY_DARSLAR,
+  CONTENT_CATEGORY_ETIKET,
+  CONTENT_CATEGORY_KUTUBXONA,
+  CONTENT_CATEGORY_MEN_QILA_OLAMAN,
+  CONTENT_CATEGORY_OTA_ONALAR_VIDEO,
+  CONTENT_CATEGORY_UYDA_TALIM,
+  CONTENT_TYPE_KOMIKS,
+} from './constants'
 
 /**
  * Kontent yozuvlari uchun umumiy yordamchi funksiyalar.
@@ -67,4 +77,45 @@ export function inArticleCategory(
   articleCategoryId: number,
 ): boolean {
   return item.categoryId === contentCategoryId || item.articleCategoryId === articleCategoryId
+}
+
+/**
+ * Yozuv qaysi manzilda ochilishini aniqlaydi.
+ *
+ * Sayt bo'limlarga BO'LINGAN, bekend esa hamma narsani bitta `ContentItem`
+ * jadvalida saqlaydi — ya'ni bir yozuvning «o'z sahifasi» uning kategoriyasidan
+ * kelib chiqadi. Bosh sahifadagi ro'yxatlar aralash kategoriyalarni ko'rsatgani
+ * uchun bu bog'lanish bir joyda bo'lishi kerak, aks holda har bir blokda
+ * takrorlanardi.
+ */
+export function routeForContentItem(item: ContentItemDto): string {
+  switch (item.categoryId) {
+    case CONTENT_CATEGORY_ETIKET:
+      // Etiket bo'limida komiks ham, video ham bo'lishi mumkin.
+      return item.typeId === CONTENT_TYPE_KOMIKS ? `/comics/${item.id}` : `/etiquette/${item.id}`
+    case CONTENT_CATEGORY_MEN_QILA_OLAMAN:
+      return `/i-can-do-it/${item.id}`
+    case CONTENT_CATEGORY_DARSLAR:
+      return `/lessons/${item.id}`
+    case CONTENT_CATEGORY_KUTUBXONA:
+      return `/books/${item.id}`
+    case CONTENT_CATEGORY_OTA_ONALAR_VIDEO:
+      return `/for-parents/videos/${item.id}`
+    case CONTENT_CATEGORY_UYDA_TALIM:
+      return `/for-parents/home-education/${item.id}`
+    default:
+      return `/for-parents/articles/${item.id}`
+  }
+}
+
+/**
+ * YouTube prevyu rasmi.
+ *
+ * Video kartochkasi uchun alohida muqova shart emas — YouTube har bir video
+ * uchun tayyor prevyu beradi (`hqdefault` barcha videolarda mavjud). Yozuvning
+ * o'z `coverImageUrl` i bo'lsa u ustunroq: muharrir ataylab tanlagan rasm.
+ */
+export function youtubeThumbnail(youtubeUrl: string | null | undefined): string | null {
+  const id = extractVideoId(youtubeUrl)
+  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null
 }
