@@ -68,9 +68,7 @@
     "dyslexiaMode": "Disleksiya rejimi (maxsus shrift)",
     "fontScale": "Matn o'lchami",
     "reducedMotion": "Harakatlarni kamaytirish",
-    "screenReaderInfo": "Sayt ekran o'quvchi (Screen Reader) dasturlariga moslangan va klaviatura (Tab, Enter) orqali to'liq boshqariladi.",
-    "colorblindMode": "Rang koʻrligi rejimi",
-    "colorblindModeDesc": "Qizil va yashil oʻrniga koʻk va gʻishtrang — statuslar ikonka bilan ham belgilanadi."
+    "screenReaderInfo": "Sayt ekran o'quvchi (Screen Reader) dasturlariga moslangan va klaviatura (Tab, Enter) orqali to'liq boshqariladi."
   },
   "common": {
     "retry": "Qayta urinish",

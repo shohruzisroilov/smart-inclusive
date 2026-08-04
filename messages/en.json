@@ -68,9 +68,7 @@
     "dyslexiaMode": "Dyslexia Mode (Special Font)",
     "fontScale": "Text Size",
     "reducedMotion": "Reduce Motion",
-    "screenReaderInfo": "Screen Reader compatibility is enabled. You can fully navigate the website using the keyboard (Tab, Enter).",
-    "colorblindMode": "Colourblind mode",
-    "colorblindModeDesc": "Blue and vermillion instead of red and green; statuses are also marked with icons."
+    "screenReaderInfo": "Screen Reader compatibility is enabled. You can fully navigate the website using the keyboard (Tab, Enter)."
   },
   "common": {
     "retry": "Try again",

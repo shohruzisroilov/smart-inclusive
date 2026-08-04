@@ -112,7 +112,7 @@
   --accent-hover: var(--si-amber-700);
   --accent-subtle: var(--si-amber-50);
 
-  /* Status — rang ko'rligi rejimida qayta yoziladi */
+  /* Status */
   --status-success: var(--si-green-600);
   --status-success-subtle: var(--si-green-100);
   --status-danger: var(--si-red-600);
@@ -396,42 +396,3 @@
   --accent-chip: rgb(0 0 0 / 0.12);
 }
 
-/* ========================================================================
-   5. RANG KO'RLIGI REJIMI (TZ 12.1)
-
-   Mavzudan MUSTAQIL qatlam: `data-colorblind` atributi light, dark va
-   kontrastli mavzularning istalganining ustiga qo'yiladi — foydalanuvchi
-   qorong'i rejimni tanlagani uchun rang ko'rligi sozlamasidan voz kechishi
-   kerak emas. Shu sababli u alohida atribut, yana bitta `data-theme`
-   qiymati emas.
-
-   Palitra Okabe-Ito to'plamiga asoslangan: qizil/yashil juftligi ko'k va
-   g'ishtrang bilan almashtiriladi — bu deyteranopiya va protanopiyada ham
-   ajralib turadigan yagona ishonchli o'q. Ranglar YAGONA belgi emas:
-   statuslar yonida har doim belgi/xoch ikonkasi turadi.
-
-   Kontrast tekshirilgan (oq fonda): success 7.26:1, danger 7.35:1,
-   warning 7.55:1, info 7.29:1 — hammasi WCAG AAA (>= 7:1).
-   ======================================================================== */
-:root[data-colorblind="true"] {
-  --status-success: #005b8f;
-  --status-success-subtle: #dceaf5;
-  --status-danger: #8f3e00;
-  --status-danger-subtle: #f7e6d8;
-  --status-warning: #7a4900;
-  --status-warning-subtle: #fbeed2;
-  --status-info: #8b3a62;
-  --status-info-subtle: #f5e1eb;
-}
-
-/* Qorong'i fonda o'sha ikki o'q, lekin yorug'roq tonlarda (>= 9:1). */
-:root[data-colorblind="true"][data-theme="dark"] {
-  --status-success: #7fc7f0;
-  --status-success-subtle: rgb(127 199 240 / 0.16);
-  --status-danger: #ffa366;
-  --status-danger-subtle: rgb(255 163 102 / 0.16);
-  --status-warning: #f5c26b;
-  --status-warning-subtle: rgb(245 194 107 / 0.16);
-  --status-info: #e79ac0;
-  --status-info-subtle: rgb(231 154 192 / 0.16);
-}

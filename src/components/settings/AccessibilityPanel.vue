@@ -226,40 +226,6 @@ function stepFont(delta: -1 | 1) {
                 />
               </button>
             </div>
-
-            <!--
-              Rang ko'rligi rejimi (TZ 12.1). MAVZU EMAS: yorug', qorong'i va
-              kontrastli mavzularning istalganining ustiga qo'shimcha qatlam
-              bo'lib tushadi, shuning uchun yuqoridagi mavzu tugmalari qatoriga
-              qo'yilmagan — u yerda tanlov bir-birini almashtiradi.
-            -->
-            <div
-              class="flex items-center justify-between p-3 rounded-2xl bg-[var(--surface-muted)] border border-[var(--border-default)] gap-4"
-            >
-              <div class="space-y-0.5">
-                <span class="text-sm font-bold text-[var(--fg)] block select-none">
-                  {{ t('a11y.colorblindMode') }}
-                </span>
-                <span class="text-[10px] text-[var(--fg-muted)] leading-tight block">
-                  {{ t('a11y.colorblindModeDesc') }}
-                </span>
-              </div>
-              <button
-                type="button"
-                role="switch"
-                :aria-checked="settings.colorblind"
-                :aria-label="t('a11y.colorblindMode')"
-                class="relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors"
-                :class="settings.colorblind ? 'bg-[var(--brand)]' : 'bg-[var(--border-strong)]'"
-                @click="settings.toggleColorblind()"
-              >
-                <span
-                  aria-hidden="true"
-                  class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow transition"
-                  :class="settings.colorblind ? 'translate-x-5' : 'translate-x-0'"
-                />
-              </button>
-            </div>
           </div>
 
           <!-- 5. Bekor qilish -->

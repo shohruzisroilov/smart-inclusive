@@ -15,12 +15,10 @@ export const STORAGE_KEYS = {
   /** Interfeys sozlamalari: mavzu, shrift o'lchami, disleksiya rejimi. */
   settings: `${STORAGE_PREFIX}:settings`,
   /**
-   * Interfeys tili va rang ko'rligi rejimi — TZ 13.5 da nomlari aniq
-   * belgilangan, shuning uchun umumiy `si:settings` obyektiga qo'shilmay,
-   * alohida kalitlarda saqlanadi.
+   * Interfeys tili — TZ 13.5 da nomi aniq belgilangan, shuning uchun umumiy
+   * `si:settings` obyektiga qo'shilmay, alohida kalitda saqlanadi.
    */
   language: 'si_language',
-  colorblindMode: 'si_colorblind_mode',
 } as const
 
 export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS]
@@ -40,7 +38,6 @@ export function clearAllAppStorage(): void {
       }
     }
     window.localStorage.removeItem(STORAGE_KEYS.language)
-    window.localStorage.removeItem(STORAGE_KEYS.colorblindMode)
   } catch {
     /* jimgina o'tkazamiz */
   }
