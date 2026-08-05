@@ -51,18 +51,27 @@
   --si-amber-900: #672f16;
 
   /* --- Neytral --- */
+  /*
+     Neytral shkala SOVUQ kulrang emas, iliq "qog'oz" va ko'kishroq "siyoh".
+     Sabab: platformadan bolalar foydalanadi, sof kulrang interfeys klinik
+     ko'rinadi; iliq qog'oz esa bosma o'quv kartochkasiga yaqin. Qorong'i
+     uchi brend ko'kiga tortilgan, shunda matn va brend bir oilada bo'ladi.
+
+     Kontrast tekshirilgan (qog'oz #FBF9F5 fonida):
+     900 = 14.0:1, 600 = 7.07:1, 500 = 7.00:1 — hammasi WCAG AAA.
+  */
   --si-neutral-0: #ffffff;
-  --si-neutral-50: #f7f8f9;
-  --si-neutral-100: #edeff2;
-  --si-neutral-200: #dce0e5;
-  --si-neutral-300: #c0c6ce;
-  --si-neutral-400: #98a1ac;
-  --si-neutral-500: #6f7a87;
-  --si-neutral-600: #55606c;
-  --si-neutral-700: #414a54;
-  --si-neutral-800: #2c333b;
-  --si-neutral-900: #1b2027;
-  --si-neutral-950: #10141a;
+  --si-neutral-50: #fbf9f5;
+  --si-neutral-100: #f1eee7;
+  --si-neutral-200: #e2ddd3;
+  --si-neutral-300: #c7bfaf;
+  --si-neutral-400: #8d9ea3;
+  --si-neutral-500: #415a5f;
+  --si-neutral-600: #3b5a62;
+  --si-neutral-700: #2a464e;
+  --si-neutral-800: #1a373e;
+  --si-neutral-900: #0e2c33;
+  --si-neutral-950: #071c21;
 
   /* --- Status: standart (rang ko'rligi rejimi o'chirilgan) --- */
   --si-green-600: #1b7f4b;
@@ -83,7 +92,12 @@
   /* Native boshqaruvlar (select ro'yxati, skrollbar...) mavzuga ergashsin. */
   color-scheme: light;
 
-  /* Sirtlar */
+  /*
+     Sirtlar. `--page-bg` — sahifa "taxtasi" (iliq qog'oz), `--surface` — uning
+     ustidagi kartochka (oq). Ikkalasi bo'lingani dizayn asosidir: kartochka
+     faqat fondan farq qilgandagina kartochka bo'lib ko'rinadi.
+  */
+  --page-bg: var(--si-neutral-50);
   --surface: var(--si-neutral-0);
   --surface-subtle: var(--si-neutral-50);
   --surface-muted: var(--si-neutral-100);
@@ -100,12 +114,18 @@
   --border-default: var(--si-neutral-200);
   --border-strong: var(--si-neutral-300);
 
-  /* Brend */
+  /*
+     Brend. `--brand` — TO'LDIRISH uchun (tugma foni, tab); `--brand-text` —
+     ochiq fondagi MATN uchun. Ikkitaga bo'lingani bejiz emas: tanlangan
+     #14768a oq fonda 5.01:1 beradi — tugma foni sifatida a'lo, lekin mayda
+     matn uchun AAA (7:1) dan o'tmaydi. Matnga qoraroq variant ishlatiladi.
+  */
   --brand: var(--si-teal-600);
+  --brand-text: #105e6e;
   --brand-hover: var(--si-teal-700);
   --brand-active: var(--si-teal-800);
-  --brand-subtle: var(--si-teal-50);
-  --brand-border: var(--si-teal-200);
+  --brand-subtle: #e8f3f6;
+  --brand-border: #b9dce3;
 
   /* Aksent (bolalar bo'limi) */
   --accent: var(--si-amber-600);
@@ -126,7 +146,7 @@
   --focus-ring: var(--si-teal-600);
 
   /* Overlay */
-  --overlay: rgb(16 20 26 / 0.55);
+  --overlay: rgb(7 28 33 / 0.6);
 }
 
 /* ========================================================================
@@ -136,8 +156,9 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  --surface: var(--si-neutral-950);
-  --surface-subtle: var(--si-neutral-900);
+  --page-bg: var(--si-neutral-950);
+  --surface: var(--si-neutral-900);
+  --surface-subtle: var(--si-neutral-800);
   --surface-muted: var(--si-neutral-800);
   --surface-inverse: var(--si-neutral-50);
 
@@ -151,6 +172,7 @@
   --border-strong: var(--si-neutral-700);
 
   --brand: var(--si-teal-300);
+  --brand-text: var(--si-teal-300);
   --brand-hover: var(--si-teal-200);
   --brand-active: var(--si-teal-100);
   --brand-subtle: var(--si-teal-950);
@@ -178,9 +200,12 @@
    ======================================================================== */
 
 :root[data-theme="high-contrast"] {
+  --brand-text: currentColor;
   color-scheme: dark;
 
-  /* Sirtlar */
+  /* Sirtlar. Yuqori kontrast rejimida qog'oz tusi YO'Q — bu rejimni
+     tanlagan foydalanuvchiga iliqlik emas, maksimal kontrast kerak. */
+  --page-bg: #000000;
   --surface: #000000;
   --surface-subtle: #000000;
   --surface-muted: #1a1a1a;
@@ -228,6 +253,7 @@
    ======================================================================== */
 
 :root[data-theme="monochrome"] {
+  --brand-text: currentColor;
   filter: grayscale(100%) !important;
 }
 
@@ -249,21 +275,35 @@
   --space-16: 4rem;
   --space-20: 5rem;
 
-  /* --- Radius (`--si-` prefiksi Tailwind `--radius-*` bilan to'qnashmasligi uchun) --- */
-  --si-radius-sm: 0.375rem;
-  --si-radius-md: 0.625rem;
-  --si-radius-lg: 1rem;
-  --si-radius-xl: 1.5rem;
+  /*
+     Radius (`--si-` prefiksi Tailwind `--radius-*` bilan to'qnashmasligi uchun).
+     Avvalgisidan yumaloqroq: planshetda barmoq bilan bosiladigan yuza qanchalik
+     yumshoq ko'rinsa, shunchalik "bosilaman" deb turadi.
+  */
+  --si-radius-sm: 0.5rem;
+  --si-radius-md: 0.875rem;
+  --si-radius-lg: 1.25rem;
+  --si-radius-xl: 1.75rem;
   --si-radius-full: 9999px;
 
-  /* --- Soya --- */
-  --si-shadow-sm: 0 1px 2px rgb(16 20 26 / 0.06);
-  --si-shadow-md: 0 4px 12px rgb(16 20 26 / 0.08);
-  --si-shadow-lg: 0 12px 32px rgb(16 20 26 / 0.12);
+  /*
+     Soya iliq (sof qora emas, siyoh rangidan) — qog'oz fonda kulrang soya
+     kir bo'lib ko'rinadi. `pressed` bosilgan holat uchun: karta yuzasi
+     pastga tushadi, bu teginishga jismoniy javob beradi.
+  */
+  --si-shadow-sm: 0 1px 2px rgb(14 44 51 / 0.06);
+  --si-shadow-md: 0 6px 16px -4px rgb(14 44 51 / 0.10);
+  --si-shadow-lg: 0 18px 40px -12px rgb(14 44 51 / 0.16);
+  --si-shadow-pressed: 0 1px 0 rgb(14 44 51 / 0.10);
 
   /* --- Tegish maydoni (WCAG 2.2 AA = 24px min, biz kattaroq olamiz) --- */
-  --tap-target-min: 44px; /* umumiy interfeys */
-  --tap-target-kids: 60px; /* bolalar bo'limi */
+  /*
+     Asosiy qurilma — PLANSHET, ya'ni deyarli hamma narsa barmoq bilan
+     bosiladi. Shu sababli minimal maydon WCAG talab qilgan 44px dan
+     kattaroq olingan; bolalar bo'limida yanada kattaroq.
+  */
+  --tap-target-min: 48px;
+  --tap-target-kids: 64px;
 
   /* --- Layout --- */
   --container-max: 1280px;
@@ -396,3 +436,58 @@
   --accent-chip: rgb(0 0 0 / 0.12);
 }
 
+
+/* ========================================================================
+   5. BO'LIM TABLARI — dizaynning signatura elementi
+
+   Har bir kontent kartochkasining yuqori qirrasida rangli tasma turadi va
+   uning rangi kartochka QAYSI BO'LIMGA tegishli ekanini bildiradi. Bu
+   bezak emas, ma'lumot: bosh sahifada yoki qidiruvda aralash kartochkalar
+   yonma-yon turganda, bo'limni o'qimasdan ajratish mumkin bo'ladi.
+
+   G'oya maxsus ta'limdagi rasmli kommunikatsiya kartochkalaridan olingan —
+   ular ham rangli ajratgichlar bilan turkumlanadi.
+
+   Har bir rang OQ matn uchun WCAG AAA (>= 7:1) darajasida tekshirilgan,
+   shuning uchun tasma ustiga yozuv ham qo'yish mumkin.
+   ======================================================================== */
+:root {
+  --tab-etiquette: #904307;   /* 7.02:1 */
+  --tab-ican: #b01138;        /* 7.04:1 */
+  --tab-lessons: #116172;     /* 7.05:1 */
+  --tab-books: #03654a;       /* 7.08:1 */
+  --tab-vocabulary: #0d645d;  /* 7.00:1 */
+  --tab-comics: #6d28d9;      /* 7.10:1 */
+  --tab-tests: #7e22cd;       /* 7.01:1 */
+  --tab-parents: #9f350a;     /* 7.03:1 */
+  --tab-volunteers: #134e4a;  /* 9.48:1 */
+}
+
+/* Qorong'i fonda o'sha ohanglar yorug'roq: tasma fon bilan qo'shilib
+   ketmasligi kerak, aks holda belgi vazifasini yo'qotadi. */
+:root[data-theme="dark"] {
+  --tab-etiquette: #e8933a;
+  --tab-ican: #f98a9f;
+  --tab-lessons: #72cddb;
+  --tab-books: #4ade9a;
+  --tab-vocabulary: #5eead4;
+  --tab-comics: #c4b5fd;
+  --tab-tests: #d8b4fe;
+  --tab-parents: #fdba74;
+  --tab-volunteers: #99f6e4;
+}
+
+/* Kontrast mavzularida rang bilan ajratish o'rniga bir xil matn rangi —
+   bu mavzuni tanlagan foydalanuvchiga ohang emas, kontrast muhim. */
+:root[data-theme="high-contrast"],
+:root[data-theme="monochrome"] {
+  --tab-etiquette: var(--fg);
+  --tab-ican: var(--fg);
+  --tab-lessons: var(--fg);
+  --tab-books: var(--fg);
+  --tab-vocabulary: var(--fg);
+  --tab-comics: var(--fg);
+  --tab-tests: var(--fg);
+  --tab-parents: var(--fg);
+  --tab-volunteers: var(--fg);
+}

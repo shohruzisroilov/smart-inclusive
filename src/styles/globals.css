@@ -17,9 +17,23 @@
    ======================================================================== */
 @layer base {
   :root {
-    /* Shrift oilalari o'zgaruvchida — disleksiya rejimi shularni almashtiradi. */
+    /*
+       Shrift oilalari o'zgaruvchida — disleksiya rejimi shularni almashtiradi.
+
+       Display uchun Rubik. Tanlovning ikki sababi bor:
+       1) KIRILL. Sayt uch tilda ishlaydi va ruschasi kirillda. Avvalgi
+          Outfit'da kirill YO'Q edi — ruscha sarlavhalar jimgina tizim
+          shriftiga tushib ketardi, ya'ni display shrift uch tildan birida
+          umuman ko'rinmasdi. Rubik'da lotin, kirill va arab bor.
+       2) SHAKLI. Rubik'ning yumaloq burchakli, tekis yonli harflari bosma
+          o'quv kartochkasidagi yozuvga o'xshaydi — saytning kartochka
+          tizimiga to'g'ri tushadi.
+
+       Body uchun Inter qoladi: ota-onalar uzun huquqiy maqolalarni o'qiydi,
+       bunga betaraf, zich ishchi shrift kerak. Unda ham kirill bor.
+    */
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-    --font-display: 'Outfit', 'Inter', system-ui, sans-serif;
+    --font-display: 'Rubik', 'Inter', system-ui, sans-serif;
   }
 
   html {
@@ -41,7 +55,7 @@
   }
 
   body {
-    background-color: var(--surface);
+    background-color: var(--page-bg);
     color: var(--fg);
     font-family: var(--font-sans);
     line-height: 1.5;
@@ -53,6 +67,9 @@
 
   h1, h2, h3, h4, h5, h6, .font-display {
     font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
     text-wrap: balance;
   }
 
@@ -134,4 +151,150 @@
 @utility tap-target-kids {
   min-width: var(--tap-target-kids);
   min-height: var(--tap-target-kids);
+}
+
+/* ========================================================================
+   KOMPONENT QATLAMI
+
+   `@layer components` — Tailwind utility'lari bu qoidalarni YENGADI.
+   Ya'ni `.si-card` ustiga `p-8` yoki `rounded-full` yozib, joyida
+   o'zgartirish mumkin; teskarisi bo'lganda har bir view'da `!important`
+   bilan kurashishga to'g'ri kelardi.
+   ======================================================================== */
+@layer components {
+  /* --- Kartochka -------------------------------------------------------
+     Saytdagi barcha kontent bitta anatomiyaga ega: rasm maydoni, qisqa
+     sarlavha, bitta harakat. Bu tasodifiy emas — maxsus ta'limda material
+     bir vaqtda BITTA narsani so'rashi kerak, shuning uchun kartochka
+     hamma joyda bir xil o'qiladi.
+  */
+  .si-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--si-radius-lg);
+    box-shadow: var(--si-shadow-sm);
+    transition:
+      box-shadow var(--duration-base) var(--ease-out),
+      transform var(--duration-base) var(--ease-out),
+      border-color var(--duration-base) var(--ease-out);
+  }
+
+  /* Bosiladigan kartochka. Planshet asosiy qurilma bo'lgani uchun BOSISH
+     holati hover'dan muhimroq: barmoq ostida yuza pastga tushadi va bu
+     teginish haqiqatan qabul qilinganini bildiradi. */
+  .si-card-interactive:hover {
+    border-color: var(--tab-color, var(--brand));
+    box-shadow: var(--si-shadow-lg);
+    transform: translateY(-2px);
+  }
+
+  .si-card-interactive:active {
+    box-shadow: var(--si-shadow-pressed);
+    transform: translateY(1px);
+  }
+
+  /* --- Signatura: bo'lim tasmasi ---------------------------------------
+     Kartochkaning yuqori qirrasidagi rangli chiziq. Rang `--tab-color` dan
+     keladi va u kartochka qaysi bo'limga tegishli ekanini bildiradi
+     (`tokens.css`, 5-bo'lim).
+  */
+  .si-card-tabbed {
+    /*
+       Tasma CHEGARA sifatida chiziladi, ustiga qo'yilgan element sifatida
+       emas. Sababi amalda ko'rindi: `::before` bilan qo'yilgan tekis
+       to'rtburchak yumaloq burchak ostida ikki chetidan qirqilar va
+       kartadan uzilib qolgan bo'lakdek ko'rinardi. Chegara esa radiusni
+       o'zi kuzatib, kartaning qirrasiga aylanadi.
+    */
+    border-block-start-width: 6px;
+    border-block-start-color: var(--tab-color, var(--brand));
+  }
+
+  /* --- Media maydoni ---------------------------------------------------
+     Nisbati oldindan belgilangan — rasm yuklanguncha joy band bo'ladi va
+     maket sakramaydi (CLS).
+  */
+  .si-media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    /* Oq kartochka ICHIDA turgani uchun `--surface-subtle` emas: u endi
+       sahifa foniga juda yaqin va rasm maydoni ko'rinmay qolardi. */
+    background-color: var(--surface-muted);
+  }
+
+  .si-media > img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: contain;
+  }
+
+  /* --- Tugmalar --------------------------------------------------------
+     Minimal balandlik tegish maydonidan olinadi: planshetda hamma narsa
+     barmoq bilan bosiladi.
+  */
+  .si-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-block-size: var(--tap-target-min);
+    padding-inline: 1.25rem;
+    border-radius: var(--si-radius-md);
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
+  }
+
+  .si-btn:active {
+    transform: translateY(1px);
+  }
+
+  .si-btn-primary {
+    background-color: var(--brand);
+    color: var(--fg-on-brand);
+    box-shadow: var(--si-shadow-sm);
+  }
+
+  .si-btn-primary:hover {
+    background-color: var(--brand-hover);
+  }
+
+  .si-btn-quiet {
+    background-color: transparent;
+    border: 1px solid var(--border-default);
+    color: var(--fg);
+  }
+
+  .si-btn-quiet:hover {
+    background-color: var(--surface-subtle);
+  }
+
+  /* --- Bo'lim sarlavhasi ustidagi kichik yorliq ------------------------ */
+  .si-eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brand-text);
+  }
+
+  /* --- Sahifa ichidagi bo'limlar orasidagi ritm ------------------------
+     Bitta joyda turadi, aks holda har bir view o'z bo'shlig'ini tanlab,
+     sahifalar bir-biriga o'xshamay qolardi.
+  */
+  .si-stack > * + * {
+    margin-block-start: clamp(2.5rem, 5vw, 4.5rem);
+  }
 }

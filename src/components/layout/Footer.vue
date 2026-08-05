@@ -43,29 +43,29 @@ const year = new Date().getFullYear()
           <h3 class="text-xs font-bold text-[var(--fg)] uppercase tracking-wider">
             {{ t('nav.kids') }}
           </h3>
-          <ul class="space-y-2 text-sm">
+          <ul class="text-sm">
             <li>
-              <router-link to="/vocabulary" class="hover:text-[var(--brand)] transition-colors">
+              <router-link to="/vocabulary" class="inline-flex min-h-[var(--tap-target-min)] items-center hover:text-[var(--brand-text)] transition-colors">
                 {{ t('nav.kidsItems.dictionary') }}
               </router-link>
             </li>
             <li>
-              <router-link to="/etiquette" class="hover:text-[var(--brand)] transition-colors">
+              <router-link to="/etiquette" class="inline-flex min-h-[var(--tap-target-min)] items-center hover:text-[var(--brand-text)] transition-colors">
                 {{ t('nav.kidsItems.etiquette') }}
               </router-link>
             </li>
             <li>
-              <router-link to="/i-can-do-it" class="hover:text-[var(--brand)] transition-colors">
+              <router-link to="/i-can-do-it" class="inline-flex min-h-[var(--tap-target-min)] items-center hover:text-[var(--brand-text)] transition-colors">
                 {{ t('nav.kidsItems.iCan') }}
               </router-link>
             </li>
             <li>
-              <router-link to="/lessons" class="hover:text-[var(--brand)] transition-colors">
+              <router-link to="/lessons" class="inline-flex min-h-[var(--tap-target-min)] items-center hover:text-[var(--brand-text)] transition-colors">
                 {{ t('nav.kidsItems.lessons') }}
               </router-link>
             </li>
             <li>
-              <router-link to="/books" class="hover:text-[var(--brand)] transition-colors">
+              <router-link to="/books" class="inline-flex min-h-[var(--tap-target-min)] items-center hover:text-[var(--brand-text)] transition-colors">
                 {{ t('nav.kidsItems.books') }}
               </router-link>
             </li>
@@ -77,29 +77,29 @@ const year = new Date().getFullYear()
           <h3 class="text-xs font-bold text-[var(--fg)] uppercase tracking-wider">
             {{ t('footer.sections') }}
           </h3>
-          <ul class="space-y-2 text-sm">
+          <ul class="text-sm">
             <li>
-              <router-link to="/for-parents" class="hover:text-[var(--brand)] transition-colors">
+              <router-link to="/for-parents" class="inline-flex min-h-[var(--tap-target-min)] items-center hover:text-[var(--brand-text)] transition-colors">
                 {{ t('nav.parents') }}
               </router-link>
             </li>
             <li>
-              <router-link to="/volunteers" class="hover:text-[var(--brand)] transition-colors">
+              <router-link to="/volunteers" class="inline-flex min-h-[var(--tap-target-min)] items-center hover:text-[var(--brand-text)] transition-colors">
                 {{ t('nav.volunteers') }}
               </router-link>
             </li>
             <li>
-              <router-link to="/about-project" class="hover:text-[var(--brand)] transition-colors">
+              <router-link to="/about-project" class="inline-flex min-h-[var(--tap-target-min)] items-center hover:text-[var(--brand-text)] transition-colors">
                 {{ t('nav.aboutProject') }}
               </router-link>
             </li>
             <li>
-              <router-link to="/about-us" class="hover:text-[var(--brand)] transition-colors">
+              <router-link to="/about-us" class="inline-flex min-h-[var(--tap-target-min)] items-center hover:text-[var(--brand-text)] transition-colors">
                 {{ t('nav.aboutUs') }}
               </router-link>
             </li>
             <li>
-              <router-link to="/contact" class="hover:text-[var(--brand)] transition-colors">
+              <router-link to="/contact" class="inline-flex min-h-[var(--tap-target-min)] items-center hover:text-[var(--brand-text)] transition-colors">
                 {{ t('nav.contact') }}
               </router-link>
             </li>
@@ -116,11 +116,11 @@ const year = new Date().getFullYear()
           <h3 class="text-xs font-bold text-[var(--fg)] uppercase tracking-wider">
             {{ t('footer.contacts') }}
           </h3>
-          <ul class="space-y-2 text-sm">
+          <ul class="text-sm">
             <li>
               <a
                 :href="TRUST_PHONE_TEL"
-                class="inline-flex items-center gap-2 hover:text-[var(--brand)] transition-colors"
+                class="inline-flex min-h-[var(--tap-target-min)] items-center gap-2 hover:text-[var(--brand-text)] transition-colors"
               >
                 <Phone class="w-4 h-4 shrink-0" aria-hidden="true" />
                 <span class="whitespace-nowrap">{{ TRUST_PHONE }}</span>
@@ -129,7 +129,7 @@ const year = new Date().getFullYear()
             <li>
               <a
                 :href="`mailto:${CONTACT_EMAIL}`"
-                class="inline-flex items-center gap-2 hover:text-[var(--brand)] transition-colors break-all"
+                class="inline-flex min-h-[var(--tap-target-min)] items-center gap-2 hover:text-[var(--brand-text)] transition-colors break-all"
               >
                 <Mail class="w-4 h-4 shrink-0" aria-hidden="true" />
                 <span>{{ CONTACT_EMAIL }}</span>

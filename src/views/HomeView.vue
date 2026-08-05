@@ -69,91 +69,20 @@ const slides = [
  * Ko'ngillilar bu ro'yxatda ataylab yo'q: unga alohida chaqiriq bloki
  * ajratilgan (TZ 4, blok 5), ya'ni to'rda takrorlanishi ortiqcha bo'lardi.
  *
- * Ranglar to'liq sinf nomlari bilan yozilgan — Tailwind sinflarni kodni
- * o'qib topadi, `from-${color}-500` kabi yig'ma satrlarni ko'rmaydi va
- * bunday sinflar bandlga umuman tushmaydi.
+ * Rang har bir kartaga ALOHIDA tanlanmaydi — u bo'limning o'z tasmasidan
+ * (`tokens.css`, 5-bo'lim) olinadi. Ilgari bu yerda sakkizta har xil Tailwind
+ * rangi qotirilgandi va bosh sahifa kamalakka o'xshab qolgandi; endi ekrandagi
+ * rang saytning qolgan qismidagi rang bilan bir xil ma'noni bildiradi.
  */
 const navCards = [
-  {
-    link: '/etiquette',
-    icon: Smile,
-    title: 'sections.etiquetteTitle',
-    desc: 'home.navEtiquetteDesc',
-    surface: 'bg-gradient-to-br from-amber-500/10 to-amber-500/5 border-amber-500/20 hover:border-amber-500/50',
-    badge: 'bg-amber-500',
-    hoverText: 'group-hover:text-amber-600',
-    accentText: 'text-amber-600',
-  },
-  {
-    link: '/i-can-do-it',
-    icon: Sparkles,
-    title: 'sections.iCanTitle',
-    desc: 'home.navICanDesc',
-    surface: 'bg-gradient-to-br from-orange-500/10 to-orange-500/5 border-orange-500/20 hover:border-orange-500/50',
-    badge: 'bg-orange-500',
-    hoverText: 'group-hover:text-orange-600',
-    accentText: 'text-orange-600',
-  },
-  {
-    link: '/lessons',
-    icon: GraduationCap,
-    title: 'sections.lessonsTitle',
-    desc: 'home.navLessonsDesc',
-    surface: 'bg-gradient-to-br from-teal-500/10 to-teal-500/5 border-teal-500/20 hover:border-teal-500/50',
-    badge: 'bg-teal-500',
-    hoverText: 'group-hover:text-teal-600',
-    accentText: 'text-teal-600',
-  },
-  {
-    link: '/books',
-    icon: BookOpen,
-    title: 'sections.booksTitle',
-    desc: 'home.navBooksDesc',
-    surface: 'bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border-emerald-500/20 hover:border-emerald-500/50',
-    badge: 'bg-emerald-500',
-    hoverText: 'group-hover:text-emerald-600',
-    accentText: 'text-emerald-600',
-  },
-  {
-    link: '/vocabulary',
-    icon: Languages,
-    title: 'home.navDictionary',
-    desc: 'home.navDictionaryDesc',
-    surface: 'bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 border-cyan-500/20 hover:border-cyan-500/50',
-    badge: 'bg-cyan-500',
-    hoverText: 'group-hover:text-cyan-600',
-    accentText: 'text-cyan-600',
-  },
-  {
-    link: '/tests',
-    icon: Award,
-    title: 'sections.testsTitle',
-    desc: 'home.navTestsDesc',
-    surface: 'bg-gradient-to-br from-purple-500/10 to-purple-500/5 border-purple-500/20 hover:border-purple-500/50',
-    badge: 'bg-purple-500',
-    hoverText: 'group-hover:text-purple-600',
-    accentText: 'text-purple-600',
-  },
-  {
-    link: '/for-parents',
-    icon: Users,
-    title: 'home.navParents',
-    desc: 'home.navParentsDesc',
-    surface: 'bg-gradient-to-br from-blue-500/10 to-blue-500/5 border-blue-500/20 hover:border-blue-500/50',
-    badge: 'bg-blue-500',
-    hoverText: 'group-hover:text-blue-600',
-    accentText: 'text-blue-600',
-  },
-  {
-    link: '/contact',
-    icon: MessageSquare,
-    title: 'home.navContact',
-    desc: 'home.navContactDesc',
-    surface: 'bg-gradient-to-br from-rose-500/10 to-rose-500/5 border-rose-500/20 hover:border-rose-500/50',
-    badge: 'bg-rose-500',
-    hoverText: 'group-hover:text-rose-600',
-    accentText: 'text-rose-600',
-  },
+  { link: '/etiquette', icon: Smile, section: 'etiquette', title: 'sections.etiquetteTitle', desc: 'home.navEtiquetteDesc' },
+  { link: '/i-can-do-it', icon: Sparkles, section: 'ican', title: 'sections.iCanTitle', desc: 'home.navICanDesc' },
+  { link: '/lessons', icon: GraduationCap, section: 'lessons', title: 'sections.lessonsTitle', desc: 'home.navLessonsDesc' },
+  { link: '/books', icon: BookOpen, section: 'books', title: 'sections.booksTitle', desc: 'home.navBooksDesc' },
+  { link: '/vocabulary', icon: Languages, section: 'vocabulary', title: 'home.navDictionary', desc: 'home.navDictionaryDesc' },
+  { link: '/tests', icon: Award, section: 'tests', title: 'sections.testsTitle', desc: 'home.navTestsDesc' },
+  { link: '/for-parents', icon: Users, section: 'parents', title: 'home.navParents', desc: 'home.navParentsDesc' },
+  { link: '/contact', icon: MessageSquare, section: 'volunteers', title: 'home.navContact', desc: 'home.navContactDesc' },
 ]
 
 /**
@@ -174,8 +103,7 @@ const audiences = [
     desc: 'home.forKidsDesc',
     cta: 'home.forKidsCta',
     link: '/etiquette',
-    accent: 'text-amber-600',
-    badge: 'bg-amber-500',
+    section: 'etiquette',
   },
   {
     icon: Users,
@@ -183,8 +111,7 @@ const audiences = [
     desc: 'home.forParentsDesc',
     cta: 'home.forParentsCta',
     link: '/for-parents',
-    accent: 'text-[var(--brand)]',
-    badge: 'bg-[var(--brand)]',
+    section: 'parents',
   },
   {
     icon: HeartHandshake,
@@ -192,8 +119,7 @@ const audiences = [
     desc: 'home.forVolunteersDesc',
     cta: 'home.forVolunteersCta',
     link: '/volunteers',
-    accent: 'text-emerald-600',
-    badge: 'bg-emerald-500',
+    section: 'volunteers',
   },
 ]
 
@@ -370,19 +296,20 @@ onBeforeUnmount(() => {
           v-for="a in audiences"
           :key="a.link"
           :to="a.link"
-          class="group p-7 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:shadow-xl hover:border-[var(--brand)] transition-all space-y-4"
+          class="si-card si-card-interactive si-card-tabbed group gap-4 p-6 sm:p-7"
+          :style="{ '--tab-color': `var(--tab-${a.section})` }"
         >
           <div
-            class="w-14 h-14 rounded-2xl text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"
-            :class="a.badge"
+            class="flex h-14 w-14 items-center justify-center rounded-2xl text-[var(--fg-on-brand)]"
+            :style="{ backgroundColor: 'var(--tab-color)' }"
           >
             <component :is="a.icon" class="w-7 h-7" aria-hidden="true" />
           </div>
           <h3 class="text-xl font-bold text-[var(--fg)] font-display">{{ t(a.title) }}</h3>
           <p class="text-sm text-[var(--fg-muted)] leading-relaxed">{{ t(a.desc) }}</p>
           <div
-            class="pt-1 flex items-center text-sm font-bold group-hover:translate-x-1 transition-transform"
-            :class="a.accent"
+            class="mt-auto flex items-center pt-1 text-sm font-bold"
+            :style="{ color: 'var(--tab-color)' }"
           >
             <span>{{ t(a.cta) }}</span>
             <ArrowRight class="w-4 h-4 ml-1" aria-hidden="true" />
@@ -450,9 +377,9 @@ onBeforeUnmount(() => {
           v-for="video in videos"
           :key="video.id"
           :to="routeForContentItem(video)"
-          class="group rounded-3xl overflow-hidden bg-[var(--surface)] border border-[var(--border-default)] hover:border-[var(--brand)] hover:shadow-xl transition-all"
+          class="si-card si-card-interactive group"
         >
-          <div class="relative aspect-video bg-[var(--surface-subtle)] overflow-hidden">
+          <div class="relative aspect-video overflow-hidden bg-[var(--surface-muted)]">
             <img
               v-if="video.coverImageUrl || youtubeThumbnail(video.youtubeUrl)"
               :src="video.coverImageUrl ?? youtubeThumbnail(video.youtubeUrl)!"
@@ -496,31 +423,29 @@ onBeforeUnmount(() => {
           v-for="card in navCards"
           :key="card.link"
           :to="card.link"
-          class="group p-6 rounded-3xl border hover:shadow-xl transition-all space-y-4"
-          :class="card.surface"
+          class="si-card si-card-interactive si-card-tabbed group p-5 sm:p-6"
+          :style="{ '--tab-color': `var(--tab-${card.section})` }"
         >
           <div
-            class="w-14 h-14 rounded-2xl text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"
-            :class="card.badge"
+            class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl text-[var(--fg-on-brand)]"
+            :style="{ backgroundColor: 'var(--tab-color)' }"
           >
-            <component :is="card.icon" class="w-7 h-7" aria-hidden="true" />
+            <component :is="card.icon" class="h-7 w-7" aria-hidden="true" />
           </div>
-          <div>
-            <h3
-              class="text-xl font-bold text-[var(--fg)] font-display transition-colors"
-              :class="card.hoverText"
-            >
-              {{ t(card.title) }}
-            </h3>
-            <p class="text-xs text-[var(--fg-muted)] mt-1">{{ t(card.desc) }}</p>
-          </div>
-          <div
-            class="pt-2 flex items-center text-xs font-bold group-hover:translate-x-1 transition-transform"
-            :class="card.accentText"
+          <h3 class="font-display text-lg font-bold text-[var(--fg)] sm:text-xl">
+            {{ t(card.title) }}
+          </h3>
+          <p class="mt-1 text-sm text-[var(--fg-muted)]">{{ t(card.desc) }}</p>
+          <span
+            class="mt-auto flex items-center gap-1 pt-4 text-sm font-bold"
+            :style="{ color: 'var(--tab-color)' }"
           >
-            <span>{{ t('sections.more') }}</span>
-            <ArrowRight class="w-4 h-4 ml-1" aria-hidden="true" />
-          </div>
+            {{ t('sections.more') }}
+            <ArrowRight
+              class="h-4 w-4 transition-transform group-hover:translate-x-1"
+              aria-hidden="true"
+            />
+          </span>
         </router-link>
       </div>
     </section>

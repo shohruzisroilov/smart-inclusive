@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Smile, ArrowRight, CheckCircle2, Award } from '@lucide/vue'
+import { Smile } from '@lucide/vue'
 import { fetchContentItems } from '@/lib/api/services'
 import type { ContentItemDto, TestDto } from '@/lib/api/types'
 import { CONTENT_CATEGORY_ETIKET } from '@/lib/api/constants'
 import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
 import PageHero from '@/components/ui/PageHero.vue'
+import ContentCard from '@/components/ui/ContentCard.vue'
 import ContentListFilters from '@/components/ui/ContentListFilters.vue'
 import { getTestsByContentItem } from '@/lib/api/tests'
 import { useContentFilters } from '@/composables/useContentFilters'
-import { formatApiDate, localizedTitle } from '@/lib/api/content'
 
 const { t, locale } = useI18n()
 const items = ref<ContentItemDto[]>([])
@@ -48,45 +48,25 @@ onMounted(async () => {
         @clear="clear"
       />
 
-      <div v-if="filtered.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <router-link
+      <!--
+        Planshet asosiy qurilma: 768px dan boshlab ikki ustun, 1024px dan uch.
+        Kartochka maketi `ContentCard` da — beshta ro'yxat uchun bitta manba.
+      -->
+      <div v-if="filtered.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <ContentCard
           v-for="item in filtered"
           :key="item.id"
+          :item="item"
           :to="`/etiquette/${item.id}`"
-          class="group relative p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-amber-500 hover:shadow-xl transition-all space-y-4"
+          section="etiquette"
+          :action-label="t('sections.learnMore')"
+          :has-test="linkedTest(item) !== undefined"
+          :done="isDone(item)"
         >
-          <span
-            v-if="isDone(item)"
-            class="absolute top-4 right-4 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-700 text-xs font-bold"
-          >
-            <CheckCircle2 class="w-3.5 h-3.5" aria-hidden="true" />
-            {{ t('content.card.done') }}
-          </span>
-          <div class="h-48 rounded-2xl bg-[var(--surface-subtle)] overflow-hidden flex items-center justify-center p-4">
-            <img v-if="item.coverImageUrl" :src="item.coverImageUrl" :alt="localizedTitle(item, locale)" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform" />
-            <Smile v-else class="w-12 h-12 text-[var(--fg-subtle)]" aria-hidden="true" />
-          </div>
-          <div>
-            <h3 class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-amber-600 transition-colors">{{ localizedTitle(item, locale) }}</h3>
-            <p class="text-xs text-[var(--fg-muted)] mt-1 line-clamp-2">{{ item.description }}</p>
-            <p v-if="item.publishedDate" class="text-xs text-[var(--fg-subtle)] mt-1.5">
-              <time :datetime="item.publishedDate">{{ formatApiDate(item.publishedDate, locale) }}</time>
-            </p>
-          </div>
-          <div class="flex flex-wrap items-center gap-2">
-            <span
-              v-if="linkedTest(item)"
-              class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[var(--brand-subtle)] text-[var(--brand)] text-xs font-bold"
-            >
-              <Award class="w-3 h-3" aria-hidden="true" />
-              {{ t('content.card.hasTest') }}
-            </span>
-          </div>
-          <div class="pt-2 flex items-center justify-between text-xs font-bold text-amber-600">
-            <span>{{ t('sections.learnMore') }}</span>
-            <ArrowRight class="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-          </div>
-        </router-link>
+          <template #placeholder>
+            <Smile class="h-12 w-12 text-[var(--fg-subtle)]" aria-hidden="true" />
+          </template>
+        </ContentCard>
       </div>
 
       <div

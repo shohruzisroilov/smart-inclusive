@@ -18,6 +18,11 @@ const { t } = useI18n()
  * taqdimoti» bu yerda YO'Q: ular `Slide/GetList` ga tayanardi, bekend esa unga
  * 401 qaytaradi (`services.ts` dagi izoh) — mavjud bo'lmagan sahifaga plitka
  * qo'yish foydalanuvchini bo'sh ekranga olib borardi.
+ *
+ * Plitkalar rangi bu yerda YO'Q: bularning hammasi bitta bo'limning ichki
+ * sahifalari, shuning uchun rang ham bitta — «ota-onalar» tasmasi. Ilgari
+ * har bir plitkaga alohida yorqin gradient berilgandi va bo'lim bir necha
+ * xil rangda ko'rinib, kartochkadagi rang belgisining ma'nosini yo'qotardi.
  */
 const cards = [
   {
@@ -25,35 +30,30 @@ const cards = [
     desc: 'sections.hubTestsDesc',
     icon: ClipboardCheck,
     link: '/for-parents/tests',
-    color: 'from-rose-500 to-pink-600',
   },
   {
     title: 'sections.hubLegal',
     desc: 'sections.hubLegalDesc',
     icon: ShieldCheck,
     link: '/for-parents/legal',
-    color: 'from-blue-500 to-indigo-600',
   },
   {
     title: 'sections.hubVideos',
     desc: 'sections.hubVideosDesc',
     icon: Video,
     link: '/for-parents/videos',
-    color: 'from-amber-500 to-orange-600',
   },
   {
     title: 'sections.hubArticles',
     desc: 'sections.hubArticlesDesc',
     icon: FileText,
     link: '/for-parents/articles',
-    color: 'from-teal-500 to-emerald-600',
   },
   {
     title: 'sections.hubHomeEd',
     desc: 'sections.hubHomeEdDesc',
     icon: Home,
     link: '/for-parents/home-education',
-    color: 'from-purple-500 to-pink-600',
   },
 ]
 </script>
@@ -75,23 +75,33 @@ const cards = [
         v-for="(card, idx) in cards"
         :key="idx"
         :to="card.link"
-        class="group p-8 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-amber-500 hover:shadow-xl transition-all space-y-4"
+        class="si-card si-card-interactive si-card-tabbed group gap-4 p-6 sm:p-8"
+        style="--tab-color: var(--tab-parents)"
       >
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform" :class="card.color">
-          <component :is="card.icon" class="w-7 h-7" />
+        <div
+          class="flex h-14 w-14 items-center justify-center rounded-2xl text-[var(--fg-on-brand)]"
+          style="background-color: var(--tab-parents)"
+        >
+          <component :is="card.icon" class="h-7 w-7" aria-hidden="true" />
         </div>
         <div>
-          <h3 class="text-2xl font-bold text-[var(--fg)] font-display group-hover:text-amber-600 transition-colors">
+          <h3 class="font-display text-xl font-bold text-[var(--fg)] sm:text-2xl">
             {{ t(card.title) }}
           </h3>
-          <p class="text-sm text-[var(--fg-muted)] mt-1.5 leading-relaxed">
+          <p class="mt-1.5 text-sm leading-relaxed text-[var(--fg-muted)]">
             {{ t(card.desc) }}
           </p>
         </div>
-        <div class="pt-2 flex items-center text-xs font-bold text-amber-600 group-hover:translate-x-1 transition-transform">
-          <span>{{ t('sections.more') }}</span>
-          <ArrowRight class="w-4 h-4 ml-1" />
-        </div>
+        <span
+          class="mt-auto flex items-center gap-1 pt-2 text-sm font-bold"
+          style="color: var(--tab-parents)"
+        >
+          {{ t('sections.more') }}
+          <ArrowRight
+            class="h-4 w-4 transition-transform group-hover:translate-x-1"
+            aria-hidden="true"
+          />
+        </span>
       </router-link>
     </div>
   </div>

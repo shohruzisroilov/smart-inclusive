@@ -34,3 +34,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# Skill skriptlari ishga tushganda hosil bo'ladigan kesh
+__pycache__/
+*.pyc

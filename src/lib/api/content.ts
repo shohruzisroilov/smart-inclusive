@@ -42,10 +42,29 @@ export function parseApiDate(value: string | null | undefined): Date | null {
   return Number.isNaN(parsed.getTime()) ? null : parsed
 }
 
+/**
+ * O'zbekcha oy nomlari.
+ *
+ * NEGA QO'LDA: brauzerlarning ICU ma'lumot bazasida o'zbek tili har doim ham
+ * bo'lmaydi. Bunday brauzerda `toLocaleDateString('uz', …)` til ma'lumotini
+ * topolmay, ildiz formatiga tushadi va sana «2015 M12 18» ko'rinishida
+ * chiqadi — tekshirilgan, aynan shunday bo'lgan. Ro'yxatdagi har bir
+ * kartochkada shu yozuv turgani uchun bunga yo'l qo'yib bo'lmaydi.
+ */
+const UZ_MONTHS = [
+  'yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun',
+  'iyul', 'avgust', 'sentabr', 'oktabr', 'noyabr', 'dekabr',
+] as const
+
 /** Kartochka va material sahifasidagi sana (TZ 5.1). */
 export function formatApiDate(value: string | null | undefined, locale: string): string {
   const date = parseApiDate(value)
   if (!date) return ''
+
+  if (locale === 'uz') {
+    return `${date.getDate()}-${UZ_MONTHS[date.getMonth()]}, ${date.getFullYear()}`
+  }
+
   return date.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })
 }
 
