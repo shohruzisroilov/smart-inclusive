@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Award } from '@lucide/vue'
+import { ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Award } from '@lucide/vue'
 import AudioPlayer from '@/components/ui/AudioPlayer.vue'
 import PagedPdfReader from '@/components/ui/PagedPdfReader.vue'
 import SkeletonArticle from '@/components/ui/SkeletonArticle.vue'
@@ -84,18 +84,8 @@ onMounted(async () => {
 
 <template>
   <div class="py-8 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-    <div class="flex items-center justify-between gap-4">
-      <router-link
-        :to="`/books/${route.params.id}`"
-        class="inline-flex items-center gap-2 text-sm font-bold text-[var(--brand)] hover:underline"
-      >
-        <ArrowLeft class="w-4 h-4" aria-hidden="true" />
-        <span>{{ t('reader.backToLibrary') }}</span>
-      </router-link>
-
-      <div v-if="pages.length > 0" class="text-xs font-bold text-[var(--fg-muted)] tabular-nums">
-        {{ t('reader.pageCounter', { current: currentPage + 1, total: pages.length }) }}
-      </div>
+    <div v-if="pages.length > 0" class="text-xs font-bold text-[var(--fg-muted)] tabular-nums">
+      {{ t('reader.pageCounter', { current: currentPage + 1, total: pages.length }) }}
     </div>
 
     <SkeletonArticle v-if="loading" :lines="3" />

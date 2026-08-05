@@ -33,7 +33,6 @@ onMounted(async () => {
     <PageHero
       accent="books"
       :title="t('sections.booksTitle')"
-      :subtitle="t('sections.booksSubtitle')"
     />
 
     <SkeletonCardGrid v-if="loading" />

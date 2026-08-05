@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, MapPin, HeartHandshake, Users } from '@lucide/vue'
+import { MapPin, HeartHandshake, Users } from '@lucide/vue'
 import { fetchVolunteerCaseById } from '@/lib/api/services'
 import type { VolunteerCaseDto } from '@/lib/api/types'
 import { useVolunteerModalStore } from '@/stores/useVolunteerModalStore'
@@ -26,11 +26,6 @@ onMounted(async () => {
 
 <template>
   <div class="py-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-    <router-link to="/volunteers" class="inline-flex items-center gap-2 text-sm font-bold text-[var(--brand)] hover:underline">
-      <ArrowLeft class="w-4 h-4" />
-      <span>{{ t('volunteersPage.backToList') }}</span>
-    </router-link>
-
     <SkeletonArticle v-if="loading" />
 
     <div v-else-if="volunteerCase" class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] space-y-6">

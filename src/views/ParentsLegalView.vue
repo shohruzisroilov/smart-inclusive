@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, ShieldCheck } from '@lucide/vue'
+import { ShieldCheck } from '@lucide/vue'
 import { fetchContentItems } from '@/lib/api/services'
 import { inArticleCategory, localizedTitle } from '@/lib/api/content'
 import type { ContentItemDto } from '@/lib/api/types'
@@ -25,15 +25,9 @@ onMounted(async () => {
 
 <template>
   <div class="pt-8 pb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-    <router-link to="/for-parents" class="inline-flex items-center gap-2 text-sm font-bold text-[var(--brand)] hover:underline">
-      <ArrowLeft class="w-4 h-4" />
-      <span>{{ t('common.back') }}</span>
-    </router-link>
-
     <PageHero
       accent="parents"
       :title="t('sections.legalTitle')"
-      :subtitle="t('sections.legalSubtitle')"
     />
 
     <SkeletonCardGrid v-if="loading" />

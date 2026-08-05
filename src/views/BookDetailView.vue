@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, BookOpen, Award } from '@lucide/vue'
+import { BookOpen, Award } from '@lucide/vue'
 import { fetchContentItemById } from '@/lib/api/services'
 import { localizedTitle } from '@/lib/api/content'
 import { getTestForContentItem } from '@/lib/api/tests'
@@ -30,11 +30,6 @@ onMounted(async () => {
 
 <template>
   <div class="py-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-    <router-link to="/books" class="inline-flex items-center gap-2 text-sm font-bold text-[var(--brand)] hover:underline">
-      <ArrowLeft class="w-4 h-4" aria-hidden="true" />
-      <span>{{ t('reader.backToLibrary') }}</span>
-    </router-link>
-
     <SkeletonArticle v-if="loading" :lines="4" />
 
     <div v-else-if="book" class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] space-y-6">

@@ -63,7 +63,6 @@ const cards = [
     <PageHero
       accent="parents"
       :title="t('sections.parentsHubTitle')"
-      :subtitle="t('sections.parentsHubSubtitle')"
     />
 
     <!-- Cards Grid -->

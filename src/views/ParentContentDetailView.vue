@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, Calendar, User, FileDown } from '@lucide/vue'
+import { Calendar, User, FileDown } from '@lucide/vue'
 import { fetchContentItemById } from '@/lib/api/services'
 import { formatApiDate, localizedTitle } from '@/lib/api/content'
 import type { ContentItemDto } from '@/lib/api/types'
@@ -43,14 +43,6 @@ onMounted(async () => {
 
 <template>
   <div class="py-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-    <router-link
-      :to="backTo"
-      class="inline-flex items-center gap-2 text-sm font-bold text-[var(--brand)] hover:underline"
-    >
-      <ArrowLeft class="w-4 h-4" aria-hidden="true" />
-      <span>{{ t('common.back') }}</span>
-    </router-link>
-
     <SkeletonArticle v-if="loading" :lines="6" />
 
     <article

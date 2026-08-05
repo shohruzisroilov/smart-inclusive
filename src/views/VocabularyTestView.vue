@@ -2,7 +2,6 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft } from '@lucide/vue'
 import TestWizard from '@/components/wizards/TestWizard.vue'
 import { getVocabularyTest } from '@/lib/api/tests'
 import type { TestDto } from '@/lib/api/types'
@@ -25,14 +24,6 @@ onMounted(async () => {
 
 <template>
   <div class="py-12 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-    <router-link
-      :to="backTo"
-      class="inline-flex items-center gap-2 text-sm font-bold text-[var(--brand)] hover:underline"
-    >
-      <ArrowLeft class="w-4 h-4" aria-hidden="true" />
-      <span>{{ t('common.back') }}</span>
-    </router-link>
-
     <SkeletonArticle v-if="loading" :media="false" />
 
     <TestWizard v-else-if="testData" :test="testData" variant="vocabulary" :back-to="backTo" />

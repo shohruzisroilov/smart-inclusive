@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, ClipboardCheck, ArrowRight } from '@lucide/vue'
+import { ClipboardCheck, ArrowRight } from '@lucide/vue'
 import { getParentsTests } from '@/lib/api/tests'
 import type { TestDto } from '@/lib/api/types'
 import SkeletonCardGrid from '@/components/ui/SkeletonCardGrid.vue'
@@ -19,18 +19,9 @@ onMounted(async () => {
 
 <template>
   <div class="pt-8 pb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-    <router-link
-      to="/for-parents"
-      class="inline-flex items-center gap-2 text-sm font-bold text-[var(--brand)] hover:underline"
-    >
-      <ArrowLeft class="w-4 h-4" aria-hidden="true" />
-      <span>{{ t('common.back') }}</span>
-    </router-link>
-
     <PageHero
       accent="parents"
       :title="t('sections.parentsTestsTitle')"
-      :subtitle="t('sections.parentsTestsSubtitle')"
     />
 
     <SkeletonCardGrid v-if="loading" />

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, Award, ArrowRight } from '@lucide/vue'
+import { Award, ArrowRight } from '@lucide/vue'
 import { getTestsForCategories } from '@/lib/api/tests'
 import { CONTENT_CATEGORY_ETIKET } from '@/lib/api/constants'
 import type { TestDto } from '@/lib/api/types'
@@ -20,18 +20,9 @@ onMounted(async () => {
 
 <template>
   <div class="pt-8 pb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-    <router-link
-      to="/etiquette"
-      class="inline-flex items-center gap-2 text-sm font-bold text-[var(--accent-platform)] hover:underline"
-    >
-      <ArrowLeft class="w-4 h-4" aria-hidden="true" />
-      <span>{{ t('common.back') }}</span>
-    </router-link>
-
     <PageHero
       accent="etiquette"
       :title="t('sections.etiquetteTestsTitle')"
-      :subtitle="t('sections.etiquetteTestsSubtitle')"
       :eyebrow="t('sections.etiquetteTestsEyebrow')"
     />
 
