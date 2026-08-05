@@ -33,7 +33,6 @@ onMounted(async () => {
       :title="t('sections.etiquetteTestsTitle')"
       :subtitle="t('sections.etiquetteTestsSubtitle')"
       :eyebrow="t('sections.etiquetteTestsEyebrow')"
-      :icon="Award"
     />
 
     <SkeletonCardGrid v-if="loading" />

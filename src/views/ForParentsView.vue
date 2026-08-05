@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import {
-  GraduationCap,
   Video,
   ShieldCheck,
   Home,
@@ -65,8 +64,6 @@ const cards = [
       accent="parents"
       :title="t('sections.parentsHubTitle')"
       :subtitle="t('sections.parentsHubSubtitle')"
-      :eyebrow="t('sections.parentsEyebrow')"
-      :icon="GraduationCap"
     />
 
     <!-- Cards Grid -->

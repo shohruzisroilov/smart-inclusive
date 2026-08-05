@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Component } from 'vue'
-
 /**
  * Bo'lim sahifalarining sarlavha bloki.
  *
@@ -40,9 +38,8 @@ const props = withDefaults(
      * edi va hech narsa qo'shmasdi.
      */
     eyebrow?: string
-    icon?: Component
   }>(),
-  { subtitle: undefined, eyebrow: undefined, icon: undefined },
+  { subtitle: undefined, eyebrow: undefined },
 )
 
 const tab = `var(--tab-${props.accent})`
@@ -60,14 +57,6 @@ const tab = `var(--tab-${props.accent})`
       :style="{ backgroundColor: 'var(--tab-color)' }"
       aria-hidden="true"
     />
-
-    <div
-      v-if="icon"
-      class="hidden h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-[var(--fg-on-brand)] sm:flex"
-      :style="{ backgroundColor: 'var(--tab-color)' }"
-    >
-      <component :is="icon" class="h-5 w-5" aria-hidden="true" />
-    </div>
 
     <div class="space-y-1.5">
       <p v-if="eyebrow" class="si-eyebrow" :style="{ color: 'var(--tab-color)' }">

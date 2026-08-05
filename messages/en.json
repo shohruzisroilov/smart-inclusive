@@ -270,7 +270,6 @@
   },
   "sections": {
     "kidsEyebrow": "Kids section",
-    "parentsEyebrow": "Parents section",
     "etiquetteTitle": "Etiquette",
     "etiquetteSubtitle": "Fun comics about politeness and good manners. After reading, try the situational tests.",
     "situationalTests": "Situational tests",
@@ -296,7 +295,6 @@
     "parentsVideoEyebrow": "Parents' video lesson",
     "parentsTestsTitle": "Tests for parents",
     "parentsTestsSubtitle": "Tests to reinforce your knowledge about child development and inclusive skills.",
-    "parentsTestEyebrow": "Parents' test",
     "legalTitle": "Legal articles and guides",
     "legalSubtitle": "Laws, benefits and guarantees for educating children with special needs in state and public institutions.",
     "articlesTitle": "Platform articles",
