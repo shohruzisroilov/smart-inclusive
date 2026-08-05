@@ -46,7 +46,7 @@ onMounted(async () => {
         v-for="test in tests"
         :key="test.id"
         :to="`/tests/${test.id}`"
-        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-amber-500 hover:shadow-xl transition-all space-y-4"
+        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-amber-500 transition-all space-y-4"
       >
         <div
           class="h-40 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-600"

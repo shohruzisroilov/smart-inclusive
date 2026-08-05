@@ -11,7 +11,7 @@ const { t } = useI18n()
 <template>
   <a
     href="#main-content"
-    class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[var(--z-skip-link)] focus:px-5 focus:py-3 focus:rounded-xl focus:bg-[var(--brand)] focus:text-[var(--fg-on-brand)] focus:font-bold focus:shadow-xl"
+    class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[var(--z-skip-link)] focus:px-5 focus:py-3 focus:rounded-xl focus:bg-[var(--brand)] focus:text-[var(--fg-on-brand)] focus:font-bold"
   >
     {{ t('a11y.skipToContent') }}
   </a>

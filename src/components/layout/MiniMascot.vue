@@ -68,7 +68,7 @@ onBeforeUnmount(() => {
   <button
     v-if="collapsed"
     type="button"
-    class="fixed bottom-4 right-4 z-40 w-11 h-11 rounded-full bg-[var(--brand)] text-[var(--fg-on-brand)] shadow-lg flex items-center justify-center text-lg font-black cursor-pointer hover:scale-105 transition-transform"
+    class="fixed bottom-4 right-4 z-40 w-11 h-11 rounded-full bg-[var(--brand)] text-[var(--fg-on-brand)] shadow-[var(--si-shadow-lg)] flex items-center justify-center text-lg font-black cursor-pointer hover:scale-105 transition-transform"
     :aria-label="t('mascot.expand')"
     @click="expand"
   >
@@ -92,7 +92,7 @@ onBeforeUnmount(() => {
     </button>
 
     <div
-      class="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--brand)] to-[var(--brand-hover)] shadow-xl flex items-center justify-center gap-1.5 cursor-pointer"
+      class="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--brand)] to-[var(--brand-hover)] shadow-[var(--si-shadow-lg)] flex items-center justify-center gap-1.5 cursor-pointer"
       :class="{ 'mascot-idle': !isStill, 'mascot-react': reacting }"
       @click="react"
       @touchstart.passive="react"

@@ -81,7 +81,7 @@ onMounted(async () => {
 
     <div
       v-else-if="item"
-      class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl space-y-6"
+      class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] space-y-6"
     >
       <VideoPlayer v-if="item.youtubeUrl" :item="item" :linked-test="linkedTest" />
 
@@ -119,11 +119,7 @@ onMounted(async () => {
           type="button"
           :disabled="isRead"
           class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-bold transition-colors"
-          :class="
-            isRead
-              ? 'bg-emerald-500/10 text-emerald-700 cursor-default'
-              : 'bg-[var(--brand-subtle)] text-[var(--brand)] hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)] cursor-pointer'
-          "
+          :class="isRead ? 'bg-emerald-500/10 text-emerald-700 cursor-default' : 'bg-[var(--brand-subtle)] text-[var(--brand)] hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)] cursor-pointer'"
           @click="progress.markViewed(contentItemId)"
         >
           <Check class="w-4 h-4" aria-hidden="true" />
@@ -142,7 +138,7 @@ onMounted(async () => {
         <router-link
           v-if="testUnlocked"
           :to="`/tests/${linkedTest.id}`"
-          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold shadow-lg hover:opacity-90 transition-all"
+          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold hover:opacity-90 transition-all"
         >
           <Award class="w-5 h-5" aria-hidden="true" />
           <span>{{ t('reader.goToTest') }}</span>

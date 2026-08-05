@@ -16,7 +16,7 @@ const { t } = useI18n()
 <template>
   <div class="py-20 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
     <div
-      class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl text-center space-y-6"
+      class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] text-center space-y-6"
     >
       <div
         class="w-20 h-20 mx-auto rounded-full bg-[var(--brand-subtle)] text-[var(--brand)] flex items-center justify-center"
@@ -35,7 +35,7 @@ const { t } = useI18n()
 
       <router-link
         to="/"
-        class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold shadow-lg hover:opacity-90 transition-all"
+        class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold hover:opacity-90 transition-all"
       >
         <Home class="w-5 h-5" aria-hidden="true" />
         <span>{{ t('notFound.home') }}</span>

@@ -50,7 +50,7 @@ onMounted(async () => {
         v-for="a in articles"
         :key="a.id"
         :to="`/for-parents/articles/${a.id}`"
-        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-sm hover:border-emerald-500 hover:shadow-xl transition-all space-y-3"
+        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-emerald-500 transition-all space-y-3"
       >
         <div v-if="a.coverImageUrl" class="h-40 rounded-2xl overflow-hidden">
           <img

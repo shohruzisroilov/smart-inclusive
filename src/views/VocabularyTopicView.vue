@@ -51,7 +51,7 @@ onMounted(async () => {
       </div>
 
       <!-- Flashcard Slide -->
-      <div v-if="word" class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-2xl text-center space-y-6">
+      <div v-if="word" class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] text-center space-y-6">
         <div class="h-64 rounded-2xl bg-[var(--surface-subtle)] overflow-hidden flex items-center justify-center p-6 mx-auto max-w-lg">
           <img
             v-if="word.imageUrl"
@@ -116,7 +116,7 @@ onMounted(async () => {
       <div v-if="hasTest" class="text-center">
         <router-link
           :to="`/vocabulary/${route.params.topicId}/test`"
-          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold shadow-lg hover:opacity-90 transition-all"
+          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold hover:opacity-90 transition-all"
         >
           <Award class="w-5 h-5" aria-hidden="true" />
           <span>{{ t('vocab.startTest') }}</span>

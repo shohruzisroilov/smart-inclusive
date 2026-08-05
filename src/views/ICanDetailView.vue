@@ -38,7 +38,7 @@ onMounted(async () => {
 
     <SkeletonArticle v-if="loading" :lines="4" />
 
-    <div v-else-if="item" class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl space-y-6">
+    <div v-else-if="item" class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] space-y-6">
       <VideoPlayer v-if="item.youtubeUrl" :item="item" :linked-test="linkedTest" />
 
       <!-- Videosi yo'q material ham shu bo'limga tushishi mumkin (maqola, PDF) -->
@@ -80,7 +80,7 @@ onMounted(async () => {
         <p class="text-sm text-[var(--fg-muted)]">{{ t('reader.testPrompt') }}</p>
         <router-link
           :to="`/tests/${linkedTest.id}`"
-          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold shadow-lg hover:opacity-90 transition-all"
+          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold hover:opacity-90 transition-all"
         >
           <Award class="w-5 h-5" aria-hidden="true" />
           <span>{{ t('reader.goToTest') }}</span>

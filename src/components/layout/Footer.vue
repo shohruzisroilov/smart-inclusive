@@ -29,7 +29,7 @@ const year = new Date().getFullYear()
           <div class="pt-2">
             <button
               type="button"
-              class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[var(--brand)] text-white text-xs font-bold hover:bg-[var(--brand-hover)] transition-all cursor-pointer shadow-sm"
+              class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[var(--brand)] text-white text-xs font-bold hover:bg-[var(--brand-hover)] transition-all cursor-pointer"
               @click="modalStore.openModal()"
             >
               <HeartHandshake class="w-4 h-4 text-amber-300" />

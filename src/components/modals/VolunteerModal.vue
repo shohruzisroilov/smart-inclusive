@@ -104,7 +104,7 @@ function handleClose() {
       @click.self="handleClose"
     >
       <div
-        class="relative w-full max-w-2xl bg-[var(--surface)] border border-[var(--border-default)] rounded-3xl shadow-2xl overflow-hidden my-auto"
+        class="relative w-full max-w-2xl bg-[var(--surface)] border border-[var(--border-default)] rounded-3xl shadow-[var(--si-shadow-lg)] overflow-hidden my-auto"
         @click.stop
       >
         <!-- Header Banner -->
@@ -130,7 +130,7 @@ function handleClose() {
 
         <!-- Success State -->
         <div v-if="success" class="p-8 text-center space-y-6">
-          <div class="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto shadow-inner">
+          <div class="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto">
             <CheckCircle2 class="w-10 h-10" />
           </div>
           <div class="space-y-2">
@@ -144,7 +144,7 @@ function handleClose() {
           <div class="pt-4 flex flex-col sm:flex-row gap-3 justify-center">
             <button
               type="button"
-              class="px-6 py-3 rounded-xl bg-[var(--brand)] text-white font-bold hover:bg-[var(--brand-hover)] transition-all cursor-pointer shadow-md"
+              class="px-6 py-3 rounded-xl bg-[var(--brand)] text-white font-bold hover:bg-[var(--brand-hover)] transition-all cursor-pointer shadow-[var(--si-shadow-lg)]"
               @click="handleClose"
             >
               {{ t('common.close') }}
@@ -261,7 +261,7 @@ function handleClose() {
             <button
               type="submit"
               :disabled="loading"
-              class="px-7 py-3 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-bold shadow-lg hover:shadow-xl hover:opacity-95 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+              class="px-7 py-3 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-bold shadow-[var(--si-shadow-lg)] hover:opacity-95 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
             >
               <Sparkles class="w-4 h-4 text-amber-300" />
               <span>{{ loading ? t('forms.volunteer.submitting') : t('forms.volunteer.submit') }}</span>

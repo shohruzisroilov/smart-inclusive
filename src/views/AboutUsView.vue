@@ -61,7 +61,7 @@ function formatDate(iso: string) {
           </p>
         </div>
         <div
-          class="flex-1 w-full aspect-video rounded-2xl overflow-hidden border border-[var(--border-default)] bg-[var(--surface-subtle)] shadow-sm"
+          class="flex-1 w-full aspect-video rounded-2xl overflow-hidden border border-[var(--border-default)] bg-[var(--surface-subtle)]"
         >
           <img :src="block.imageUrl" :alt="block.title" class="w-full h-full object-cover" />
         </div>
@@ -101,7 +101,7 @@ function formatDate(iso: string) {
         <figure
           v-for="item in ABOUT_US.testimonials"
           :key="item.id"
-          class="p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-sm space-y-4"
+          class="p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] space-y-4"
         >
           <Quote class="w-8 h-8 text-[var(--brand)]" aria-hidden="true" />
           <blockquote class="text-base text-[var(--fg)] leading-relaxed font-light">
@@ -128,7 +128,7 @@ function formatDate(iso: string) {
         <article
           v-for="trip in ABOUT_US.travels"
           :key="trip.id"
-          class="rounded-3xl overflow-hidden bg-[var(--surface)] border border-[var(--border-default)] shadow-sm"
+          class="rounded-3xl overflow-hidden bg-[var(--surface)] border border-[var(--border-default)]"
         >
           <img :src="trip.imageUrl" :alt="trip.title" class="w-full h-48 object-cover" />
           <div class="p-6 space-y-3">
@@ -159,7 +159,7 @@ function formatDate(iso: string) {
           v-for="video in ABOUT_US.videos"
           :key="video.id"
           type="button"
-          class="group text-left rounded-3xl overflow-hidden bg-[var(--surface)] border border-[var(--border-default)] shadow-sm hover:border-[var(--brand)] hover:shadow-xl transition-all"
+          class="group text-left rounded-3xl overflow-hidden bg-[var(--surface)] border border-[var(--border-default)] hover:border-[var(--brand)] transition-all"
           @click="activeVideo = video"
         >
           <div class="relative h-44">

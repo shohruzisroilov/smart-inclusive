@@ -32,7 +32,7 @@ onMounted(async () => {
         v-for="topic in topics"
         :key="topic.id"
         :to="`/vocabulary/${topic.id}`"
-        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-[var(--brand)] hover:shadow-xl transition-all space-y-4"
+        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-[var(--brand)] transition-all space-y-4"
       >
         <div class="h-44 rounded-2xl bg-[var(--surface-subtle)] overflow-hidden flex items-center justify-center p-4">
           <BookOpen class="w-12 h-12 text-[var(--fg-subtle)]" />

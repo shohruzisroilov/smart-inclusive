@@ -102,7 +102,7 @@ onMounted(async () => {
 
     <div
       v-else-if="pages.length > 0 && page"
-      class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-2xl space-y-6"
+      class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] space-y-6"
     >
       <div
         class="h-96 rounded-2xl bg-[var(--surface-subtle)] overflow-hidden flex items-center justify-center p-4"
@@ -194,7 +194,7 @@ onMounted(async () => {
         <router-link
           v-if="isLastPage"
           :to="`/tests/${linkedTest.id}`"
-          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold shadow-lg hover:opacity-90 transition-all"
+          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold hover:opacity-90 transition-all"
         >
           <Award class="w-5 h-5" aria-hidden="true" />
           <span>{{ t('reader.goToTest') }}</span>
@@ -213,7 +213,7 @@ onMounted(async () => {
     <!-- Sahifalari yo'q kitob — PDF ko'rinishida o'qiladi -->
     <div
       v-else-if="pdfUrl"
-      class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-2xl space-y-6"
+      class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] space-y-6"
     >
       <h1 class="text-2xl font-extrabold text-[var(--fg)] font-display">{{ title }}</h1>
 
@@ -234,7 +234,7 @@ onMounted(async () => {
         <router-link
           v-if="testUnlocked"
           :to="`/tests/${linkedTest.id}`"
-          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold shadow-lg hover:opacity-90 transition-all"
+          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold hover:opacity-90 transition-all"
         >
           <Award class="w-5 h-5" aria-hidden="true" />
           <span>{{ t('reader.goToTest') }}</span>

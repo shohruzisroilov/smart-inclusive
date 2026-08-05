@@ -299,10 +299,7 @@ onBeforeUnmount(() => {
       :aria-describedby="hasError ? errorId : undefined"
       :disabled="disabled"
       class="flex w-full min-h-[var(--tap-target-min)] cursor-pointer items-center justify-between gap-2 rounded-xl border px-4 text-left text-sm font-semibold text-[var(--fg)] transition-colors disabled:cursor-not-allowed disabled:opacity-50"
-      :class="[
-        hasError ? 'border-[var(--status-danger)]' : 'border-[var(--border-default)]',
-        isOpen ? 'bg-[var(--surface)] border-[var(--brand)]' : 'bg-[var(--surface)]',
-      ]"
+      :class="[ hasError ? 'border-[var(--status-danger)]' : 'border-[var(--border-default)]', isOpen ? 'bg-[var(--surface)] border-[var(--brand)]' : 'bg-[var(--surface)]', ]"
       @click="toggle"
       @keydown="onKeydown"
     >
@@ -337,11 +334,7 @@ onBeforeUnmount(() => {
           :aria-selected="index === selectedIndex"
           :aria-disabled="option.disabled"
           class="flex min-h-[var(--tap-target-min)] cursor-pointer items-center justify-between gap-2 rounded-lg px-3 text-sm font-semibold transition-colors"
-          :class="[
-            option.disabled && 'cursor-not-allowed opacity-40',
-            index === activeIndex && !option.disabled && 'bg-[var(--brand-subtle)]',
-            index === selectedIndex ? 'text-[var(--brand-text)]' : 'text-[var(--fg)]',
-          ]"
+          :class="[ option.disabled && 'cursor-not-allowed opacity-40', index === activeIndex && !option.disabled && 'bg-[var(--brand-subtle)]', index === selectedIndex ? 'text-[var(--brand-text)]' : 'text-[var(--fg)]', ]"
           @click="select(index)"
           @pointermove="!option.disabled && (activeIndex = index)"
         >

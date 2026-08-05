@@ -43,7 +43,7 @@ onMounted(async () => {
         v-for="item in items"
         :key="item.id"
         :to="`/for-parents/legal/${item.id}`"
-        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-sm hover:border-blue-500 hover:shadow-xl transition-all space-y-3"
+        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-blue-500 transition-all space-y-3"
       >
         <ShieldCheck class="w-8 h-8 text-blue-600" aria-hidden="true" />
         <h3

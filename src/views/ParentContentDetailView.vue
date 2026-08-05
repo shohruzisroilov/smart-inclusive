@@ -55,7 +55,7 @@ onMounted(async () => {
 
     <article
       v-else-if="item"
-      class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl space-y-6"
+      class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] space-y-6"
     >
       <VideoPlayer v-if="item.youtubeUrl" :item="item" :linked-test="linkedTest" />
 

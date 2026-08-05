@@ -246,7 +246,7 @@ onBeforeUnmount(() => {
             <button
               v-if="slides[currentSlide].action === 'volunteer'"
               type="button"
-              class="px-8 py-4 rounded-2xl bg-amber-400 text-slate-900 font-extrabold shadow-xl hover:bg-amber-300 transition-all flex items-center gap-2 cursor-pointer text-base"
+              class="px-8 py-4 rounded-2xl bg-amber-400 text-slate-900 font-extrabold hover:bg-amber-300 transition-all flex items-center gap-2 cursor-pointer text-base"
               @click="modalStore.openModal()"
             >
               <HeartHandshake class="w-5 h-5" />
@@ -255,7 +255,7 @@ onBeforeUnmount(() => {
             <router-link
               v-else
               :to="slides[currentSlide].link || '/'"
-              class="px-8 py-4 rounded-2xl bg-[var(--brand)] text-white font-extrabold shadow-xl hover:bg-[var(--brand-hover)] transition-all flex items-center gap-2 cursor-pointer text-base"
+              class="px-8 py-4 rounded-2xl bg-[var(--brand)] text-white font-extrabold hover:bg-[var(--brand-hover)] transition-all flex items-center gap-2 cursor-pointer text-base"
             >
               <span>{{ t(slides[currentSlide].cta) }}</span>
               <ArrowRight class="w-5 h-5" />
@@ -486,7 +486,7 @@ onBeforeUnmount(() => {
 
     <!-- Volunteer CTA Banner -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#135f70] via-[#1b93a6] to-[#0a2932] p-8 sm:p-12 text-white shadow-2xl">
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#135f70] via-[#1b93a6] to-[#0a2932] p-8 sm:p-12 text-white">
         <div class="relative z-10 max-w-2xl space-y-6">
           <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-amber-300 text-xs font-bold uppercase tracking-wider">
             <HeartHandshake class="w-4 h-4" />
@@ -504,7 +504,7 @@ onBeforeUnmount(() => {
           <div class="pt-2">
             <button
               type="button"
-              class="px-8 py-4 rounded-2xl bg-amber-400 text-slate-900 font-extrabold shadow-xl hover:bg-amber-300 transition-all flex items-center gap-2 cursor-pointer text-base"
+              class="px-8 py-4 rounded-2xl bg-amber-400 text-slate-900 font-extrabold hover:bg-amber-300 transition-all flex items-center gap-2 cursor-pointer text-base"
               @click="modalStore.openModal()"
             >
               <HeartHandshake class="w-5 h-5" />

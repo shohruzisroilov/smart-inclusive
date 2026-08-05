@@ -37,7 +37,7 @@ onMounted(async () => {
 
     <SkeletonArticle v-if="loading" :lines="4" />
 
-    <div v-else-if="book" class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl space-y-6">
+    <div v-else-if="book" class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] space-y-6">
       <div v-if="book.coverImageUrl" class="h-80 rounded-2xl overflow-hidden bg-[var(--surface-subtle)] flex items-center justify-center p-6">
         <img :src="book.coverImageUrl" :alt="localizedTitle(book, locale)" class="max-h-full max-w-full object-contain" />
       </div>
@@ -51,7 +51,7 @@ onMounted(async () => {
       <div class="pt-4 flex flex-wrap items-center gap-4">
         <router-link
           :to="`/books/${book.id}/read`"
-          class="px-8 py-3.5 rounded-xl bg-[var(--brand)] text-white font-bold hover:bg-[var(--brand-hover)] transition-all shadow-md flex items-center gap-2"
+          class="px-8 py-3.5 rounded-xl bg-[var(--brand)] text-white font-bold hover:bg-[var(--brand-hover)] transition-all flex items-center gap-2"
         >
           <BookOpen class="w-5 h-5" aria-hidden="true" />
           <span>{{ t('content.card.read') }}</span>

@@ -58,7 +58,7 @@ onMounted(async () => {
 
     <div
       v-else-if="comic"
-      class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl space-y-6"
+      class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] space-y-6"
     >
       <!-- Muqova faqat o'qish uchun fayl bo'lmasa ko'rsatiladi: PDF bor bo'lsa
            birinchi sahifaning o'zi muqova bo'lib xizmat qiladi. -->
@@ -104,7 +104,7 @@ onMounted(async () => {
         <router-link
           v-if="atEnd"
           :to="`/tests/${linkedTest.id}`"
-          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold shadow-lg hover:opacity-90 transition-all"
+          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold hover:opacity-90 transition-all"
         >
           <Award class="w-5 h-5" aria-hidden="true" />
           <span>{{ t('reader.goToTest') }}</span>

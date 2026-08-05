@@ -40,7 +40,7 @@ onMounted(async () => {
         v-for="item in items"
         :key="item.id"
         :to="`/for-parents/videos/${item.id}`"
-        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-sm hover:border-amber-500 hover:shadow-xl transition-all space-y-4"
+        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-amber-500 transition-all space-y-4"
       >
         <div
           class="rounded-2xl overflow-hidden bg-[var(--surface-subtle)] aspect-video flex items-center justify-center"

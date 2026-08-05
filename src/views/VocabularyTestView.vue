@@ -39,7 +39,7 @@ onMounted(async () => {
 
     <div
       v-else
-      class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl text-center space-y-3"
+      class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] text-center space-y-3"
     >
       <h1 class="text-2xl font-extrabold text-[var(--fg)] font-display">
         {{ t('vocab.testEyebrow') }}

@@ -33,7 +33,7 @@ onMounted(async () => {
 
     <SkeletonArticle v-if="loading" />
 
-    <div v-else-if="volunteerCase" class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl space-y-6">
+    <div v-else-if="volunteerCase" class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] space-y-6">
       <div v-if="volunteerCase.mediaUrl" class="h-80 rounded-2xl overflow-hidden bg-[var(--surface-subtle)]">
         <img :src="volunteerCase.mediaUrl" :alt="volunteerCase.title" class="w-full h-full object-cover" />
       </div>
@@ -50,7 +50,7 @@ onMounted(async () => {
       <div class="pt-6 border-t border-[var(--border-default)]">
         <button
           type="button"
-          class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-bold shadow-lg hover:shadow-xl transition-all cursor-pointer flex items-center gap-2"
+          class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-bold transition-all cursor-pointer flex items-center gap-2"
           @click="modalStore.openModal()"
         >
           <HeartHandshake class="w-5 h-5 text-amber-300" />

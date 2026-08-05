@@ -70,7 +70,7 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
           </button>
           <div
             v-if="kidsDropdownOpen"
-            class="absolute top-full left-0 w-56 p-2 rounded-2xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl animate-in fade-in slide-in-from-top-2 duration-150"
+            class="absolute top-full left-0 w-56 p-2 rounded-2xl bg-[var(--surface)] border border-[var(--border-default)] shadow-[var(--si-shadow-lg)] animate-in fade-in slide-in-from-top-2 duration-150"
           >
             <router-link :to="getRoute('vocabulary')" class="flex items-center min-h-[var(--tap-target-min)] px-3.5 rounded-xl text-sm font-semibold hover:bg-[var(--surface-subtle)] hover:text-[var(--brand)] transition-colors">
               {{ t('nav.kidsItems.dictionary') }}
@@ -106,7 +106,7 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
           </button>
           <div
             v-if="parentsDropdownOpen"
-            class="absolute top-full left-0 w-60 p-2 rounded-2xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl animate-in fade-in slide-in-from-top-2 duration-150"
+            class="absolute top-full left-0 w-60 p-2 rounded-2xl bg-[var(--surface)] border border-[var(--border-default)] shadow-[var(--si-shadow-lg)] animate-in fade-in slide-in-from-top-2 duration-150"
           >
             <router-link :to="getRoute('for-parents')" class="flex items-center min-h-[var(--tap-target-min)] px-3.5 rounded-xl text-sm font-bold text-[var(--brand-text)] hover:bg-[var(--surface-subtle)] transition-colors">
               {{ t('sections.parentsHubTitle') }}
@@ -180,7 +180,7 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
           </button>
           <div
             v-if="moreDropdownOpen"
-            class="absolute top-full right-0 w-56 p-2 rounded-2xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl animate-in fade-in slide-in-from-top-2 duration-150"
+            class="absolute top-full right-0 w-56 p-2 rounded-2xl bg-[var(--surface)] border border-[var(--border-default)] shadow-[var(--si-shadow-lg)] animate-in fade-in slide-in-from-top-2 duration-150"
           >
             <router-link
               :to="getRoute('volunteers')"
@@ -244,7 +244,7 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
           </button>
           <div
             v-if="langDropdownOpen"
-            class="absolute right-0 top-full mt-2 w-32 p-1.5 rounded-xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl animate-in fade-in duration-150 z-50"
+            class="absolute right-0 top-full mt-2 w-32 p-1.5 rounded-xl bg-[var(--surface)] border border-[var(--border-default)] shadow-[var(--si-shadow-lg)] animate-in fade-in duration-150 z-50"
           >
             <button
               type="button"
@@ -276,7 +276,7 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
         <!-- Become Volunteer CTA Button -->
         <button
           type="button"
-          class="hidden sm:inline-flex tap-target items-center justify-center gap-2 rounded-xl bg-[var(--brand)] px-3 lg:px-4 font-bold text-sm whitespace-nowrap text-[var(--fg-on-brand)] shadow-md transition-all hover:bg-[var(--brand-hover)] hover:shadow-lg cursor-pointer"
+          class="hidden sm:inline-flex tap-target items-center justify-center gap-2 rounded-xl bg-[var(--brand)] px-3 lg:px-4 font-bold text-sm whitespace-nowrap text-[var(--fg-on-brand)] shadow-[var(--si-shadow-lg)] transition-all hover:bg-[var(--brand-hover)] cursor-pointer"
           :aria-label="t('nav.becomeVolunteer')"
           @click="modalStore.openModal()"
         >
@@ -324,7 +324,7 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
       <div class="pt-4 border-t border-[var(--border-default)]">
         <button
           type="button"
-          class="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-bold flex items-center justify-center gap-2 shadow-md cursor-pointer"
+          class="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-bold flex items-center justify-center gap-2 shadow-[var(--si-shadow-lg)] cursor-pointer"
           @click="modalStore.openModal(); mobileMenuOpen = false"
         >
           <HeartHandshake class="w-5 h-5 text-amber-300" />

@@ -176,7 +176,6 @@
     background-color: var(--surface);
     border: 1px solid var(--border-default);
     border-radius: var(--si-radius-lg);
-    box-shadow: var(--si-shadow-sm);
     transition:
       box-shadow var(--duration-base) var(--ease-out),
       transform var(--duration-base) var(--ease-out),
@@ -186,14 +185,14 @@
   /* Bosiladigan kartochka. Planshet asosiy qurilma bo'lgani uchun BOSISH
      holati hover'dan muhimroq: barmoq ostida yuza pastga tushadi va bu
      teginish haqiqatan qabul qilinganini bildiradi. */
+  /* Ustiga kelinganda kartochka soya bilan emas, CHEGARA bilan javob beradi:
+     bo'lim rangi kuchayadi va yuza bir oz ko'tariladi. */
   .si-card-interactive:hover {
     border-color: var(--tab-color, var(--brand));
-    box-shadow: var(--si-shadow-lg);
     transform: translateY(-2px);
   }
 
   .si-card-interactive:active {
-    box-shadow: var(--si-shadow-pressed);
     transform: translateY(1px);
   }
 
@@ -263,7 +262,6 @@
   .si-btn-primary {
     background-color: var(--brand);
     color: var(--fg-on-brand);
-    box-shadow: var(--si-shadow-sm);
   }
 
   .si-btn-primary:hover {

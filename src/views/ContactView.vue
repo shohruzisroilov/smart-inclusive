@@ -64,7 +64,7 @@ async function handleSubmit() {
 
 <template>
   <div class="py-12 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-    <div class="p-8 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl overflow-hidden">
+    <div class="p-8 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] overflow-hidden">
       <!-- Header -->
       <div class="bg-gradient-to-r from-[#135f70]/10 to-transparent p-6 rounded-2xl border border-[var(--border-default)] mb-8 space-y-2">
         <span class="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--brand)] uppercase tracking-wider">
@@ -81,7 +81,7 @@ async function handleSubmit() {
 
       <!-- Success State -->
       <div v-if="success" class="p-8 text-center space-y-6">
-        <div class="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto shadow-inner">
+        <div class="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto">
           <CheckCircle2 class="w-10 h-10" />
         </div>
         <div class="space-y-2">
@@ -95,7 +95,7 @@ async function handleSubmit() {
         <div class="pt-2">
           <button
             type="button"
-            class="w-full py-3.5 rounded-xl bg-[var(--brand)] text-white font-bold hover:bg-[var(--brand-hover)] transition-all cursor-pointer shadow-md"
+            class="w-full py-3.5 rounded-xl bg-[var(--brand)] text-white font-bold hover:bg-[var(--brand-hover)] transition-all cursor-pointer"
             @click="success = false; formData = { fullName: '', phone: '', message: '' }"
           >
             {{ t('forms.contact.newRequest') }}
@@ -159,7 +159,7 @@ async function handleSubmit() {
           <button
             type="submit"
             :disabled="loading"
-            class="w-full py-4 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-extrabold text-base shadow-xl hover:shadow-2xl hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+            class="w-full py-4 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-extrabold text-base hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
           >
             <span>{{ loading ? t('forms.contact.submitting') : t('forms.contact.submit') }}</span>
             <Send class="w-5 h-5" />

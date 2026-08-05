@@ -88,7 +88,7 @@ onMounted(async () => {
 <template>
   <div class="py-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
     <!-- Hero Banner -->
-    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#135f70] via-[#1b93a6] to-[#0a2932] p-8 sm:p-12 text-white shadow-2xl">
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#135f70] via-[#1b93a6] to-[#0a2932] p-8 sm:p-12 text-white">
       <div class="relative z-10 max-w-2xl space-y-4">
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-amber-300 text-xs font-bold uppercase tracking-wider">
           <HeartHandshake class="w-4 h-4" />
@@ -104,8 +104,8 @@ onMounted(async () => {
     </div>
 
     <!-- Success State -->
-    <div v-if="success" class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl text-center space-y-6">
-      <div class="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto shadow-inner">
+    <div v-if="success" class="p-8 sm:p-12 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] text-center space-y-6">
+      <div class="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto">
         <CheckCircle2 class="w-10 h-10" />
       </div>
       <div class="space-y-2">
@@ -119,7 +119,7 @@ onMounted(async () => {
       <div class="pt-4">
         <button
           type="button"
-          class="px-8 py-3.5 rounded-xl bg-[var(--brand)] text-white font-bold hover:bg-[var(--brand-hover)] transition-all cursor-pointer shadow-md"
+          class="px-8 py-3.5 rounded-xl bg-[var(--brand)] text-white font-bold hover:bg-[var(--brand-hover)] transition-all cursor-pointer"
           @click="success = false; formData = { fullName: '', phone: '', regionId: 0, email: '', age: '', message: '' }"
         >
           {{ t('forms.volunteer.newApplication') }}
@@ -128,7 +128,7 @@ onMounted(async () => {
     </div>
 
     <!-- Main Form Card -->
-    <div v-else class="p-8 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl">
+    <div v-else class="p-8 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)]">
       <form class="space-y-6" @submit.prevent="handleSubmit">
         <div v-if="submitError" class="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 flex items-center gap-3 text-sm">
           <AlertCircle class="w-5 h-5 shrink-0" />
@@ -230,7 +230,7 @@ onMounted(async () => {
           <button
             type="submit"
             :disabled="loading"
-            class="w-full sm:w-auto px-10 py-4 rounded-2xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-extrabold text-base shadow-xl hover:shadow-2xl hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+            class="w-full sm:w-auto px-10 py-4 rounded-2xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-extrabold text-base hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
           >
             <Sparkles class="w-5 h-5 text-amber-300" />
             <span>{{ loading ? t('forms.volunteer.submitting') : t('forms.volunteer.submit') }}</span>

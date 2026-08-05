@@ -50,11 +50,7 @@ function stepFont(delta: -1 | 1) {
     :aria-label="t('a11y.accessibilitySettings')"
     :title="t('a11y.accessibilitySettings')"
     class="flex items-center rounded-lg text-[var(--fg)] transition-colors hover:bg-[var(--surface-muted)]"
-    :class="
-      variant === 'list'
-        ? 'w-full min-h-[var(--tap-target-min)] gap-3 px-4 text-base font-medium'
-        : 'tap-target justify-center'
-    "
+    :class="variant === 'list' ? 'w-full min-h-[var(--tap-target-min)] gap-3 px-4 text-base font-medium' : 'tap-target justify-center'"
     @click="isOpen = true"
   >
     <PersonStanding class="h-6 w-6 shrink-0" aria-hidden="true" />
@@ -74,7 +70,7 @@ function stepFont(delta: -1 | 1) {
         role="dialog"
         aria-modal="true"
         :aria-labelledby="titleId"
-        class="relative z-[var(--z-drawer)] h-full w-[min(34rem,95vw)] flex flex-col bg-[var(--surface)] border-l border-[var(--border-default)] p-5 md:p-6 shadow-xl animate-in slide-in-from-right duration-300 ease-out"
+        class="relative z-[var(--z-drawer)] h-full w-[min(34rem,95vw)] flex flex-col bg-[var(--surface)] border-l border-[var(--border-default)] p-5 md:p-6 shadow-[var(--si-shadow-lg)] animate-in slide-in-from-right duration-300 ease-out"
       >
         <div
           class="flex items-center justify-between mb-4 border-b border-[var(--border-default)] pb-3"
@@ -108,11 +104,7 @@ function stepFont(delta: -1 | 1) {
                 type="button"
                 :aria-pressed="settings.theme === opt.value"
                 class="flex items-center justify-center gap-2.5 px-3 py-2.5 rounded-xl border-2 text-sm font-bold transition-all"
-                :class="
-                  settings.theme === opt.value
-                    ? 'border-[var(--brand)] bg-[var(--brand-subtle)] text-[var(--brand)]'
-                    : 'border-[var(--border-default)] text-[var(--fg)] hover:bg-[var(--surface-muted)]'
-                "
+                :class="settings.theme === opt.value ? 'border-[var(--brand)] bg-[var(--brand-subtle)] text-[var(--brand)]' : 'border-[var(--border-default)] text-[var(--fg)] hover:bg-[var(--surface-muted)]'"
                 @click="settings.theme = opt.value"
               >
                 <component :is="opt.icon" class="h-4 w-4" aria-hidden="true" />

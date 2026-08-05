@@ -287,14 +287,22 @@
   --si-radius-full: 9999px;
 
   /*
-     Soya iliq (sof qora emas, siyoh rangidan) — qog'oz fonda kulrang soya
-     kir bo'lib ko'rinadi. `pressed` bosilgan holat uchun: karta yuzasi
-     pastga tushadi, bu teginishga jismoniy javob beradi.
+     SOYA — faqat haqiqatan sahifa USTIDA suzuvchi narsalar uchun.
+
+     Sahifada yotgan narsa (kartochka, panel, forma) soya olmaydi: uni bir
+     piksellik chegara ajratadi. Har bir yuzaga qalin soya berish interfeysni
+     yasama qiladi — bu shablonlarning eng ko'zga tashlanadigan belgisi.
+
+     Qiymatlar ikki qatlamli: yaqin va zich qatlam qirrani belgilaydi, uzoq va
+     tarqoq qatlam balandlikni. Bir qatlamli katta soya har doim chizilgandek
+     ko'rinadi.
+
+     Rang qora emas, siyoh tusida: iliq qog'oz fonda kulrang soya kir bo'lib
+     ko'rinadi.
   */
-  --si-shadow-sm: 0 1px 2px rgb(14 44 51 / 0.06);
-  --si-shadow-md: 0 6px 16px -4px rgb(14 44 51 / 0.10);
-  --si-shadow-lg: 0 18px 40px -12px rgb(14 44 51 / 0.16);
-  --si-shadow-pressed: 0 1px 0 rgb(14 44 51 / 0.10);
+  --si-shadow-sm: 0 1px 1px rgb(14 44 51 / 0.04);
+  --si-shadow-md: 0 2px 4px rgb(14 44 51 / 0.05), 0 6px 12px -6px rgb(14 44 51 / 0.06);
+  --si-shadow-lg: 0 4px 8px rgb(14 44 51 / 0.06), 0 16px 32px -16px rgb(14 44 51 / 0.10);
 
   /* --- Tegish maydoni (WCAG 2.2 AA = 24px min, biz kattaroq olamiz) --- */
   /*

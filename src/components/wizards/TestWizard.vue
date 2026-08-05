@@ -131,7 +131,7 @@ function restart() {
 
 <template>
   <div
-    class="relative p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-xl space-y-6"
+    class="relative p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] space-y-6"
   >
     <ConfettiBurst :trigger="confettiTrigger" />
 
@@ -196,15 +196,7 @@ function restart() {
             :aria-checked="answers[currentIndex] === opt.id"
             :disabled="isChecked"
             class="text-left rounded-2xl border-2 transition-all font-semibold"
-            :class="[
-              {
-                idle: 'border-[var(--border-default)] hover:border-[var(--brand)] text-[var(--fg)] cursor-pointer',
-                correct: 'border-emerald-600 bg-emerald-500/10 text-emerald-700',
-                wrong: 'border-red-600 bg-red-500/10 text-red-700',
-                muted: 'border-[var(--border-default)] text-[var(--fg-muted)] opacity-50',
-              }[optionState(opt.id)],
-              isImageLayout ? 'p-2' : 'p-4 text-sm w-full',
-            ]"
+            :class="[ { idle: 'border-[var(--border-default)] hover:border-[var(--brand)] text-[var(--fg)] cursor-pointer', correct: 'border-emerald-600 bg-emerald-500/10 text-emerald-700', wrong: 'border-red-600 bg-red-500/10 text-red-700', muted: 'border-[var(--border-default)] text-[var(--fg-muted)] opacity-50', }[optionState(opt.id)], isImageLayout ? 'p-2' : 'p-4 text-sm w-full', ]"
             @click="select(opt.id)"
           >
             <img

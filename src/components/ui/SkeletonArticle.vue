@@ -23,7 +23,7 @@ const { t } = useI18n()
   <div
     role="status"
     aria-live="polite"
-    class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] shadow-sm space-y-6"
+    class="p-6 sm:p-10 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] space-y-6"
   >
     <span class="sr-only">{{ t('common.loading') }}</span>
 
