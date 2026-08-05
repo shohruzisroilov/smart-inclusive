@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
   Bookmark,
   BookmarkCheck,
   ChevronLeft,
   ChevronRight,
-  ExternalLink,
+  Expand,
   FileDown,
+  Shrink,
 } from '@lucide/vue'
 import { pdfjs, type PdfDocument } from '@/lib/pdf/pdfjs'
 import { useProgressStore } from '@/stores/useProgressStore'
@@ -57,6 +58,36 @@ const currentPage = ref(1)
 const loading = ref(true)
 const failed = ref(false)
 
+/**
+ * To'liq ekranli o'qish rejimi.
+ *
+ * Kitobni SAYTNING O'ZIDA oxirigacha o'qish uchun. Avval bu yerda «yangi
+ * oynada ochish» tugmasi turardi va u foydalanuvchini brauzerning PDF
+ * ko'ruvchisiga olib chiqib ketardi — u yerda na xatcho'p, na progress, na
+ * saytning o'zi qoladi.
+ *
+ * Brauzerning `requestFullscreen` API'si ishlatilmaydi: iOS Safari uni
+ * videodan boshqa elementga bermaydi, planshet esa asosiy qurilma. O'rniga
+ * o'quvchi butun ekranni egallaydigan qatlamga aylanadi — natija bir xil,
+ * lekin hamma joyda ishlaydi.
+ */
+const isFullscreen = ref(false)
+let savedOverflow = ''
+
+function toggleFullscreen() {
+  isFullscreen.value = !isFullscreen.value
+
+  if (isFullscreen.value) {
+    savedOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = savedOverflow
+  }
+
+  // O'lcham o'zgardi — sahifa qayta chiziladi.
+  void nextTick(() => renderPage(currentPage.value))
+}
+
 const isFirst = computed(() => currentPage.value <= 1)
 const isLast = computed(() => pageCount.value > 0 && currentPage.value >= pageCount.value)
 
@@ -82,12 +113,30 @@ async function renderPage(pageNumber: number) {
   // Ekran zichligini hisobga olamiz, aks holda Retina'da sahifa xira chiqadi.
   const dpr = Math.min(window.devicePixelRatio || 1, 2)
   const base = page.getViewport({ scale: 1 })
-  const viewport = page.getViewport({ scale: (containerWidth / base.width) * dpr })
+
+  /*
+     Odatda sahifa KENGLIKKA moslashadi va pastga aylantiriladi. To'liq
+     ekranda esa balandlik ham cheklangan: sahifa to'liq ko'rinishi kerak,
+     aks holda «to'liq ekran» degani shunchaki kattaroq skroll bo'lardi.
+  */
+  const availableHeight = frame.value?.clientHeight ?? 0
+  const widthScale = containerWidth / base.width
+  const scale =
+    isFullscreen.value && availableHeight > 0
+      ? Math.min(widthScale, availableHeight / base.height)
+      : widthScale
+
+  const viewport = page.getViewport({ scale: scale * dpr })
 
   el.width = Math.floor(viewport.width)
   el.height = Math.floor(viewport.height)
-  el.style.width = '100%'
-  el.style.height = 'auto'
+  if (isFullscreen.value) {
+    el.style.width = 'auto'
+    el.style.height = '100%'
+  } else {
+    el.style.width = '100%'
+    el.style.height = 'auto'
+  }
 
   const context = el.getContext('2d')
   if (!context) return
@@ -144,6 +193,7 @@ function onTouchEnd(event: TouchEvent) {
 function onKeydown(event: KeyboardEvent) {
   if (event.key === 'ArrowRight') go(currentPage.value + 1)
   else if (event.key === 'ArrowLeft') go(currentPage.value - 1)
+  else if (event.key === 'Escape' && isFullscreen.value) toggleFullscreen()
 }
 
 let resizeTimer: ReturnType<typeof setTimeout> | undefined
@@ -177,48 +227,8 @@ onMounted(async () => {
   window.addEventListener('resize', onResize)
 })
 
-/**
- * PDF ni yangi oynada OCHADI (yuklab olmaydi).
- *
- * Bekend faylni `Content-Disposition: attachment` bilan beradi va bunday
- * javobni brauzer har doim yuklab oladi — `target="_blank"` ham, `<a download>`
- * yo'qligi ham bunga ta'sir qilmaydi. Shuning uchun bayt oqimi shu yerda
- * `blob:` manziliga o'raladi: unda hech qanday `Content-Disposition` yo'q,
- * ya'ni brauzer uni o'z PDF ko'ruvchisida ochadi.
- *
- * Baytlar QAYTA yuklanmaydi — `pdf.js` ularni allaqachon olgan.
- *
- * Oyna `await` dan OLDIN ochiladi: popup blokerlari faqat bosish hodisasi
- * ichida ochilgan oynaga ruxsat beradi, `await` dan keyin esa aloqa uziladi.
- */
-let objectUrl: string | null = null
-
-async function openInNewTab() {
-  const tab = window.open('', '_blank', 'noopener')
-
-  try {
-    const data = await doc.value?.getData()
-    if (!data) throw new Error('PDF baytlari mavjud emas')
-
-    if (objectUrl) URL.revokeObjectURL(objectUrl)
-    // Nusxa olinadi: `pdf.js` o'z buferini keyin qayta ishlatishi mumkin,
-    // ustiga uning tipi `SharedArrayBuffer` ga ham ochiq va `Blob` uni qabul
-    // qilmaydi.
-    objectUrl = URL.createObjectURL(new Blob([new Uint8Array(data)], { type: 'application/pdf' }))
-
-    if (tab) tab.location.href = objectUrl
-    else window.open(objectUrl, '_blank', 'noopener')
-  } catch {
-    // Hujjat hali yuklanmagan yoki `pdf.js` ocholmagan — hech bo'lmasa
-    // asl manzilni beramiz (u yuklab olinadi, lekin foydalanuvchi faylsiz
-    // qolmaydi).
-    if (tab) tab.location.href = props.url
-    else window.open(props.url, '_blank', 'noopener')
-  }
-}
-
 onBeforeUnmount(() => {
-  if (objectUrl) URL.revokeObjectURL(objectUrl)
+  document.body.style.overflow = savedOverflow
   window.removeEventListener('resize', onResize)
   clearTimeout(resizeTimer)
   renderTask?.cancel()
@@ -227,33 +237,46 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="space-y-4">
+  <!--
+    To'liq ekranda o'quvchi butun oynani egallaydi: sahifa katta ko'rinadi,
+    boshqaruvlar esa o'z joyida qoladi — xatcho'p, sahifalash, progress
+    hammasi ishlayveradi. Bu «yangi oynada ochish» dan farqi: u foydalanuvchini
+    brauzerning PDF ko'ruvchisiga chiqarib yuborardi va u yerda bularning
+    hech biri qolmasdi.
+  -->
+  <section
+    :class="
+      isFullscreen
+        ? 'fixed inset-0 z-[var(--z-modal)] flex flex-col gap-3 bg-[var(--page-bg)] p-3 sm:p-4'
+        : 'space-y-4'
+    "
+  >
     <SkeletonArticle v-if="loading" :lines="3" />
 
     <!-- pdf.js ocha olmadi: fayl baribir yuklab olinadi -->
     <p
       v-else-if="failed"
-      class="text-center py-10 text-sm text-[var(--fg-muted)] bg-[var(--surface-subtle)] rounded-2xl border border-[var(--border-default)]"
+      class="rounded-2xl border border-[var(--border-default)] bg-[var(--surface-subtle)] py-10 text-center text-sm text-[var(--fg-muted)]"
     >
       {{ t('reader.pdfError') }}
     </p>
 
     <template v-else>
-      <div class="flex items-center justify-between gap-4">
-        <span class="text-xs font-bold text-[var(--fg-muted)] tabular-nums">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <span class="text-xs font-bold tabular-nums text-[var(--fg-muted)]">
           {{ t('reader.pageCounter', { current: currentPage, total: pageCount }) }}
         </span>
 
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2">
           <button
             type="button"
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--border-default)] text-xs font-bold text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors cursor-pointer"
+            class="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] px-4 py-2 text-xs font-bold text-[var(--fg)] transition-colors hover:bg-[var(--surface-subtle)] cursor-pointer"
             :aria-pressed="isOnBookmark"
             @click="progress.setBookmark(contentItemId, currentPage)"
           >
             <component
               :is="isOnBookmark ? BookmarkCheck : Bookmark"
-              class="w-3.5 h-3.5"
+              class="h-3.5 w-3.5"
               aria-hidden="true"
             />
             <span>{{ isOnBookmark ? t('reader.bookmarkSaved') : t('reader.bookmarkSave') }}</span>
@@ -263,17 +286,28 @@ onBeforeUnmount(() => {
           <button
             v-if="bookmarkedPage !== null && !isOnBookmark"
             type="button"
-            class="px-4 py-2 rounded-full bg-[var(--surface-subtle)] text-xs font-bold text-[var(--brand)] hover:opacity-80 transition-opacity cursor-pointer"
+            class="rounded-full bg-[var(--surface-subtle)] px-4 py-2 text-xs font-bold text-[var(--brand-text)] transition-opacity hover:opacity-80 cursor-pointer"
             @click="go(bookmarkedPage!)"
           >
             {{ t('reader.bookmarkReturn', { page: bookmarkedPage }) }}
+          </button>
+
+          <button
+            type="button"
+            :aria-pressed="isFullscreen"
+            class="inline-flex items-center gap-2 rounded-full bg-[var(--brand-subtle)] px-4 py-2 text-xs font-bold text-[var(--brand-text)] transition-colors hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)] cursor-pointer"
+            @click="toggleFullscreen"
+          >
+            <component :is="isFullscreen ? Shrink : Expand" class="h-3.5 w-3.5" aria-hidden="true" />
+            <span>{{ isFullscreen ? t('reader.exitFullscreen') : t('reader.fullscreen') }}</span>
           </button>
         </div>
       </div>
 
       <div
         ref="frame"
-        class="rounded-2xl overflow-hidden border border-[var(--border-default)] bg-[var(--surface-subtle)] focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
+        class="flex items-center justify-center overflow-hidden border border-[var(--border-default)] bg-[var(--surface-subtle)] focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
+        :class="isFullscreen ? 'min-h-0 flex-1 rounded-xl' : 'rounded-2xl'"
         tabindex="0"
         role="group"
         :aria-label="t('reader.pdfFrameTitle', { title })"
@@ -281,50 +315,41 @@ onBeforeUnmount(() => {
         @touchend.passive="onTouchEnd"
         @keydown="onKeydown"
       >
-        <canvas ref="canvas" class="block w-full" />
+        <canvas ref="canvas" class="block" :class="isFullscreen ? 'max-h-full' : 'w-full'" />
       </div>
 
       <div class="flex items-center justify-between gap-4">
         <button
           type="button"
-          class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[var(--border-default)] font-bold text-sm text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+          class="si-btn si-btn-quiet px-6 text-sm disabled:cursor-not-allowed disabled:opacity-30"
           :disabled="isFirst"
           @click="go(currentPage - 1)"
         >
-          <ChevronLeft class="w-4 h-4" aria-hidden="true" />
+          <ChevronLeft class="h-4 w-4" aria-hidden="true" />
           <span>{{ t('reader.prev') }}</span>
         </button>
 
         <button
           type="button"
-          class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[var(--border-default)] font-bold text-sm text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+          class="si-btn si-btn-quiet px-6 text-sm disabled:cursor-not-allowed disabled:opacity-30"
           :disabled="isLast"
           @click="go(currentPage + 1)"
         >
           <span>{{ t('reader.next') }}</span>
-          <ChevronRight class="w-4 h-4" aria-hidden="true" />
+          <ChevronRight class="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
     </template>
 
-    <div class="flex flex-wrap items-center gap-3">
-      <button
-        type="button"
-        class="si-btn inline-flex items-center gap-2 rounded-full bg-[var(--brand-subtle)] px-5 text-sm font-bold text-[var(--brand-text)] transition-colors hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)]"
-        @click="openInNewTab"
-      >
-        <ExternalLink class="h-4 w-4" aria-hidden="true" />
-        <span>{{ t('reader.openPdf') }}</span>
-      </button>
-
-      <a
-        :href="url"
-        download
-        class="si-btn si-btn-quiet inline-flex items-center gap-2 rounded-full px-5 text-sm font-bold"
-      >
-        <FileDown class="w-4 h-4" aria-hidden="true" />
-        <span>{{ t('reader.downloadPdf') }}</span>
-      </a>
-    </div>
+    <!-- Yuklab olish to'liq ekranda ortiqcha: u yerda odam o'qiyapti. -->
+    <a
+      v-if="!isFullscreen"
+      :href="url"
+      download
+      class="si-btn si-btn-quiet inline-flex w-fit items-center gap-2 rounded-full px-5 text-sm font-bold"
+    >
+      <FileDown class="h-4 w-4" aria-hidden="true" />
+      <span>{{ t('reader.downloadPdf') }}</span>
+    </a>
   </section>
 </template>

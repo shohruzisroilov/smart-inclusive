@@ -160,12 +160,13 @@
     "next": "Next",
     "emptyPages": "Pages for this content have not been uploaded yet.",
     "readToEnd": "Read to the end",
-    "openPdf": "Open in a new tab",
     "downloadPdf": "Download",
     "pdfFrameTitle": "{title} — PDF view",
     "markRead": "Mark as read",
     "markedRead": "Read",
-    "pdfError": "The PDF could not be displayed. Download the file or open it in a new tab."
+    "pdfError": "The PDF could not be displayed. Download the file or open it in a new tab.",
+    "fullscreen": "Read full screen",
+    "exitFullscreen": "Exit"
   },
   "player": {
     "back": "Back",

@@ -160,12 +160,13 @@
     "next": "Keyingi",
     "emptyPages": "Bu kontent uchun sahifalar hali yuklanmagan.",
     "readToEnd": "Oxirigacha o'qing",
-    "openPdf": "Yangi oynada ochish",
     "downloadPdf": "Yuklab olish",
     "pdfFrameTitle": "{title} — PDF koʻrinishi",
     "markRead": "Oʻqildi deb belgilash",
     "markedRead": "Oʻqilgan",
-    "pdfError": "PDF ni koʻrsatib boʻlmadi. Faylni yuklab oling yoki yangi oynada oching."
+    "pdfError": "PDF ni koʻrsatib boʻlmadi. Faylni yuklab oling yoki yangi oynada oching.",
+    "fullscreen": "Toʻliq ekranda oʻqish",
+    "exitFullscreen": "Chiqish"
   },
   "player": {
     "back": "Orqaga",
