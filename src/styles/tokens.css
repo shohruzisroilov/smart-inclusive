@@ -307,8 +307,12 @@
 
   /* --- Layout --- */
   --container-max: 1280px;
-  --header-height: 72px;
-  --header-height-compact: 60px;
+  /*
+     Header balandligi. `px` EMAS, `rem`: maxsus imkoniyatlar panelidan shrift
+     kattalashtirilganda header ham o'sadi, `px` da esa token haqiqiy
+     balandlikdan orqada qolib, uni ayirib hisoblagan joylar siljib ketardi.
+  */
+  --header-height: 4.5rem;
 
   /* --- Shrift o'lchami koeffitsienti (sozlamalardan boshqariladi) --- */
   --font-scale: 1;

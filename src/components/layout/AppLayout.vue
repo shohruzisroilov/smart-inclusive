@@ -16,10 +16,25 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col bg-[var(--surface)] text-[var(--fg)]">
+  <!--
+    `--page-bg`, `--surface` EMAS. `--surface` — kartochkaning oq rangi;
+    uni shu yerga qo'yish sahifaning iliq qog'oz fonini bosib qo'yardi va
+    kartochkalar fondan ajralmay qolardi.
+  -->
+  <div class="flex min-h-[100dvh] flex-col bg-[var(--page-bg)] text-[var(--fg)]">
     <SkipLink />
     <Header />
-    <main id="main-content" class="flex-1">
+    <!--
+      `min-height` — footer HAR DOIM birinchi ekrandan pastda qolishi uchun.
+      `flex-1` ning o'zi footerni sahifa pastiga bosadi, lekin kontent kam
+      bo'lgan sahifalarda (masalan «Loyiha haqida») u baribir birinchi ekranga
+      chiqib qolardi: sayt tugagandek taassurot berardi. Ekran balandligidan
+      header ayiriladi, shuning uchun header + main aynan bir ekran bo'ladi.
+    -->
+    <main
+      id="main-content"
+      class="flex-1 min-h-[calc(100dvh-var(--header-height))]"
+    >
       <router-view />
     </main>
     <Footer />

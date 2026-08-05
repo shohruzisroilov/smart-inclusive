@@ -44,7 +44,7 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
       PLANSHET va u ko'pincha aynan shu kenglikda ochiladi. Menyuni u yerda
       gamburgerga yashirish har bir o'tishga bitta ortiqcha bosish qo'shardi.
     -->
-    <div class="max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4">
+    <div class="max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8 h-[var(--header-height)] flex items-center justify-between gap-4">
       <!-- Logo -->
       <router-link :to="getRoute('home')" class="flex items-center gap-3 group cursor-pointer shrink-0">
         <img src="/logo.png" alt="Smart Inclusive" class="h-10 w-auto object-contain transition-transform group-hover:scale-105" />
