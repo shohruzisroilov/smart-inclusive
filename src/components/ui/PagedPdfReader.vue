@@ -177,7 +177,48 @@ onMounted(async () => {
   window.addEventListener('resize', onResize)
 })
 
+/**
+ * PDF ni yangi oynada OCHADI (yuklab olmaydi).
+ *
+ * Bekend faylni `Content-Disposition: attachment` bilan beradi va bunday
+ * javobni brauzer har doim yuklab oladi — `target="_blank"` ham, `<a download>`
+ * yo'qligi ham bunga ta'sir qilmaydi. Shuning uchun bayt oqimi shu yerda
+ * `blob:` manziliga o'raladi: unda hech qanday `Content-Disposition` yo'q,
+ * ya'ni brauzer uni o'z PDF ko'ruvchisida ochadi.
+ *
+ * Baytlar QAYTA yuklanmaydi — `pdf.js` ularni allaqachon olgan.
+ *
+ * Oyna `await` dan OLDIN ochiladi: popup blokerlari faqat bosish hodisasi
+ * ichida ochilgan oynaga ruxsat beradi, `await` dan keyin esa aloqa uziladi.
+ */
+let objectUrl: string | null = null
+
+async function openInNewTab() {
+  const tab = window.open('', '_blank', 'noopener')
+
+  try {
+    const data = await doc.value?.getData()
+    if (!data) throw new Error('PDF baytlari mavjud emas')
+
+    if (objectUrl) URL.revokeObjectURL(objectUrl)
+    // Nusxa olinadi: `pdf.js` o'z buferini keyin qayta ishlatishi mumkin,
+    // ustiga uning tipi `SharedArrayBuffer` ga ham ochiq va `Blob` uni qabul
+    // qilmaydi.
+    objectUrl = URL.createObjectURL(new Blob([new Uint8Array(data)], { type: 'application/pdf' }))
+
+    if (tab) tab.location.href = objectUrl
+    else window.open(objectUrl, '_blank', 'noopener')
+  } catch {
+    // Hujjat hali yuklanmagan yoki `pdf.js` ocholmagan — hech bo'lmasa
+    // asl manzilni beramiz (u yuklab olinadi, lekin foydalanuvchi faylsiz
+    // qolmaydi).
+    if (tab) tab.location.href = props.url
+    else window.open(props.url, '_blank', 'noopener')
+  }
+}
+
 onBeforeUnmount(() => {
+  if (objectUrl) URL.revokeObjectURL(objectUrl)
   window.removeEventListener('resize', onResize)
   clearTimeout(resizeTimer)
   renderTask?.cancel()
@@ -267,20 +308,19 @@ onBeforeUnmount(() => {
     </template>
 
     <div class="flex flex-wrap items-center gap-3">
-      <a
-        :href="url"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--brand-subtle)] text-[var(--brand)] font-bold text-sm hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)] transition-colors"
+      <button
+        type="button"
+        class="si-btn inline-flex items-center gap-2 rounded-full bg-[var(--brand-subtle)] px-5 text-sm font-bold text-[var(--brand-text)] transition-colors hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)]"
+        @click="openInNewTab"
       >
-        <ExternalLink class="w-4 h-4" aria-hidden="true" />
+        <ExternalLink class="h-4 w-4" aria-hidden="true" />
         <span>{{ t('reader.openPdf') }}</span>
-      </a>
+      </button>
 
       <a
         :href="url"
         download
-        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[var(--border-default)] text-[var(--fg)] font-bold text-sm hover:bg-[var(--surface-subtle)] transition-colors"
+        class="si-btn si-btn-quiet inline-flex items-center gap-2 rounded-full px-5 text-sm font-bold"
       >
         <FileDown class="w-4 h-4" aria-hidden="true" />
         <span>{{ t('reader.downloadPdf') }}</span>
