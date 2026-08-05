@@ -81,7 +81,7 @@ async function handleSubmit() {
 
       <!-- Success State -->
       <div v-if="success" class="p-8 text-center space-y-6">
-        <div class="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto">
+        <div class="w-16 h-16 bg-[var(--status-success-subtle)] text-[var(--status-success)] rounded-full flex items-center justify-center mx-auto">
           <CheckCircle2 class="w-10 h-10" />
         </div>
         <div class="space-y-2">
@@ -105,7 +105,7 @@ async function handleSubmit() {
 
       <!-- Form Body -->
       <form v-else class="space-y-5" @submit.prevent="handleSubmit">
-        <div v-if="submitError" class="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 flex items-center gap-3 text-sm">
+        <div v-if="submitError" class="p-4 rounded-xl bg-[var(--status-danger-subtle)] border border-[var(--status-danger)]/20 text-[var(--status-danger)] flex items-center gap-3 text-sm">
           <AlertCircle class="w-5 h-5 shrink-0" />
           <span>{{ submitError }}</span>
         </div>
@@ -122,7 +122,7 @@ async function handleSubmit() {
             class="w-full px-4 py-3 rounded-xl border border-[var(--border-default)] bg-[var(--surface-subtle)] focus:bg-[var(--surface)] focus:border-[var(--brand)] outline-none text-sm transition-all"
             :disabled="loading"
           />
-          <span v-if="errors.fullName" class="text-xs text-red-500 font-medium block">{{ errors.fullName }}</span>
+          <span v-if="errors.fullName" class="text-xs text-[var(--status-danger)] font-medium block">{{ errors.fullName }}</span>
         </div>
 
         <div class="space-y-2">
@@ -137,7 +137,7 @@ async function handleSubmit() {
             class="w-full px-4 py-3 rounded-xl border border-[var(--border-default)] bg-[var(--surface-subtle)] focus:bg-[var(--surface)] focus:border-[var(--brand)] outline-none text-sm transition-all"
             :disabled="loading"
           />
-          <span v-if="errors.phone" class="text-xs text-red-500 font-medium block">{{ errors.phone }}</span>
+          <span v-if="errors.phone" class="text-xs text-[var(--status-danger)] font-medium block">{{ errors.phone }}</span>
         </div>
 
         <div class="space-y-2">
@@ -152,7 +152,7 @@ async function handleSubmit() {
             class="w-full px-4 py-3 rounded-xl border border-[var(--border-default)] bg-[var(--surface-subtle)] focus:bg-[var(--surface)] focus:border-[var(--brand)] outline-none text-sm transition-all resize-none"
             :disabled="loading"
           ></textarea>
-          <span v-if="errors.message" class="text-xs text-red-500 font-medium block">{{ errors.message }}</span>
+          <span v-if="errors.message" class="text-xs text-[var(--status-danger)] font-medium block">{{ errors.message }}</span>
         </div>
 
         <div class="pt-4">

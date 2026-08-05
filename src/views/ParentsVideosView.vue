@@ -40,7 +40,7 @@ onMounted(async () => {
         v-for="item in items"
         :key="item.id"
         :to="`/for-parents/videos/${item.id}`"
-        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-amber-500 transition-all space-y-4"
+        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-[var(--accent-platform)] transition-all space-y-4"
       >
         <div
           class="rounded-2xl overflow-hidden bg-[var(--surface-subtle)] aspect-video flex items-center justify-center"
@@ -51,10 +51,10 @@ onMounted(async () => {
             :alt="localizedTitle(item, locale)"
             class="w-full h-full object-cover group-hover:scale-105 transition-transform"
           />
-          <Video v-else class="w-10 h-10 text-amber-600" aria-hidden="true" />
+          <Video v-else class="w-10 h-10 text-[var(--accent-platform)]" aria-hidden="true" />
         </div>
         <h3
-          class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-amber-600 transition-colors"
+          class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-[var(--accent-platform)] transition-colors"
         >
           {{ localizedTitle(item, locale) }}
         </h3>

@@ -43,11 +43,11 @@ onMounted(async () => {
         v-for="item in items"
         :key="item.id"
         :to="`/for-parents/legal/${item.id}`"
-        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-blue-500 transition-all space-y-3"
+        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-[var(--accent-platform)] transition-all space-y-3"
       >
-        <ShieldCheck class="w-8 h-8 text-blue-600" aria-hidden="true" />
+        <ShieldCheck class="w-8 h-8 text-[var(--accent-platform)]" aria-hidden="true" />
         <h3
-          class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-blue-600 transition-colors"
+          class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-[var(--accent-platform)] transition-colors"
         >
           {{ localizedTitle(item, locale) }}
         </h3>

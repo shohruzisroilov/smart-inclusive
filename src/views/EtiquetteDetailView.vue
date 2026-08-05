@@ -71,7 +71,7 @@ onMounted(async () => {
   <div class="py-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
     <router-link
       to="/etiquette"
-      class="inline-flex items-center gap-2 text-sm font-bold text-amber-600 hover:underline"
+      class="inline-flex items-center gap-2 text-sm font-bold text-[var(--status-warning)] hover:underline"
     >
       <ArrowLeft class="w-4 h-4" aria-hidden="true" />
       <span>{{ t('common.back') }}</span>
@@ -119,7 +119,7 @@ onMounted(async () => {
           type="button"
           :disabled="isRead"
           class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-bold transition-colors"
-          :class="isRead ? 'bg-emerald-500/10 text-emerald-700 cursor-default' : 'bg-[var(--brand-subtle)] text-[var(--brand)] hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)] cursor-pointer'"
+          :class="isRead ? 'bg-[var(--status-success-subtle)] text-[var(--status-success)] cursor-default' : 'bg-[var(--brand-subtle)] text-[var(--brand)] hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)] cursor-pointer'"
           @click="progress.markViewed(contentItemId)"
         >
           <Check class="w-4 h-4" aria-hidden="true" />

@@ -97,7 +97,7 @@ onBeforeUnmount(stop)
       class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full font-bold text-sm transition-all"
       :class="
         isPlaying
-          ? 'bg-red-600 text-white'
+          ? 'bg-[var(--status-danger)] text-white'
           : 'bg-[var(--brand-subtle)] text-[var(--brand)] hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)]'
       "
       @click="toggle"

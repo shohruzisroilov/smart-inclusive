@@ -196,7 +196,7 @@ function restart() {
             :aria-checked="answers[currentIndex] === opt.id"
             :disabled="isChecked"
             class="text-left rounded-2xl border-2 transition-all font-semibold"
-            :class="[ { idle: 'border-[var(--border-default)] hover:border-[var(--brand)] text-[var(--fg)] cursor-pointer', correct: 'border-emerald-600 bg-emerald-500/10 text-emerald-700', wrong: 'border-red-600 bg-red-500/10 text-red-700', muted: 'border-[var(--border-default)] text-[var(--fg-muted)] opacity-50', }[optionState(opt.id)], isImageLayout ? 'p-2' : 'p-4 text-sm w-full', ]"
+            :class="[ { idle: 'border-[var(--border-default)] hover:border-[var(--brand)] text-[var(--fg)] cursor-pointer', correct: 'border-[var(--status-success)] bg-[var(--status-success-subtle)] text-[var(--status-success)]', wrong: 'border-[var(--status-danger)] bg-[var(--status-danger-subtle)] text-[var(--status-danger)]', muted: 'border-[var(--border-default)] text-[var(--fg-muted)] opacity-50', }[optionState(opt.id)], isImageLayout ? 'p-2' : 'p-4 text-sm w-full', ]"
             @click="select(opt.id)"
           >
             <img
@@ -251,7 +251,7 @@ function restart() {
     <div v-else-if="isFinished" class="text-center space-y-6 py-4" role="status">
       <div
         class="w-20 h-20 mx-auto rounded-full flex items-center justify-center"
-        :class="isPassed ? 'bg-emerald-500/10 text-emerald-600' : 'bg-amber-500/10 text-amber-600'"
+        :class="isPassed ? 'bg-[var(--status-success-subtle)] text-[var(--status-success)]' : 'bg-[var(--status-warning-subtle)] text-[var(--status-warning)]'"
       >
         <Award v-if="isPassed" class="w-10 h-10" aria-hidden="true" />
         <RotateCcw v-else class="w-10 h-10" aria-hidden="true" />
@@ -273,7 +273,7 @@ function restart() {
           <component
             :is="answers[idx] === correctOptionId(q) ? CheckCircle2 : XCircle"
             class="w-5 h-5 shrink-0 mt-0.5"
-            :class="answers[idx] === correctOptionId(q) ? 'text-emerald-600' : 'text-red-500'"
+            :class="answers[idx] === correctOptionId(q) ? 'text-[var(--status-success)]' : 'text-[var(--status-danger)]'"
             aria-hidden="true"
           />
           <div class="min-w-0 space-y-0.5">

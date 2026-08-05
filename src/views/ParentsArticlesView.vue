@@ -50,7 +50,7 @@ onMounted(async () => {
         v-for="a in articles"
         :key="a.id"
         :to="`/for-parents/articles/${a.id}`"
-        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-emerald-500 transition-all space-y-3"
+        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-[var(--accent-platform)] transition-all space-y-3"
       >
         <div v-if="a.coverImageUrl" class="h-40 rounded-2xl overflow-hidden">
           <img
@@ -59,18 +59,18 @@ onMounted(async () => {
             class="w-full h-full object-cover group-hover:scale-105 transition-transform"
           />
         </div>
-        <div v-else class="h-40 rounded-2xl bg-emerald-500/10 flex items-center justify-center">
-          <FileText class="w-10 h-10 text-emerald-600" aria-hidden="true" />
+        <div v-else class="h-40 rounded-2xl bg-[var(--surface-muted)] flex items-center justify-center">
+          <FileText class="w-10 h-10 text-[var(--accent-platform)]" aria-hidden="true" />
         </div>
         <h3
-          class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-emerald-600 transition-colors"
+          class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-[var(--accent-platform)] transition-colors"
         >
           {{ localizedTitle(a, locale) }}
         </h3>
         <p class="text-xs text-[var(--fg-muted)] leading-relaxed line-clamp-3">
           {{ a.description }}
         </p>
-        <div class="pt-1 flex items-center justify-between text-xs font-bold text-emerald-600">
+        <div class="pt-1 flex items-center justify-between text-xs font-bold text-[var(--accent-platform)]">
           <span>{{ t('volunteersPage.readMore') }}</span>
           <ArrowRight
             class="w-4 h-4 group-hover:translate-x-1 transition-transform"

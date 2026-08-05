@@ -42,16 +42,16 @@ onMounted(async () => {
         v-for="test in tests"
         :key="test.id"
         :to="`/for-parents/tests/${test.id}`"
-        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-emerald-500 transition-all space-y-4"
+        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-[var(--accent-platform)] transition-all space-y-4"
       >
         <div
-          class="h-40 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600"
+          class="h-40 rounded-2xl bg-[var(--surface-muted)] flex items-center justify-center text-[var(--accent-platform)]"
         >
           <ClipboardCheck class="w-12 h-12" aria-hidden="true" />
         </div>
         <div>
           <h3
-            class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-emerald-600 transition-colors"
+            class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-[var(--accent-platform)] transition-colors"
           >
             {{ test.title }}
           </h3>
@@ -59,7 +59,7 @@ onMounted(async () => {
             {{ test.qustions?.length || 0 }} {{ t('sections.questions') }}
           </p>
         </div>
-        <div class="pt-2 flex items-center justify-between text-xs font-bold text-emerald-600">
+        <div class="pt-2 flex items-center justify-between text-xs font-bold text-[var(--accent-platform)]">
           <span>{{ t('sections.startTest') }}</span>
           <ArrowRight
             class="w-4 h-4 group-hover:translate-x-1 transition-transform"

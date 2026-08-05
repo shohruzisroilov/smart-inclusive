@@ -31,18 +31,18 @@ onMounted(async () => {
         v-for="test in tests"
         :key="test.id"
         :to="`/tests/${test.id}`"
-        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-purple-500 transition-all space-y-4"
+        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-[var(--accent-kids)] transition-all space-y-4"
       >
-        <div class="h-40 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-600">
+        <div class="h-40 rounded-2xl bg-[var(--surface-muted)] flex items-center justify-center text-[var(--accent-kids)]">
           <Award class="w-12 h-12" />
         </div>
         <div>
-          <h3 class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-purple-600 transition-colors">{{ test.title }}</h3>
+          <h3 class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-[var(--accent-kids)] transition-colors">{{ test.title }}</h3>
           <p class="text-xs text-[var(--fg-muted)] mt-1">
             {{ test.qustions?.length || 0 }} {{ t('sections.questions') }}
           </p>
         </div>
-        <div class="pt-2 flex items-center justify-between text-xs font-bold text-purple-600">
+        <div class="pt-2 flex items-center justify-between text-xs font-bold text-[var(--accent-kids)]">
           <span>{{ t('sections.startTest') }}</span>
           <ArrowRight class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </div>

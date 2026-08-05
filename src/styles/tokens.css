@@ -450,56 +450,53 @@
 
 
 /* ========================================================================
-   5. BO'LIM TABLARI — dizaynning signatura elementi
+   5. AKSENT RANGLARI
 
-   Har bir kontent kartochkasining yuqori qirrasida rangli tasma turadi va
-   uning rangi kartochka QAYSI BO'LIMGA tegishli ekanini bildiradi. Bu
-   bezak emas, ma'lumot: bosh sahifada yoki qidiruvda aralash kartochkalar
-   yonma-yon turganda, bo'limni o'qimasdan ajratish mumkin bo'ladi.
+   Saytda JAMI IKKI aksent bor, uchinchi "rang" — siyoh va qog'oz neytrallari.
 
-   G'oya maxsus ta'limdagi rasmli kommunikatsiya kartochkalaridan olingan —
-   ular ham rangli ajratgichlar bilan turkumlanadi.
+   Avval bu yerda to'qqizta rang turardi: har bir bo'limga o'ziniki. G'oya
+   "rang bo'limni bildiradi" edi, lekin amalda u ishlamaydi — hech kim
+   to'qqizta rang bilan bo'lim juftligini yodlab olmaydi, ko'z esa faqat
+   kamalakni ko'radi. Bitta sahifada sakkizta har xil rangli kartochka
+   turishi dizaynni chalkash qiladi.
 
-   Har bir rang OQ matn uchun WCAG AAA (>= 7:1) darajasida tekshirilgan,
-   shuning uchun tasma ustiga yozuv ham qo'yish mumkin.
+   Endi ajratish MA'NOLI va o'rganish mumkin bo'lgan darajada:
+     - iliq amber  — BOLALAR bo'limi;
+     - brend ko'ki — platformaning qolgan qismi (ota-onalar, ko'ngillilar).
+
+   Eski `--tab-*` nomlari saqlanadi: ular shu ikki qiymatga havola qiladi,
+   shuning uchun shablonlarni qayta yozish shart emas va keyinchalik
+   ajratishni o'zgartirish uchun faqat shu joyni tahrirlash kifoya.
+
+   Ikkalasi ham OQ matn uchun WCAG AAA: amber 7.02:1, ko'k 7.05:1.
    ======================================================================== */
 :root {
-  --tab-etiquette: #904307;   /* 7.02:1 */
-  --tab-ican: #b01138;        /* 7.04:1 */
-  --tab-lessons: #116172;     /* 7.05:1 */
-  --tab-books: #03654a;       /* 7.08:1 */
-  --tab-vocabulary: #0d645d;  /* 7.00:1 */
-  --tab-comics: #6d28d9;      /* 7.10:1 */
-  --tab-tests: #7e22cd;       /* 7.01:1 */
-  --tab-parents: #9f350a;     /* 7.03:1 */
-  --tab-volunteers: #134e4a;  /* 9.48:1 */
+  --accent-kids: #904307;
+  --accent-platform: #116172;
+  /* Qorong'i fon (hero, chaqiriq bloki) ustida ishlatiladigan yorug' variant:
+     qorong'i amber u yerda umuman ko'rinmasdi. */
+  --accent-kids-on-dark: #f0b356;
+
+  --tab-etiquette: var(--accent-kids);
+  --tab-ican: var(--accent-kids);
+  --tab-lessons: var(--accent-kids);
+  --tab-books: var(--accent-kids);
+  --tab-vocabulary: var(--accent-kids);
+  --tab-comics: var(--accent-kids);
+  --tab-tests: var(--accent-kids);
+  --tab-parents: var(--accent-platform);
+  --tab-volunteers: var(--accent-platform);
 }
 
-/* Qorong'i fonda o'sha ohanglar yorug'roq: tasma fon bilan qo'shilib
-   ketmasligi kerak, aks holda belgi vazifasini yo'qotadi. */
+/* Qorong'i fonda o'sha ikki ohang yorug'roq tomonda. */
 :root[data-theme="dark"] {
-  --tab-etiquette: #e8933a;
-  --tab-ican: #f98a9f;
-  --tab-lessons: #72cddb;
-  --tab-books: #4ade9a;
-  --tab-vocabulary: #5eead4;
-  --tab-comics: #c4b5fd;
-  --tab-tests: #d8b4fe;
-  --tab-parents: #fdba74;
-  --tab-volunteers: #99f6e4;
+  --accent-kids: #e8933a;
+  --accent-platform: #72cddb;
 }
 
-/* Kontrast mavzularida rang bilan ajratish o'rniga bir xil matn rangi —
-   bu mavzuni tanlagan foydalanuvchiga ohang emas, kontrast muhim. */
+/* Kontrast mavzularida ajratish rang bilan emas — matn rangi bilan. */
 :root[data-theme="high-contrast"],
 :root[data-theme="monochrome"] {
-  --tab-etiquette: var(--fg);
-  --tab-ican: var(--fg);
-  --tab-lessons: var(--fg);
-  --tab-books: var(--fg);
-  --tab-vocabulary: var(--fg);
-  --tab-comics: var(--fg);
-  --tab-tests: var(--fg);
-  --tab-parents: var(--fg);
-  --tab-volunteers: var(--fg);
+  --accent-kids: var(--fg);
+  --accent-platform: var(--fg);
 }

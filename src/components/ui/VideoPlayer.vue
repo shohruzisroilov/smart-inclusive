@@ -187,7 +187,7 @@ onBeforeUnmount(() => {
         type="button"
         :disabled="isWatched"
         class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-bold transition-colors"
-        :class="isWatched ? 'bg-emerald-500/10 text-emerald-700 cursor-default' : 'bg-[var(--brand-subtle)] text-[var(--brand)] hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)] cursor-pointer'"
+        :class="isWatched ? 'bg-[var(--status-success-subtle)] text-[var(--status-success)] cursor-default' : 'bg-[var(--brand-subtle)] text-[var(--brand)] hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)] cursor-pointer'"
         @click="progress.markViewed(item.id)"
       >
         <Check class="w-4 h-4" aria-hidden="true" />

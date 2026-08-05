@@ -327,7 +327,7 @@ function getRoute(name: string, params: Record<string, unknown> = {}) {
           class="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-bold flex items-center justify-center gap-2 shadow-[var(--si-shadow-lg)] cursor-pointer"
           @click="modalStore.openModal(); mobileMenuOpen = false"
         >
-          <HeartHandshake class="w-5 h-5 text-amber-300" />
+          <HeartHandshake class="w-5 h-5 text-[var(--accent-kids-on-dark)]" />
           <span>{{ t('nav.becomeVolunteer') }}</span>
         </button>
       </div>

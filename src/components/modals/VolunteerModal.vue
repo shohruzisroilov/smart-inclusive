@@ -117,7 +117,7 @@ function handleClose() {
             <X class="w-5 h-5" />
           </button>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-semibold uppercase tracking-wider mb-3">
-            <HeartHandshake class="w-4 h-4 text-amber-300" />
+            <HeartHandshake class="w-4 h-4 text-[var(--status-warning)]" />
             <span>{{ t('forms.volunteer.badge') }}</span>
           </div>
           <h2 class="text-2xl sm:text-3xl font-extrabold font-display leading-tight">
@@ -130,7 +130,7 @@ function handleClose() {
 
         <!-- Success State -->
         <div v-if="success" class="p-8 text-center space-y-6">
-          <div class="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto">
+          <div class="w-20 h-20 bg-[var(--status-success-subtle)] text-[var(--status-success)] rounded-full flex items-center justify-center mx-auto">
             <CheckCircle2 class="w-10 h-10" />
           </div>
           <div class="space-y-2">
@@ -154,7 +154,7 @@ function handleClose() {
 
         <!-- Form Body -->
         <form v-else class="p-6 sm:p-8 space-y-5" @submit.prevent="handleSubmit">
-          <div v-if="submitError" class="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 flex items-center gap-3 text-sm">
+          <div v-if="submitError" class="p-4 rounded-xl bg-[var(--status-danger-subtle)] border border-[var(--status-danger)]/20 text-[var(--status-danger)] flex items-center gap-3 text-sm">
             <AlertCircle class="w-5 h-5 shrink-0" />
             <span>{{ submitError }}</span>
           </div>
@@ -173,7 +173,7 @@ function handleClose() {
                 class="w-full px-4 py-3 rounded-xl border border-[var(--border-default)] bg-[var(--surface-subtle)] focus:bg-[var(--surface)] focus:border-[var(--brand)] outline-none text-sm transition-all"
                 :disabled="loading"
               />
-              <span v-if="errors.fullName" class="text-xs text-red-500 font-medium block">{{ errors.fullName }}</span>
+              <span v-if="errors.fullName" class="text-xs text-[var(--status-danger)] font-medium block">{{ errors.fullName }}</span>
             </div>
 
             <!-- Phone -->
@@ -189,7 +189,7 @@ function handleClose() {
                 class="w-full px-4 py-3 rounded-xl border border-[var(--border-default)] bg-[var(--surface-subtle)] focus:bg-[var(--surface)] focus:border-[var(--brand)] outline-none text-sm transition-all"
                 :disabled="loading"
               />
-              <span v-if="errors.phone" class="text-xs text-red-500 font-medium block">{{ errors.phone }}</span>
+              <span v-if="errors.phone" class="text-xs text-[var(--status-danger)] font-medium block">{{ errors.phone }}</span>
             </div>
 
             <!-- Region -->
@@ -263,7 +263,7 @@ function handleClose() {
               :disabled="loading"
               class="px-7 py-3 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-bold shadow-[var(--si-shadow-lg)] hover:opacity-95 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
             >
-              <Sparkles class="w-4 h-4 text-amber-300" />
+              <Sparkles class="w-4 h-4 text-[var(--status-warning)]" />
               <span>{{ loading ? t('forms.volunteer.submitting') : t('forms.volunteer.submit') }}</span>
               <Send class="w-4 h-4" />
             </button>
