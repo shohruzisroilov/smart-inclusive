@@ -44,14 +44,12 @@ const slides = [
     desc: 'home.slide1Desc',
     cta: 'home.slide1Cta',
     link: '/vocabulary' as string | undefined,
-    bg: 'from-[#135f70] to-[#1b93a6]',
   },
   {
     title: 'home.slide2Title',
     desc: 'home.slide2Desc',
     cta: 'home.slide2Cta',
     link: '/i-can-do-it' as string | undefined,
-    bg: 'from-[#b85e14] to-[#e8933a]',
   },
   {
     title: 'home.slide3Title',
@@ -59,7 +57,6 @@ const slides = [
     cta: 'home.slide3Cta',
     action: 'volunteer',
     link: undefined as string | undefined,
-    bg: 'from-[#154e5a] to-[#14768a]',
   },
 ]
 
@@ -197,7 +194,7 @@ onBeforeUnmount(() => {
 
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-3xl space-y-6">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-[var(--accent-kids-on-dark)] text-xs font-bold uppercase tracking-wider border border-white/10">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-[var(--accent-on-dark)] text-xs font-bold uppercase tracking-wider border border-white/10">
             <Sparkles class="w-4 h-4" />
             <span>Smart Inclusive Platformasi</span>
           </div>
@@ -246,7 +243,7 @@ onBeforeUnmount(() => {
             <button
               v-if="slides[currentSlide].action === 'volunteer'"
               type="button"
-              class="px-8 py-4 rounded-2xl bg-[var(--accent-kids-on-dark)] text-[var(--si-neutral-950)] font-extrabold hover:opacity-90 transition-all flex items-center gap-2 cursor-pointer text-base"
+              class="px-8 py-4 rounded-2xl bg-[var(--accent-on-dark)] text-[var(--si-neutral-950)] font-extrabold hover:opacity-90 transition-all flex items-center gap-2 cursor-pointer text-base"
               @click="modalStore.openModal()"
             >
               <HeartHandshake class="w-5 h-5" />
@@ -488,7 +485,7 @@ onBeforeUnmount(() => {
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#135f70] via-[#1b93a6] to-[#0a2932] p-8 sm:p-12 text-white">
         <div class="relative z-10 max-w-2xl space-y-6">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-[var(--accent-kids-on-dark)] text-xs font-bold uppercase tracking-wider">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-[var(--accent-on-dark)] text-xs font-bold uppercase tracking-wider">
             <HeartHandshake class="w-4 h-4" />
             <span>{{ t('home.ctaBadge') }}</span>
           </div>
@@ -504,7 +501,7 @@ onBeforeUnmount(() => {
           <div class="pt-2">
             <button
               type="button"
-              class="px-8 py-4 rounded-2xl bg-[var(--accent-kids-on-dark)] text-[var(--si-neutral-950)] font-extrabold hover:opacity-90 transition-all flex items-center gap-2 cursor-pointer text-base"
+              class="px-8 py-4 rounded-2xl bg-[var(--accent-on-dark)] text-[var(--si-neutral-950)] font-extrabold hover:opacity-90 transition-all flex items-center gap-2 cursor-pointer text-base"
               @click="modalStore.openModal()"
             >
               <HeartHandshake class="w-5 h-5" />

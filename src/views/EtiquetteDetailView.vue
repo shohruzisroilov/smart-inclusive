@@ -71,7 +71,7 @@ onMounted(async () => {
   <div class="py-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
     <router-link
       to="/etiquette"
-      class="inline-flex items-center gap-2 text-sm font-bold text-[var(--status-warning)] hover:underline"
+      class="inline-flex items-center gap-2 text-sm font-bold text-[var(--brand-text)] hover:underline"
     >
       <ArrowLeft class="w-4 h-4" aria-hidden="true" />
       <span>{{ t('common.back') }}</span>

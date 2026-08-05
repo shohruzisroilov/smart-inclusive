@@ -50,7 +50,7 @@ onMounted(async () => {
       <div class="pt-6 border-t border-[var(--border-default)]">
         <button
           type="button"
-          class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-bold transition-all cursor-pointer flex items-center gap-2"
+          class="px-8 py-3.5 rounded-xl bg-[var(--brand)] text-white font-bold transition-all cursor-pointer flex items-center gap-2"
           @click="modalStore.openModal()"
         >
           <HeartHandshake class="w-5 h-5 text-[var(--accent-platform)]" />

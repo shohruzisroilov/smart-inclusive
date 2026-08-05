@@ -38,17 +38,6 @@
   --si-teal-900: #15414c;
   --si-teal-950: #0a2932;
 
-  /* --- Aksent: amber (bolalar bo'limi, iliqlik, diqqat) --- */
-  --si-amber-50: #fef8ec;
-  --si-amber-100: #fbead0;
-  --si-amber-200: #f6d3a1;
-  --si-amber-300: #efb469;
-  --si-amber-400: #e8933a;
-  --si-amber-500: #d97a1c;
-  --si-amber-600: #b85e14;
-  --si-amber-700: #954614;
-  --si-amber-800: #7a3817;
-  --si-amber-900: #672f16;
 
   /* --- Neytral --- */
   /*
@@ -127,10 +116,6 @@
   --brand-subtle: #e8f3f6;
   --brand-border: #b9dce3;
 
-  /* Aksent (bolalar bo'limi) */
-  --accent: var(--si-amber-600);
-  --accent-hover: var(--si-amber-700);
-  --accent-subtle: var(--si-amber-50);
 
   /* Status */
   --status-success: var(--si-green-600);
@@ -178,9 +163,6 @@
   --brand-subtle: var(--si-teal-950);
   --brand-border: var(--si-teal-800);
 
-  --accent: var(--si-amber-300);
-  --accent-hover: var(--si-amber-200);
-  --accent-subtle: var(--si-amber-900);
 
   --status-success: #4ade9a;
   --status-success-subtle: #0d3d26;
@@ -229,10 +211,6 @@
   --brand-subtle: #000000;
   --brand-border: #ffffff;
 
-  /* Aksent */
-  --accent: #00ffff;
-  --accent-hover: #00ffff;
-  --accent-subtle: #000000;
 
   /* Status */
   --status-success: #00ff00;
@@ -450,53 +428,50 @@
 
 
 /* ========================================================================
-   5. AKSENT RANGLARI
+   5. AKSENT
 
-   Saytda JAMI IKKI aksent bor, uchinchi "rang" — siyoh va qog'oz neytrallari.
+   Saytda BITTA aksent bor — brend ko'ki. Qolgan hamma narsa siyoh va
+   qog'oz neytrallari, ustiga funksional status ranglari (yashil/qizil),
+   ular esa bezak emas, signal.
 
-   Avval bu yerda to'qqizta rang turardi: har bir bo'limga o'ziniki. G'oya
-   "rang bo'limni bildiradi" edi, lekin amalda u ishlamaydi — hech kim
-   to'qqizta rang bilan bo'lim juftligini yodlab olmaydi, ko'z esa faqat
-   kamalakni ko'radi. Bitta sahifada sakkizta har xil rangli kartochka
-   turishi dizaynni chalkash qiladi.
+   Bu yerga ikki marta qaytilgan. Avval to'qqizta bo'lim rangi bor edi —
+   kamalak bo'lib chiqdi. Keyin ikkitaga tushirildi (bolalar uchun iliq
+   amber, qolgani ko'k), lekin to'q amber qizg'ish ko'rinar va sahifaning
+   katta qismini egallardi: brend ko'ki ikkinchi darajaga tushib qolgandi.
 
-   Endi ajratish MA'NOLI va o'rganish mumkin bo'lgan darajada:
-     - iliq amber  — BOLALAR bo'limi;
-     - brend ko'ki — platformaning qolgan qismi (ota-onalar, ko'ngillilar).
+   Endi brend rangi butun saytda yagona aksent — u qayerda ko'rinsa,
+   platformaning o'zini bildiradi.
 
-   Eski `--tab-*` nomlari saqlanadi: ular shu ikki qiymatga havola qiladi,
-   shuning uchun shablonlarni qayta yozish shart emas va keyinchalik
-   ajratishni o'zgartirish uchun faqat shu joyni tahrirlash kifoya.
+   Eski `--tab-*` nomlari saqlanadi: shablonlar ularga murojaat qiladi va
+   kelajakda bo'limlarni ajratish kerak bo'lsa, faqat shu joy tahrirlanadi.
 
-   Ikkalasi ham OQ matn uchun WCAG AAA: amber 7.02:1, ko'k 7.05:1.
+   Oq matn uchun WCAG AAA: 7.05:1.
    ======================================================================== */
 :root {
-  --accent-kids: #904307;
   --accent-platform: #116172;
-  /* Qorong'i fon (hero, chaqiriq bloki) ustida ishlatiladigan yorug' variant:
-     qorong'i amber u yerda umuman ko'rinmasdi. */
-  --accent-kids-on-dark: #f0b356;
+  /* Qorong'i fon (hero, chaqiriq bloki) uchun yorug' variant: to'q ko'k
+     u yerda fon bilan qo'shilib ketardi. */
+  --accent-on-dark: #72cddb;
 
-  --tab-etiquette: var(--accent-kids);
-  --tab-ican: var(--accent-kids);
-  --tab-lessons: var(--accent-kids);
-  --tab-books: var(--accent-kids);
-  --tab-vocabulary: var(--accent-kids);
-  --tab-comics: var(--accent-kids);
-  --tab-tests: var(--accent-kids);
+  --tab-etiquette: var(--accent-platform);
+  --tab-ican: var(--accent-platform);
+  --tab-lessons: var(--accent-platform);
+  --tab-books: var(--accent-platform);
+  --tab-vocabulary: var(--accent-platform);
+  --tab-comics: var(--accent-platform);
+  --tab-tests: var(--accent-platform);
   --tab-parents: var(--accent-platform);
   --tab-volunteers: var(--accent-platform);
 }
 
-/* Qorong'i fonda o'sha ikki ohang yorug'roq tomonda. */
 :root[data-theme="dark"] {
-  --accent-kids: #e8933a;
   --accent-platform: #72cddb;
+  --accent-on-dark: #a9e2ea;
 }
 
 /* Kontrast mavzularida ajratish rang bilan emas — matn rangi bilan. */
 :root[data-theme="high-contrast"],
 :root[data-theme="monochrome"] {
-  --accent-kids: var(--fg);
   --accent-platform: var(--fg);
+  --accent-on-dark: var(--fg);
 }

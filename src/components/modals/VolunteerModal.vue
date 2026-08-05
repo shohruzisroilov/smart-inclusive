@@ -117,7 +117,7 @@ function handleClose() {
             <X class="w-5 h-5" />
           </button>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-semibold uppercase tracking-wider mb-3">
-            <HeartHandshake class="w-4 h-4 text-[var(--status-warning)]" />
+            <HeartHandshake class="w-4 h-4" />
             <span>{{ t('forms.volunteer.badge') }}</span>
           </div>
           <h2 class="text-2xl sm:text-3xl font-extrabold font-display leading-tight">
@@ -261,9 +261,9 @@ function handleClose() {
             <button
               type="submit"
               :disabled="loading"
-              class="px-7 py-3 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-bold shadow-[var(--si-shadow-lg)] hover:opacity-95 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+              class="px-7 py-3 rounded-xl bg-[var(--brand)] text-white font-bold shadow-[var(--si-shadow-lg)] hover:opacity-95 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
             >
-              <Sparkles class="w-4 h-4 text-[var(--status-warning)]" />
+              <Sparkles class="w-4 h-4" />
               <span>{{ loading ? t('forms.volunteer.submitting') : t('forms.volunteer.submit') }}</span>
               <Send class="w-4 h-4" />
             </button>

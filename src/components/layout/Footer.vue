@@ -32,7 +32,7 @@ const year = new Date().getFullYear()
               class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[var(--brand)] text-white text-xs font-bold hover:bg-[var(--brand-hover)] transition-all cursor-pointer"
               @click="modalStore.openModal()"
             >
-              <HeartHandshake class="w-4 h-4 text-[var(--accent-kids-on-dark)]" />
+              <HeartHandshake class="w-4 h-4 text-[var(--accent-on-dark)]" />
               <span>{{ t('nav.becomeVolunteer') }}</span>
             </button>
           </div>

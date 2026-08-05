@@ -22,7 +22,7 @@ onMounted(async () => {
   <div class="pt-8 pb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
     <router-link
       to="/etiquette"
-      class="inline-flex items-center gap-2 text-sm font-bold text-[var(--accent-kids)] hover:underline"
+      class="inline-flex items-center gap-2 text-sm font-bold text-[var(--accent-platform)] hover:underline"
     >
       <ArrowLeft class="w-4 h-4" aria-hidden="true" />
       <span>{{ t('common.back') }}</span>
@@ -46,16 +46,16 @@ onMounted(async () => {
         v-for="test in tests"
         :key="test.id"
         :to="`/tests/${test.id}`"
-        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-[var(--accent-kids)] transition-all space-y-4"
+        class="group p-6 rounded-3xl bg-[var(--surface)] border border-[var(--border-default)] hover:border-[var(--accent-platform)] transition-all space-y-4"
       >
         <div
-          class="h-40 rounded-2xl bg-[var(--surface-muted)] flex items-center justify-center text-[var(--accent-kids)]"
+          class="h-40 rounded-2xl bg-[var(--surface-muted)] flex items-center justify-center text-[var(--accent-platform)]"
         >
           <Award class="w-12 h-12" aria-hidden="true" />
         </div>
         <div>
           <h3
-            class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-[var(--accent-kids)] transition-colors"
+            class="text-xl font-bold text-[var(--fg)] font-display group-hover:text-[var(--accent-platform)] transition-colors"
           >
             {{ test.title }}
           </h3>
@@ -63,7 +63,7 @@ onMounted(async () => {
             {{ test.qustions?.length || 0 }} {{ t('sections.questions') }}
           </p>
         </div>
-        <div class="pt-2 flex items-center justify-between text-xs font-bold text-[var(--accent-kids)]">
+        <div class="pt-2 flex items-center justify-between text-xs font-bold text-[var(--accent-platform)]">
           <span>{{ t('test.retake') }}</span>
           <ArrowRight class="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
         </div>

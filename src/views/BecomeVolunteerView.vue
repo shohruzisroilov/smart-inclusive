@@ -90,7 +90,7 @@ onMounted(async () => {
     <!-- Hero Banner -->
     <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#135f70] via-[#1b93a6] to-[#0a2932] p-8 sm:p-12 text-white">
       <div class="relative z-10 max-w-2xl space-y-4">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-[var(--status-warning)] text-xs font-bold uppercase tracking-wider">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-[var(--accent-on-dark)] text-xs font-bold uppercase tracking-wider">
           <HeartHandshake class="w-4 h-4" />
           <span>{{ t('forms.volunteer.badge') }}</span>
         </div>
@@ -230,9 +230,9 @@ onMounted(async () => {
           <button
             type="submit"
             :disabled="loading"
-            class="w-full sm:w-auto px-10 py-4 rounded-2xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-extrabold text-base hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+            class="w-full sm:w-auto px-10 py-4 rounded-2xl bg-[var(--brand)] text-white font-extrabold text-base hover:bg-[var(--brand-hover)] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
           >
-            <Sparkles class="w-5 h-5 text-[var(--status-warning)]" />
+            <Sparkles class="w-5 h-5" />
             <span>{{ loading ? t('forms.volunteer.submitting') : t('forms.volunteer.submit') }}</span>
             <Send class="w-5 h-5" />
           </button>

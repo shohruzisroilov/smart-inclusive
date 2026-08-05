@@ -159,7 +159,7 @@ async function handleSubmit() {
           <button
             type="submit"
             :disabled="loading"
-            class="w-full py-4 rounded-xl bg-gradient-to-r from-[#135f70] to-[#1b93a6] text-white font-extrabold text-base hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+            class="w-full py-4 rounded-xl bg-[var(--brand)] text-white font-extrabold text-base hover:bg-[var(--brand-hover)] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
           >
             <span>{{ loading ? t('forms.contact.submitting') : t('forms.contact.submit') }}</span>
             <Send class="w-5 h-5" />
