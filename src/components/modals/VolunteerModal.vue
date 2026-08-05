@@ -100,7 +100,7 @@ function handleClose() {
   <Teleport to="body">
     <div
       v-if="modalStore.isOpen"
-      class="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-md transition-opacity animate-in fade-in duration-200"
+      class="fixed inset-0 z-[var(--z-modal)] flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-md transition-opacity animate-in fade-in duration-200"
       @click.self="handleClose"
     >
       <div

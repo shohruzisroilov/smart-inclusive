@@ -339,7 +339,7 @@ onBeforeUnmount(() => {
         role="listbox"
         :aria-labelledby="labelId"
         tabindex="-1"
-        class="z-[var(--z-modal)] overflow-y-auto rounded-xl border border-[var(--border-default)] bg-[var(--surface)] p-1.5 shadow-[var(--si-shadow-lg)]"
+        class="z-[var(--z-popover)] overflow-y-auto rounded-xl border border-[var(--border-default)] bg-[var(--surface)] p-1.5 shadow-[var(--si-shadow-lg)]"
         :style="popupStyle"
       >
         <div

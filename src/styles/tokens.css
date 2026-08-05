@@ -314,6 +314,13 @@
   --z-overlay: 90;
   --z-drawer: 100;
   --z-modal: 999;
+  /*
+     Popover (ochiluvchi ro'yxat) modaldan YUQORIDA turishi SHART: u ko'pincha
+     aynan modal ichidagi maydondan ochiladi. Teng yoki past qiymatda ro'yxat
+     chizilaveradi, lekin modal panelining ostida qolib ko'rinmaydi —
+     ko'ngilli modalidagi hudud ro'yxati bilan aynan shunday bo'lgan.
+  */
+  --z-popover: 1200;
   --z-skip-link: 2000;
 }
 
