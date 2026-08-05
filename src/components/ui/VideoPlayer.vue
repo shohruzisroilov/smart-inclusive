@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Play, Pause, FileText, Check, Award, Gauge } from '@lucide/vue'
+import { Play, Pause, Award, Gauge } from '@lucide/vue'
 import { useProgressStore } from '@/stores/useProgressStore'
 import {
   extractVideoId,
@@ -38,12 +38,22 @@ const SPEEDS = [
 ] as const
 
 const speed = ref(1)
-const showTranscript = ref(false)
 const isPlaying = ref(false)
 /** API ishlamasa oddiy embed'ga qaytamiz. */
 const apiFailed = ref(false)
 
 const isWatched = computed(() => progress.isViewed(props.item.id))
+
+/**
+ * Test tugmasi ochilish sharti (TZ 10.4).
+ *
+ * Odatda video OXIRIGACHA ko'rilganda ochiladi va buni pleyerning o'zi
+ * aniqlaydi. Lekin YouTube API yuklanmagan bo'lsa (tarmoq bloklangan),
+ * oddiy `<iframe>` tugash hodisasini bermaydi — bunday holatda testni
+ * umuman ochmaslik foydalanuvchini boshi berk ko'chaga olib borardi,
+ * shuning uchun aniqlab bo'lmasa cheklanmaydi.
+ */
+const testUnlocked = computed(() => isWatched.value || apiFailed.value)
 
 const videoId = computed(() => extractVideoId(props.item.youtubeUrl))
 
@@ -103,11 +113,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="space-y-5">
-    <!-- Video yoki transkript — TZ 10.3 «O'qish» / «Ko'rish» -->
-    <div
-      v-if="!showTranscript"
-      class="rounded-2xl overflow-hidden bg-black aspect-video border border-[var(--border-default)]"
-    >
+    <div class="rounded-2xl overflow-hidden bg-black aspect-video border border-[var(--border-default)]">
       <!-- API pleyerni shu elementning O'RNIGA qo'yadi, shuning uchun o'ram kerak -->
       <div v-if="videoId && !apiFailed" class="w-full h-full">
         <div ref="host" class="w-full h-full" />
@@ -128,19 +134,10 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <div
-      v-else
-      class="p-6 rounded-2xl bg-[var(--surface-subtle)] border border-[var(--border-default)] max-h-96 overflow-y-auto"
-    >
-      <p class="text-base text-[var(--fg)] leading-relaxed whitespace-pre-line font-light">
-        {{ item.transcriptText || t('content.list.emptyDesc') }}
-      </p>
-    </div>
-
     <div class="flex flex-wrap items-center gap-3">
       <!-- Pauza / ijro (TZ 10.3) — faqat API pleyeri ishlaganda -->
       <button
-        v-if="videoId && !apiFailed && !showTranscript"
+        v-if="videoId && !apiFailed"
         type="button"
         :aria-pressed="isPlaying"
         class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[var(--brand-subtle)] text-[var(--brand)] text-sm font-bold hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)] transition-colors cursor-pointer"
@@ -150,16 +147,6 @@ onBeforeUnmount(() => {
         <span>{{ isPlaying ? t('player.pause') : t('player.play') }}</span>
       </button>
 
-      <!-- Matn rejimi faqat transkript bo'lsa taklif qilinadi -->
-      <button
-        v-if="item.transcriptText"
-        type="button"
-        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-[var(--border-default)] text-sm font-bold text-[var(--fg)] hover:bg-[var(--surface-subtle)] transition-colors cursor-pointer"
-        @click="showTranscript = !showTranscript"
-      >
-        <component :is="showTranscript ? Play : FileText" class="w-4 h-4" aria-hidden="true" />
-        <span>{{ showTranscript ? t('content.card.watch') : t('player.transcript') }}</span>
-      </button>
 
       <!-- Tezlik (TZ 10.3) -->
       <div
@@ -182,29 +169,32 @@ onBeforeUnmount(() => {
         </button>
       </div>
 
-      <!-- «Ko'rilgan deb belgilash» — idempotent (TZ 10.3) -->
-      <button
-        type="button"
-        :disabled="isWatched"
-        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-bold transition-colors"
-        :class="isWatched ? 'bg-[var(--status-success-subtle)] text-[var(--status-success)] cursor-default' : 'bg-[var(--brand-subtle)] text-[var(--brand)] hover:bg-[var(--brand)] hover:text-[var(--fg-on-brand)] cursor-pointer'"
-        @click="progress.markViewed(item.id)"
-      >
-        <Check class="w-4 h-4" aria-hidden="true" />
-        <span>{{ isWatched ? t('player.watched') : t('player.markWatched') }}</span>
-      </button>
     </div>
 
-    <!-- TZ 10.4: test faqat video ko'rilgan deb belgilangach ochiladi -->
+    <!--
+      Transkript (TZ 10.3). Avval u videoni ALMASHTIRARDI va buning uchun
+      alohida tugma bor edi; endi shunchaki pleyer ostida yig'ilgan holda
+      turadi — kerak bo'lsa ochiladi, video esa joyida qoladi.
+    -->
+    <details v-if="item.transcriptText" class="rounded-2xl bg-[var(--surface-subtle)] p-4">
+      <summary class="cursor-pointer text-sm font-bold text-[var(--fg)]">
+        {{ t('player.transcript') }}
+      </summary>
+      <p class="mt-3 max-h-96 overflow-y-auto whitespace-pre-line text-sm leading-relaxed text-[var(--fg-muted)]">
+        {{ item.transcriptText }}
+      </p>
+    </details>
+
+    <!-- TZ 10.4: test video oxirigacha ko'rilgach ochiladi -->
     <div
       v-if="linkedTest"
       class="pt-4 border-t border-[var(--border-default)] text-center space-y-2"
     >
       <p class="text-sm text-[var(--fg-muted)]">
-        {{ isWatched ? t('reader.testPrompt') : t('player.watchToEnd') }}
+        {{ testUnlocked ? t('reader.testPrompt') : t('player.watchToEnd') }}
       </p>
       <router-link
-        v-if="isWatched"
+        v-if="testUnlocked"
         :to="`/tests/${linkedTest.id}`"
         class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--brand)] text-[var(--fg-on-brand)] font-bold hover:opacity-90 transition-all"
       >

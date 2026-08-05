@@ -112,7 +112,6 @@
       "reread": "Qayta ko'rish",
       "start": "Topshirish / Boshlash",
       "retake": "Qayta urinish",
-      "watch": "Koʼrish",
       "rewatch": "Qayta koʼrish"
     }
   },
@@ -180,8 +179,6 @@
     "unavailable": "Video hozircha yo'q",
     "transcript": "Matnli bayoni",
     "watchToEnd": "Oxirigacha ko'ring",
-    "markWatched": "Ko'rilgan deb belgilash",
-    "watched": "Ko'rilgan",
     "speed": "Tezlik",
     "speedSlow": "Sekin",
     "speedNormal": "Oddiy",

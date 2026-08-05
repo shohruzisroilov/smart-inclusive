@@ -112,7 +112,6 @@
       "reread": "Read again",
       "start": "Take / Start",
       "retake": "Retake",
-      "watch": "Watch",
       "rewatch": "Watch again"
     }
   },
@@ -180,8 +179,6 @@
     "unavailable": "Video not available yet",
     "transcript": "Text transcript",
     "watchToEnd": "Watch to the end",
-    "markWatched": "Mark as watched",
-    "watched": "Watched",
     "speed": "Speed",
     "speedSlow": "Slow",
     "speedNormal": "Normal",

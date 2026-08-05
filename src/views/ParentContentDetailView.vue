@@ -92,14 +92,6 @@ onMounted(async () => {
       </div>
 
       <!-- Video uchun matnli muqobil (WCAG 1.2.1) -->
-      <details v-if="item.transcriptText" class="rounded-2xl bg-[var(--surface-subtle)] p-4">
-        <summary class="font-bold text-sm text-[var(--fg)] cursor-pointer">
-          {{ t('player.transcript') }}
-        </summary>
-        <p class="mt-3 text-sm text-[var(--fg-muted)] leading-relaxed whitespace-pre-line">
-          {{ item.transcriptText }}
-        </p>
-      </details>
 
       <a
         v-if="item.pdfFileUrl"
