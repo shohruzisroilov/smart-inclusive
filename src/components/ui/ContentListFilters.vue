@@ -61,12 +61,20 @@ const isDirty = computed(
 </script>
 
 <template>
+  <!--
+    Filtrlar BITTA qatorda. Ilgari bu blok kartochka ichida, har bir maydonning
+    ustida alohida yorliq bilan turardi va planshet landshaftida birinchi
+    kartagacha ekranning 57% i ketardi. Endi yorliq tugmaning ichida, o'ram
+    kartochka esa yo'q — filtrlar baribir ko'rinib turadi, lekin balandligi
+    uch barobar kam.
+  -->
   <section
-    class="p-4 sm:p-5 rounded-3xl bg-[var(--surface-subtle)] border border-[var(--border-default)] flex flex-wrap items-start gap-4"
+    class="flex flex-wrap items-center gap-2 sm:gap-3"
     :aria-label="t('content.filters.panelLabel')"
   >
     <SelectField
-      class="min-w-44"
+      class="w-full sm:w-auto sm:min-w-48"
+      label-inside
       :model-value="test"
       :options="testOptions"
       :label="t('content.filters.testStatus')"
@@ -74,7 +82,8 @@ const isDirty = computed(
     />
 
     <SelectField
-      class="min-w-44"
+      class="w-full sm:w-auto sm:min-w-48"
+      label-inside
       :model-value="progress"
       :options="progressOptions"
       :label="t('content.filters.progress')"
@@ -82,25 +91,26 @@ const isDirty = computed(
     />
 
     <SelectField
-      class="min-w-44"
+      class="w-full sm:w-auto sm:min-w-48"
+      label-inside
       :model-value="sort"
       :options="sortOptions"
       :label="t('content.filters.sort')"
       @update:model-value="emit('update:sort', $event as SortOrder)"
     />
 
-    <div class="flex items-center gap-3 ml-auto self-end pb-3">
+    <div class="ml-auto flex items-center gap-3">
       <button
         v-if="isDirty"
         type="button"
-        class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold text-[var(--brand)] hover:bg-[var(--surface-muted)] transition-colors cursor-pointer"
+        class="tap-target inline-flex items-center gap-1.5 rounded-xl px-3 text-sm font-bold text-[var(--brand-text)] transition-colors hover:bg-[var(--surface-muted)] cursor-pointer"
         @click="emit('clear')"
       >
-        <X class="w-4 h-4" aria-hidden="true" />
+        <X class="h-4 w-4" aria-hidden="true" />
         <span>{{ t('content.filters.clear') }}</span>
       </button>
 
-      <span class="text-xs font-semibold text-[var(--fg-muted)] tabular-nums">
+      <span class="text-xs font-semibold tabular-nums text-[var(--fg-muted)]">
         {{ shown }} / {{ total }}
       </span>
     </div>

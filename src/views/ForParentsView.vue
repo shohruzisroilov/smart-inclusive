@@ -59,7 +59,7 @@ const cards = [
 </script>
 
 <template>
-  <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+  <div class="pt-8 pb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
     <!-- Hero Banner -->
     <PageHero
       accent="parents"

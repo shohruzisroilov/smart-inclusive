@@ -42,6 +42,16 @@ const props = withDefaults(
     error?: string
     /** Yorliqni yashiradi, lekin ekran o'quvchiga qoldiradi. */
     hideLabel?: boolean
+    /**
+     * Yorliqni maydon USTIDA emas, tugmaning ICHIDA ko'rsatadi
+     * («Saralash: Avval yangilari»).
+     *
+     * Filtr qatorida shu rejim ishlatiladi: uchta yorliq alohida qator bo'lib
+     * turganda panel ikki barobar baland bo'lib ketardi va planshetda kontent
+     * ekrandan pastga surilardi. Yorliq yo'qolmaydi — o'rni o'zgaradi, ya'ni
+     * qaysi filtr ekani baribir ko'rinib turadi.
+     */
+    labelInside?: boolean
   }>(),
   {
     label: undefined,
@@ -51,6 +61,7 @@ const props = withDefaults(
     disabled: false,
     error: undefined,
     hideLabel: false,
+    labelInside: false,
   },
 )
 
@@ -274,11 +285,11 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="space-y-1.5">
+  <div :class="labelInside ? undefined : 'space-y-1.5'">
     <span
       :id="labelId"
       class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--fg)]"
-      :class="{ 'sr-only': hideLabel }"
+      :class="{ 'sr-only': hideLabel || labelInside }"
     >
       <component :is="icon" v-if="icon" class="h-3.5 w-3.5 text-[var(--brand-text)]" aria-hidden="true" />
       <span>{{ label }}</span>
@@ -303,8 +314,13 @@ onBeforeUnmount(() => {
       @click="toggle"
       @keydown="onKeydown"
     >
-      <span :class="{ 'text-[var(--fg-subtle)] font-medium': selectedIndex < 0 }">
-        {{ selectedIndex >= 0 ? selectedLabel : (placeholder ?? '') }}
+      <span class="truncate">
+        <span v-if="labelInside && label" class="font-medium text-[var(--fg-muted)]">
+          {{ label }}:
+        </span>
+        <span :class="{ 'text-[var(--fg-subtle)] font-medium': selectedIndex < 0 }">
+          {{ selectedIndex >= 0 ? selectedLabel : (placeholder ?? '') }}
+        </span>
       </span>
       <ChevronDown
         class="h-4 w-4 shrink-0 text-[var(--fg-muted)] transition-transform"

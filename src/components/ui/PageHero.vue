@@ -49,32 +49,38 @@ const tab = `var(--tab-${props.accent})`
 </script>
 
 <template>
-  <header class="space-y-4" :style="{ '--tab-color': tab }">
-    <!-- Kartochkalardagi tasmaning o'zi, faqat qisqartirilgan bo'lagi -->
-    <div class="h-2.5 w-16 rounded-full" :style="{ backgroundColor: 'var(--tab-color)' }" />
+  <!--
+    Balandlik ataylab tejalgan: ro'yxat sahifalarida asosiy narsa — kartochkalar,
+    sarlavha esa ular oldida turgan bir necha qator. Tasma endi alohida qator
+    emas, sarlavhaning YONIDA vertikal chiziq bo'lib turadi.
+  -->
+  <header class="flex items-start gap-4" :style="{ '--tab-color': tab }">
+    <div
+      class="mt-1.5 w-1.5 shrink-0 self-stretch rounded-full"
+      :style="{ backgroundColor: 'var(--tab-color)' }"
+      aria-hidden="true"
+    />
 
-    <div class="flex items-start gap-4">
-      <div
-        v-if="icon"
-        class="hidden sm:flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-[var(--fg-on-brand)]"
-        :style="{ backgroundColor: 'var(--tab-color)' }"
-      >
-        <component :is="icon" class="h-6 w-6" aria-hidden="true" />
-      </div>
+    <div
+      v-if="icon"
+      class="hidden h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-[var(--fg-on-brand)] sm:flex"
+      :style="{ backgroundColor: 'var(--tab-color)' }"
+    >
+      <component :is="icon" class="h-5 w-5" aria-hidden="true" />
+    </div>
 
-      <div class="space-y-3">
-        <p v-if="eyebrow" class="si-eyebrow" :style="{ color: 'var(--tab-color)' }">
-          {{ eyebrow }}
-        </p>
+    <div class="space-y-1.5">
+      <p v-if="eyebrow" class="si-eyebrow" :style="{ color: 'var(--tab-color)' }">
+        {{ eyebrow }}
+      </p>
 
-        <h1 class="font-display text-3xl font-extrabold text-[var(--fg)] sm:text-4xl lg:text-5xl">
-          {{ title }}
-        </h1>
+      <h1 class="font-display text-2xl font-extrabold text-[var(--fg)] sm:text-3xl lg:text-4xl">
+        {{ title }}
+      </h1>
 
-        <p v-if="subtitle" class="max-w-2xl text-base leading-relaxed text-[var(--fg-muted)]">
-          {{ subtitle }}
-        </p>
-      </div>
+      <p v-if="subtitle" class="max-w-2xl text-sm leading-relaxed text-[var(--fg-muted)] sm:text-base">
+        {{ subtitle }}
+      </p>
     </div>
   </header>
 </template>
