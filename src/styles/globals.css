@@ -296,3 +296,49 @@
     margin-block-start: clamp(2.5rem, 5vw, 4.5rem);
   }
 }
+
+@layer components {
+  /* --- To'q brend banneri --------------------------------------------
+     Ko'ngillilarga chaqiriq bloklari. Gradient ATAYLAB to'q uchida:
+     avval o'rtasi `teal-500` edi va oq matn u yerda 3.64:1 berardi —
+     WCAG talabidan past. Endi eng yorug' nuqtasida ham 7.25:1.
+  */
+  .si-banner {
+    background-image: linear-gradient(
+      to right,
+      var(--si-teal-700),
+      var(--si-teal-800),
+      var(--si-teal-950)
+    );
+    color: #ffffff;
+  }
+
+  /* Banner ustidagi chaqiriq tugmasi.
+     To'q fonda to'q tugma ko'rinmaydi — shuning uchun u OQ, matni esa
+     brendning matn variantida (7.37:1). Tugmaning o'zi ham fondan
+     7.25:1 bilan ajraladi. */
+  .si-btn-on-banner {
+    background-color: var(--surface);
+    color: var(--brand-text);
+  }
+
+  .si-btn-on-banner:hover {
+    background-color: var(--surface-subtle);
+  }
+
+  /* Banner ichidagi kichik yorliq. Matni OQ: brend rangidagi matn bu
+     yerda fonga qo'shilib ketardi (1.39:1). */
+  .si-banner-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.875rem;
+    border-radius: var(--si-radius-full);
+    background-color: rgb(255 255 255 / 0.2);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+}

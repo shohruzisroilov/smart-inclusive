@@ -108,7 +108,7 @@ function handleClose() {
         @click.stop
       >
         <!-- Header Banner -->
-        <div class="relative bg-gradient-to-r from-[#135f70] via-[#1b93a6] to-[#0f4c59] p-6 sm:p-8 text-white">
+        <div class="relative si-banner p-6 sm:p-8 text-white">
           <button
             type="button"
             class="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
@@ -116,7 +116,7 @@ function handleClose() {
           >
             <X class="w-5 h-5" />
           </button>
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-semibold uppercase tracking-wider mb-3">
+          <div class="si-banner-chip mb-3">
             <HeartHandshake class="w-4 h-4" />
             <span>{{ t('forms.volunteer.badge') }}</span>
           </div>

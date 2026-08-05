@@ -21,9 +21,9 @@ onMounted(async () => {
 <template>
   <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
     <!-- Header Banner -->
-    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#135f70] via-[#1b93a6] to-[#0a2932] p-8 sm:p-12 text-white">
+    <div class="relative overflow-hidden rounded-3xl si-banner p-8 sm:p-12 text-white">
       <div class="relative z-10 max-w-2xl space-y-4">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-[var(--accent-platform)] text-xs font-bold uppercase tracking-wider">
+        <div class="si-banner-chip">
           <HeartHandshake class="w-4 h-4" />
           <span>{{ t('volunteersPage.badge') }}</span>
         </div>
@@ -36,7 +36,7 @@ onMounted(async () => {
         <div class="pt-2">
           <button
             type="button"
-            class="px-8 py-3.5 rounded-2xl bg-[var(--accent-platform)] text-slate-900 font-extrabold hover:bg-[var(--accent-platform)] transition-all flex items-center gap-2 cursor-pointer text-base"
+            class="si-btn si-btn-on-banner px-8 text-base font-extrabold"
             @click="modalStore.openModal()"
           >
             <Sparkles class="w-5 h-5" />
